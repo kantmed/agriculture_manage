@@ -7,24 +7,33 @@
                     <h2>Parcelles agricoles</h2>
                     <a href="/my/agriculture/plots/new" class="btn btn-primary">Nouvelle parcelle</a>
                 </div>
-                <table class="table">
-                    <thead>
-                        <tr><th>Nom</th><th>Exploitation</th><th>Superficie</th><th>État</th><th></th></tr>
-                    </thead>
-                    <tbody>
-                        <t t-foreach="plots" t-as="plot" t-key="plot.id">
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
                             <tr>
+                                <th>Nom</th>
+                                <th>Exploitation</th>
+                                <th>Superficie</th>
+                                <th>État</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="plots" t-as="plot">
                                 <td><a t-att-href="'/my/agriculture/plots/%s' % plot.id" t-out="plot.name"/></td>
                                 <td t-out="plot.farm_id.name"/>
                                 <td t-out="plot.area"/>
                                 <td t-out="plot.state"/>
                                 <td>
-                                    <a t-att-href="'/my/agriculture/plots/%s/edit' % plot.id" class="btn btn-sm btn-secondary">Modifier</a>
+                                    <a t-att-href="'/my/agriculture/plots/%s' % plot.id" class="btn btn-sm btn-outline-primary">Consulter</a>
                                 </td>
                             </tr>
-                        </t>
-                    </tbody>
-                </table>
+                            <tr t-if="not plots">
+                                <td colspan="5" class="text-center">Aucune parcelle trouvée.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <a href="/my/agriculture" class="btn btn-secondary">Retour</a>
             </div>
         </t>
