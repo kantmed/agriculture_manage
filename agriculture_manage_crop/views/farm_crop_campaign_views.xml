@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_farm_crop_campaign_list" model="ir.ui.view">
+        <field name="name">agriculture.farm.crop.campaign.list</field>
+        <field name="model">agriculture.farm.crop.campaign</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="farm_id"/>
+                <field name="crop_id"/>
+                <field name="variety_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="state"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_farm_crop_campaign_form" model="ir.ui.view">
+        <field name="name">agriculture.farm.crop.campaign.form</field>
+        <field name="model">agriculture.farm.crop.campaign</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Nom de la campagne"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="farm_id"/>
+                            <field name="crop_id"/>
+                            <field name="variety_id"/>
+                        </group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date"/>
+                            <field name="state"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Parcelles">
+                            <field name="campaign_plot_ids">
+                                <list editable="bottom">
+                                    <field name="plot_id" domain="[('farm_id', '=', parent.farm_id)]"/>
+                                    <field name="planting_date"/>
+                                    <field name="expected_harvest_date"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Opérations">
+                            <field name="operation_ids">
+                                <list>
+                                    <field name="code"/>
+                                    <field name="operation_type"/>
+                                    <field name="date"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Récoltes">
+                            <field name="harvest_ids">
+                                <list>
+                                    <field name="code"/>
+                                    <field name="harvest_date"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Observations">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_farm_crop_campaign" model="ir.actions.act_window">
+        <field name="name">Campagnes</field>
+        <field name="res_model">agriculture.farm.crop.campaign</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_view_farm_crop_campaign_list" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_farm_crop_campaign_list"/>
+        <field name="act_window_id" ref="action_farm_crop_campaign"/>
+    </record>
+    <record id="action_view_farm_crop_campaign_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_farm_crop_campaign_form"/>
+        <field name="act_window_id" ref="action_farm_crop_campaign"/>
+    </record>
+</odoo>

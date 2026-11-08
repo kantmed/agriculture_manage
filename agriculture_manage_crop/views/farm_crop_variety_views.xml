@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_farm_crop_variety_list" model="ir.ui.view">
+        <field name="name">agriculture.farm.crop.variety.list</field>
+        <field name="model">agriculture.farm.crop.variety</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="crop_id"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="maturity_days"/>
+                <field name="yield_potential"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_farm_crop_variety_form" model="ir.ui.view">
+        <field name="name">agriculture.farm.crop.variety.form</field>
+        <field name="model">agriculture.farm.crop.variety</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="crop_id"/>
+                            <field name="name"/>
+                            <field name="code"/>
+                        </group>
+                        <group>
+                            <field name="maturity_days"/>
+                            <field name="yield_potential"/>
+                        </group>
+                    </group>
+                    <field name="notes" placeholder="Notes..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_farm_crop_variety" model="ir.actions.act_window">
+        <field name="name">Variétés</field>
+        <field name="res_model">agriculture.farm.crop.variety</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

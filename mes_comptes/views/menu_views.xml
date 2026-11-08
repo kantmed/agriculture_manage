@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_mes_comptes_root" name="Mes Comptes" sequence="10" groups="mes_comptes.group_mes_comptes_user"/>
+    <menuitem id="menu_mes_dashboard" name="Tableau de bord" parent="menu_mes_comptes_root" action="action_mes_dashboard" sequence="1"/>
+
+    <!-- Opérations -->
+    <menuitem id="menu_mes_operations" name="Opérations" parent="menu_mes_comptes_root" sequence="10"/>
+    <menuitem id="menu_mes_income" name="Recettes" parent="menu_mes_operations" action="action_mes_income" sequence="1"/>
+    <menuitem id="menu_mes_expense" name="Dépenses" parent="menu_mes_operations" action="action_mes_expense" sequence="2"/>
+    <menuitem id="menu_mes_all_transactions" name="Toutes les opérations" parent="menu_mes_operations" action="action_mes_transactions" sequence="3"/>
+
+    <!-- Comptes et virements -->
+    <menuitem id="menu_mes_accounts_group" name="Comptes et virements" parent="menu_mes_comptes_root" sequence="20"/>
+    <menuitem id="menu_mes_accounts" name="Comptes" parent="menu_mes_accounts_group" action="action_mes_accounts" sequence="1"/>
+    <menuitem id="menu_mes_transfers" name="Virements" parent="menu_mes_accounts_group" action="action_mes_transfers" sequence="2"/>
+
+    <!-- Dettes et budgets -->
+    <menuitem id="menu_mes_debts_group" name="Dettes et budgets" parent="menu_mes_comptes_root" sequence="30"/>
+    <menuitem id="menu_mes_debts" name="Dettes et créances" parent="menu_mes_debts_group" action="action_mes_debts" sequence="1"/>
+    <menuitem id="menu_mes_budgets" name="Budgets" parent="menu_mes_debts_group" action="action_mes_budgets" sequence="2"/>
+    <menuitem id="menu_mes_reminders" name="Rappels" parent="menu_mes_debts_group" action="action_mes_reminders" sequence="3"/>
+
+    <!-- Paramètres -->
+    <menuitem id="menu_mes_settings" name="Paramètres" parent="menu_mes_comptes_root" sequence="40"/>
+    <menuitem id="menu_mes_categories" name="Catégories" parent="menu_mes_settings" action="action_mes_categories" sequence="1"/>
+    <menuitem id="menu_mes_currency_rates" name="Historique des taux" parent="menu_mes_settings" action="action_mes_currency_rates" sequence="2"/>
+
+    <!-- Rapports et exports -->
+    <menuitem id="menu_mes_reports" name="Rapports et exports" parent="menu_mes_comptes_root" sequence="80"/>
+    <menuitem id="menu_mes_financial_report" name="Rapport financier PDF" parent="menu_mes_reports" action="action_mes_financial_report_wizard" sequence="1"/>
+    <menuitem id="menu_mes_export_transactions" name="Exporter les opérations" parent="menu_mes_reports" action="action_mes_export_transactions" sequence="10"/>
+    <menuitem id="menu_mes_export_accounts" name="Exporter les comptes" parent="menu_mes_reports" action="action_mes_export_accounts" sequence="20"/>
+    <menuitem id="menu_mes_export_budgets" name="Exporter les budgets" parent="menu_mes_reports" action="action_mes_export_budgets" sequence="30"/>
+    <menuitem id="menu_mes_export_transfers" name="Exporter les virements" parent="menu_mes_reports" action="action_mes_export_transfers" sequence="40"/>
+    <menuitem id="menu_mes_export_debts" name="Exporter les dettes" parent="menu_mes_reports" action="action_mes_export_debts" sequence="50"/>
+    <menuitem id="menu_mes_export_debt_payments" name="Exporter les règlements" parent="menu_mes_reports" action="action_mes_export_debt_payments" sequence="60"/>
+</odoo>

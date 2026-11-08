@@ -1,0 +1,151 @@
+.o_mes_comptes_dashboard {
+    // Scroll vertical du tableau de bord
+    height: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+
+    .o_mc_kpi { border: 0; box-shadow: 0 2px 12px rgba(0, 0, 0, .06); border-radius: 12px; }
+    .o_mc_value { font-size: 1.65rem; font-weight: 700; margin-top: .5rem; }
+    .card { border-radius: 12px; overflow: hidden; }
+}
+
+
+// ── Titre de section ──────────────────────────────────────────────────────────
+.o_mc_section_title {
+    font-size: .8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .06em;
+    color: var(--o-muted-color, #6c757d);
+    margin-bottom: .75rem;
+}
+
+// ── Onglets ───────────────────────────────────────────────────────────────────
+.o_mc_tabs {
+    border-bottom: 2px solid var(--o-gray-200, #e9ecef);
+
+    .nav-link {
+        color: var(--o-muted-color, #6c757d);
+        border: none;
+        border-bottom: 2px solid transparent;
+        margin-bottom: -2px;
+        padding: .5rem 1rem;
+        font-weight: 500;
+        background: none;
+        transition: color .15s, border-color .15s;
+
+        &:hover { color: var(--o-action-color, #0d6efd); }
+        &.active {
+            color: var(--o-action-color, #0d6efd);
+            border-bottom-color: var(--o-action-color, #0d6efd);
+        }
+    }
+}
+
+// ── Libellé du mois dans la barre de navigation ───────────────────────────────
+.o_mc_month_label {
+    min-width: 5.5rem;
+    pointer-events: none;
+}
+
+
+html[dir="rtl"] .o_mes_comptes_dashboard {
+    direction: rtl;
+    text-align: right;
+}
+html[dir="rtl"] .o_mes_comptes_dashboard .text-end {
+    text-align: left !important;
+}
+html[dir="rtl"] .o_mes_comptes_dashboard .d-flex {
+    direction: rtl;
+}
+html[dir="rtl"] .o_mes_comptes_dashboard table th,
+html[dir="rtl"] .o_mes_comptes_dashboard table td {
+    text-align: right;
+}
+html[dir="rtl"] .o_mes_comptes_dashboard table .text-end {
+    text-align: left !important;
+}
+
+.o_mc_chart {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(28px, 1fr));
+    gap: .5rem;
+    align-items: end;
+    min-height: 170px;
+}
+.o_mc_chart_month {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    gap: .4rem;
+    height: 150px;
+    color: var(--o-muted-color);
+}
+.o_mc_chart_bars {
+    display: flex;
+    align-items: end;
+    gap: 2px;
+    width: 100%;
+    height: 120px;
+}
+.o_mc_bar_income,
+.o_mc_bar_expense {
+    display: block;
+    flex: 1;
+    min-height: 0;
+    border-radius: 3px 3px 0 0;
+}
+.o_mc_bar_income,
+.o_mc_legend_income { background-color: #198754; }
+.o_mc_bar_expense,
+.o_mc_legend_expense { background-color: #dc3545; }
+.o_mc_legend_income,
+.o_mc_legend_expense {
+    display: inline-block;
+    width: .65rem;
+    height: .65rem;
+    border-radius: 2px;
+}
+.o_mc_compare_track {
+    margin-top: .35rem;
+    height: 8px;
+    background: var(--o-gray-200);
+    border-radius: 4px;
+    overflow: hidden;
+}
+.o_mc_compare_current {
+    height: 4px;
+    background: #0d6efd;
+}
+.o_mc_compare_previous {
+    height: 4px;
+    background: #adb5bd;
+}
+.o_mc_compare_current,
+.o_mc_compare_previous {
+    display: block;
+}
+.o_mc_compare_current + .o_mc_compare_previous {
+    margin-top: 2px;
+}
+i.o_mc_compare_current,
+i.o_mc_compare_previous {
+    display: inline-block;
+    width: .65rem;
+    height: .65rem;
+    border-radius: 2px;
+}
+.o_mc_chart_scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+.o_mc_chart_scroll .o_mc_chart {
+    min-width: 480px; // garantit la lisibilité même sur mobile
+}
+
+@media (max-width: 700px) {
+    .o_mc_chart { gap: .15rem; }
+    .o_mc_chart_month small { font-size: .6rem; }
+}

@@ -1,0 +1,30 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo 19 - agriculture_manage_stock\n"
+"Language: ar\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#. module: agriculture_manage_stock
+msgid "Agriculture Management - Stock"
+msgstr "إدارة الزراعة - المخزون"
+
+#. module: agriculture_manage_stock
+msgid "Agricultural farm"
+msgstr "المزرعة"
+
+#. module: agriculture_manage_stock
+msgid "Agricultural category"
+msgstr "الفئة الزراعية"
+
+#. module: agriculture_manage_stock
+msgid "Seeds and plants"
+msgstr "البذور والشتلات"
+
+#. module: agriculture_manage_stock
+msgid "Fertilizers and soil amendments"
+msgstr "الأسمدة ومحسنات التربة"
+
+#. module: agriculture_manage_stock
+msgid "Phytosanitary products"
+msgstr "منتجات الصحة النباتية"

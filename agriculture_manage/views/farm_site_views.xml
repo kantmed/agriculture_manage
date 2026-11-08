@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_farm_site_list" model="ir.ui.view">
+        <field name="name">agriculture.farm.site.list</field>
+        <field name="model">agriculture.farm.site</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="farm_id"/>
+                <field name="site_type"/>
+                <field name="city"/>
+                <field name="plot_count"/>
+                <field name="infrastructure_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_farm_site_form" model="ir.ui.view">
+        <field name="name">agriculture.farm.site.form</field>
+        <field name="model">agriculture.farm.site</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Nom du site"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="farm_id"/>
+                            <field name="site_type"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="address"/>
+                            <field name="city"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Coordonnées GPS">
+                        <group>
+                            <field name="has_coordinates"/>
+                            <field name="latitude" invisible="not has_coordinates"/>
+                            <field name="longitude" invisible="not has_coordinates"/>
+                            <field name="osm_url" widget="url" invisible="not has_coordinates"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Parcelles">
+                            <field name="plot_ids">
+                                <list>
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="area_ha"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Infrastructures">
+                            <field name="infrastructure_ids">
+                                <list>
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="infrastructure_type"/>
+                                    <field name="condition"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Observations">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_farm_site_search" model="ir.ui.view">
+        <field name="name">agriculture.farm.site.search</field>
+        <field name="model">agriculture.farm.site</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="farm_id"/>
+                <field name="city"/>
+                <filter name="active" string="Actifs" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Archivés" domain="[('active', '=', False)]"/>
+                    <filter name="group_farm" string="Exploitation" context="{'group_by': 'farm_id'}"/>
+                    <filter name="group_type" string="Type" context="{'group_by': 'site_type'}"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_farm_site" model="ir.actions.act_window">
+        <field name="name">Sites</field>
+        <field name="res_model">agriculture.farm.site</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Créez votre premier site agricole
+            </p>
+        </field>
+    </record>
+</odoo>

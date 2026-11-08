@@ -1,0 +1,15 @@
+id,name,model_id,group_id/id,operation,domain
+access_mes_account_personal,mes.comptes.account personal,mes.comptes.account,mes_comptes.group_mes_comptes_user,crud,"[('user_id', '=', user.id)]"
+access_mes_account_shared,mes.comptes.account shared,mes.comptes.account,mes_comptes.group_mes_comptes_user,crud,"[('user_ids', 'in', [user.id])]"
+access_mes_category,mes.comptes.category,mes.comptes.category,mes_comptes.group_mes_comptes_user,crud,
+access_mes_transaction_personal,mes.comptes.transaction personal,mes.comptes.transaction,mes_comptes.group_mes_comptes_user,crud,"[('user_id', '=', user.id)]"
+access_mes_transaction_shared,mes.comptes.transaction shared,mes.comptes.transaction,mes_comptes.group_mes_comptes_user,crud,"[('account_id.user_ids', 'in', [user.id])]"
+access_mes_transfer_personal,mes.comptes.transfer personal,mes.comptes.transfer,mes_comptes.group_mes_comptes_user,crud,"[('user_id', '=', user.id)]"
+access_mes_transfer_shared,mes.comptes.transfer shared,mes.comptes.transfer,mes_comptes.group_mes_comptes_user,crud,"['|', ('source_account_id.user_ids', 'in', [user.id]), ('destination_account_id.user_ids', 'in', [user.id])]"
+access_mes_debt_personal,mes.comptes.debt personal,mes.comptes.debt,mes_comptes.group_mes_comptes_user,crud,"[('user_id', '=', user.id)]"
+access_mes_debt_shared,mes.comptes.debt shared,mes.comptes.debt,mes_comptes.group_mes_comptes_user,crud,"[('account_id.user_ids', 'in', [user.id])]"
+access_mes_debt_payment_personal,mes.comptes.debt payment personal,mes.comptes.debt.payment,mes_comptes.group_mes_comptes_user,crud,"[('debt_id.user_id', '=', user.id)]"
+access_mes_debt_payment_shared,mes.comptes.debt payment shared,mes.comptes.debt.payment,mes_comptes.group_mes_comptes_user,crud,"[('debt_id.account_id.user_ids', 'in', [user.id])]"
+access_mes_budget_personal,mes.comptes.budget personal,mes.comptes.budget,mes_comptes.group_mes_comptes_user,crud,"[('user_id', '=', user.id)]"
+access_mes_reminder_personal,mes.comptes.reminder personal,mes.comptes.reminder,mes_comptes.group_mes_comptes_user,crud,"[('user_id', '=', user.id)]"
+access_mes_report_wizard,mes.comptes.report.wizard,mes.comptes.report.wizard,mes_comptes.group_mes_comptes_user,crud,

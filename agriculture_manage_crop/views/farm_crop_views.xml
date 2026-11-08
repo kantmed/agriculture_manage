@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_farm_crop_list" model="ir.ui.view">
+        <field name="name">agriculture.farm.crop.list</field>
+        <field name="model">agriculture.farm.crop</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="crop_type_id"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_farm_crop_form" model="ir.ui.view">
+        <field name="name">agriculture.farm.crop.form</field>
+        <field name="model">agriculture.farm.crop</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Nom de la culture"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="abbreviation" required="not id" readonly="id"/>
+                            <field name="crop_type_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Description..."/>
+                    <notebook>
+                        <page string="Variétés">
+                            <field name="variety_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="maturity_days"/>
+                                    <field name="yield_potential"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_farm_crop" model="ir.actions.act_window">
+        <field name="name">Cultures</field>
+        <field name="res_model">agriculture.farm.crop</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

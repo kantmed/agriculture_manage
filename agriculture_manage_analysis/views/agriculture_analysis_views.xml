@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Campaign profitability -->
+    <record id="view_agriculture_campaign_analysis_list" model="ir.ui.view">
+        <field name="name">agriculture.farm.crop.campaign.analysis.list</field>
+        <field name="model">agriculture.farm.crop.campaign</field>
+        <field name="arch" type="xml">
+            <list string="Rentabilité des campagnes" create="0" edit="0">
+                <field name="name"/>
+                <field name="farm_id"/>
+                <field name="crop_id"/>
+                <field name="start_date"/>
+                <field name="end_date"/>
+                <field name="state"/>
+                <field name="analysis_area_ha" sum="Surface totale"/>
+                <field name="analysis_operation_cost" sum="Coût total"/>
+                <field name="analysis_revenue" sum="Recettes totales"/>
+                <field name="analysis_gross_margin" sum="Marge brute totale"/>
+                <field name="analysis_cost_per_ha"/>
+                <field name="analysis_margin_per_ha"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_agriculture_campaign_analysis_form" model="ir.ui.view">
+        <field name="name">agriculture.farm.crop.campaign.analysis.form</field>
+        <field name="model">agriculture.farm.crop.campaign</field>
+        <field name="arch" type="xml">
+            <form string="Analyse de rentabilité" create="0">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="farm_id" readonly="1"/>
+                            <field name="crop_id" readonly="1"/>
+                            <field name="variety_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="start_date" readonly="1"/>
+                            <field name="end_date" readonly="1"/>
+                            <field name="state" readonly="1"/>
+                            <field name="analysis_currency_id" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Parcelles">
+                            <field name="campaign_plot_ids" readonly="1">
+                                <list create="0" edit="0">
+                                    <field name="plot_id"/>
+                                    <field name="area_ha"/>
+                                    <field name="analysis_operation_cost"/>
+                                    <field name="analysis_harvest_quantity"/>
+                                    <field name="analysis_harvest_uom_id"/>
+                                    <field name="analysis_revenue"/>
+                                    <field name="analysis_gross_margin"/>
+                                    <field name="analysis_margin_per_ha"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Travaux">
+                            <field name="operation_ids" readonly="1">
+                                <list create="0" edit="0">
+                                    <field name="date"/>
+                                    <field name="name"/>
+                                    <field name="plot_id"/>
+                                    <field name="operation_type"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Récoltes">
+                            <field name="harvest_ids" readonly="1">
+                                <list create="0" edit="0">
+                                    <field name="harvest_date"/>
+                                    <field name="name"/>
+                                    <field name="plot_id"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="sale_unit_price"/>
+                                    <field name="sale_total"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_farm_crop_campaign_form_economic_results" model="ir.ui.view">
+        <field name="name">agriculture.farm.crop.campaign.form.economic.results</field>
+        <field name="model">agriculture.farm.crop.campaign</field>
+        <field name="inherit_id" ref="agriculture_manage_crop.view_farm_crop_campaign_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet/notebook" position="before">
+                <group string="Résultats économiques">
+                    <field name="analysis_currency_id" invisible="1"/>
+                    <group>
+                        <field name="analysis_area_ha" readonly="1"/>
+                        <field name="analysis_operation_cost" readonly="1"/>
+                        <field name="analysis_cost_per_ha" readonly="1"/>
+                        <field name="analysis_cost_per_unit" readonly="1"/>
+                    </group>
+                    <group>
+                        <field name="analysis_harvest_quantity" readonly="1"/>
+                        <field name="analysis_harvest_uom_id" readonly="1"/>
+                        <field name="analysis_revenue" readonly="1"/>
+                        <field name="analysis_gross_margin" readonly="1"/>
+                        <field name="analysis_margin_per_ha" readonly="1"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_agriculture_campaign_analysis_graph" model="ir.ui.view">
+        <field name="name">agriculture.farm.crop.campaign.analysis.graph</field>
+        <field name="model">agriculture.farm.crop.campaign</field>
+        <field name="arch" type="xml">
+            <graph string="Marge brute par campagne" type="bar">
+                <field name="name" type="row"/>
+                <field name="analysis_operation_cost" type="measure"/>
+                <field name="analysis_revenue" type="measure"/>
+                <field name="analysis_gross_margin" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_agriculture_campaign_analysis_pivot" model="ir.ui.view">
+        <field name="name">agriculture.farm.crop.campaign.analysis.pivot</field>
+        <field name="model">agriculture.farm.crop.campaign</field>
+        <field name="arch" type="xml">
+            <pivot string="Analyse économique des campagnes">
+                <field name="farm_id" type="row"/>
+                <field name="crop_id" type="row"/>
+                <field name="analysis_operation_cost" type="measure"/>
+                <field name="analysis_revenue" type="measure"/>
+                <field name="analysis_gross_margin" type="measure"/>
+                <field name="analysis_area_ha" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Campaign plot profitability -->
+    <record id="view_agriculture_campaign_plot_analysis_list" model="ir.ui.view">
+        <field name="name">agriculture.farm.crop.campaign.plot.analysis.list</field>
+        <field name="model">agriculture.farm.crop.campaign.plot</field>
+        <field name="arch" type="xml">
+            <list string="Rentabilité des parcelles" create="0" edit="0">
+                <field name="campaign_id"/>
+                <field name="plot_id"/>
+                <field name="area_ha"/>
+                <field name="analysis_operation_cost" sum="Coût total"/>
+                <field name="analysis_harvest_quantity" sum="Quantité récoltée"/>
+                <field name="analysis_harvest_uom_id"/>
+                <field name="analysis_revenue" sum="Recettes totales"/>
+                <field name="analysis_gross_margin" sum="Marge brute totale"/>
+                <field name="analysis_cost_per_ha"/>
+                <field name="analysis_margin_per_ha"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_agriculture_campaign_plot_analysis_graph" model="ir.ui.view">
+        <field name="name">agriculture.farm.crop.campaign.plot.analysis.graph</field>
+        <field name="model">agriculture.farm.crop.campaign.plot</field>
+        <field name="arch" type="xml">
+            <graph string="Marge brute par parcelle" type="bar">
+                <field name="plot_id" type="row"/>
+                <field name="analysis_operation_cost" type="measure"/>
+                <field name="analysis_revenue" type="measure"/>
+                <field name="analysis_gross_margin" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="view_agriculture_campaign_plot_analysis_pivot" model="ir.ui.view">
+        <field name="name">agriculture.farm.crop.campaign.plot.analysis.pivot</field>
+        <field name="model">agriculture.farm.crop.campaign.plot</field>
+        <field name="arch" type="xml">
+            <pivot string="Analyse économique des parcelles">
+                <field name="campaign_id" type="row"/>
+                <field name="plot_id" type="row"/>
+                <field name="analysis_operation_cost" type="measure"/>
+                <field name="analysis_revenue" type="measure"/>
+                <field name="analysis_gross_margin" type="measure"/>
+                <field name="area_ha" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <record id="view_agriculture_campaign_analysis_search" model="ir.ui.view">
+        <field name="name">agriculture.farm.crop.campaign.analysis.search</field>
+        <field name="model">agriculture.farm.crop.campaign</field>
+        <field name="arch" type="xml">
+            <search string="Analyse des campagnes">
+                <field name="name"/>
+                <field name="farm_id"/>
+                <field name="crop_id"/>
+                <filter name="active" string="Campagnes en cours" domain="[('state', '=', 'active')]"/>
+                <filter name="done" string="Campagnes terminées" domain="[('state', '=', 'done')]"/>
+                <filter name="profitable" string="Marge positive" domain="[('analysis_gross_margin', '&gt;', 0)]"/>
+                <filter name="loss" string="Marge négative" domain="[('analysis_gross_margin', '&lt;', 0)]"/>
+                <separator string="Regrouper par"/>
+                <filter name="group_farm" string="Exploitation" domain="[]" context="{'group_by': 'farm_id'}"/>
+                <filter name="group_crop" string="Culture" domain="[]" context="{'group_by': 'crop_id'}"/>
+                <filter name="group_state" string="État" domain="[]" context="{'group_by': 'state'}"/>
+                <filter name="group_start_date" string="Date de début" domain="[]" context="{'group_by': 'start_date:year'}"/>
+            </search>
+        </field>
+    </record>
+    <record id="view_agriculture_campaign_plot_analysis_search" model="ir.ui.view">
+        <field name="name">agriculture.farm.crop.campaign.plot.analysis.search</field>
+        <field name="model">agriculture.farm.crop.campaign.plot</field>
+        <field name="arch" type="xml">
+            <search string="Analyse des parcelles">
+                <field name="campaign_id"/>
+                <field name="plot_id"/>
+                <filter name="profitable" string="Marge positive" domain="[('analysis_gross_margin', '&gt;', 0)]"/>
+                <filter name="loss" string="Marge négative" domain="[('analysis_gross_margin', '&lt;', 0)]"/>
+                <separator string="Regrouper par"/>
+                <filter name="group_campaign" string="Campagne" domain="[]" context="{'group_by': 'campaign_id'}"/>
+                <filter name="group_plot" string="Parcelle" domain="[]" context="{'group_by': 'plot_id'}"/>
+            </search>
+        </field>
+    </record>
+        <record id="action_agriculture_campaign_analysis" model="ir.actions.act_window">
+        <field name="name">Rentabilité des campagnes</field>
+        <field name="res_model">agriculture.farm.crop.campaign</field>
+        <field name="view_mode">graph,pivot,list,form</field>
+        <field name="search_view_id" ref="view_agriculture_campaign_analysis_search"/>
+        <field name="domain">[]</field>
+    </record>
+    <record id="action_agriculture_campaign_plot_analysis" model="ir.actions.act_window">
+        <field name="name">Rentabilité des parcelles</field>
+        <field name="res_model">agriculture.farm.crop.campaign.plot</field>
+        <field name="view_mode">list,graph,pivot</field>
+        <field name="search_view_id" ref="view_agriculture_campaign_plot_analysis_search"/>
+    </record>
+
+    <record id="action_view_campaign_analysis_list" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_agriculture_campaign_analysis_list"/>
+        <field name="act_window_id" ref="action_agriculture_campaign_analysis"/>
+    </record>
+    <record id="action_view_campaign_analysis_graph" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="view_agriculture_campaign_analysis_graph"/>
+        <field name="act_window_id" ref="action_agriculture_campaign_analysis"/>
+    </record>
+    <record id="action_view_campaign_analysis_pivot" model="ir.actions.act_window.view">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_agriculture_campaign_analysis_pivot"/>
+        <field name="act_window_id" ref="action_agriculture_campaign_analysis"/>
+    </record>
+    <record id="action_view_campaign_analysis_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="4"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_agriculture_campaign_analysis_form"/>
+        <field name="act_window_id" ref="action_agriculture_campaign_analysis"/>
+    </record>
+    <record id="action_view_campaign_plot_analysis_list" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_agriculture_campaign_plot_analysis_list"/>
+        <field name="act_window_id" ref="action_agriculture_campaign_plot_analysis"/>
+    </record>
+    <record id="action_view_campaign_plot_analysis_graph" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="view_agriculture_campaign_plot_analysis_graph"/>
+        <field name="act_window_id" ref="action_agriculture_campaign_plot_analysis"/>
+    </record>
+    <record id="action_view_campaign_plot_analysis_pivot" model="ir.actions.act_window.view">
+        <field name="sequence" eval="3"/>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_agriculture_campaign_plot_analysis_pivot"/>
+        <field name="act_window_id" ref="action_agriculture_campaign_plot_analysis"/>
+    </record>
+
+    <!-- Expose actual stock-valued operation costs and harvest selling prices -->
+    <record id="view_farm_operation_form_analysis" model="ir.ui.view">
+        <field name="name">agriculture.farm.operation.form.analysis</field>
+        <field name="model">agriculture.farm.operation</field>
+        <field name="inherit_id" ref="agriculture_manage_crop.view_farm_operation_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='line_ids']/list/field[@name='cost']" position="after">
+                <field name="analysis_cost" string="Coût réel retenu" readonly="1" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_farm_harvest_form_analysis" model="ir.ui.view">
+        <field name="name">agriculture.farm.harvest.form.analysis</field>
+        <field name="model">agriculture.farm.harvest</field>
+        <field name="inherit_id" ref="agriculture_manage_crop.view_farm_harvest_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[.//field[@name='quantity']]" position="inside">
+                <field name="analysis_currency_id" invisible="1"/>
+                <field name="sale_unit_price"/>
+                <field name="sale_total" readonly="1"/>
+            </xpath>
+        </field>
+    </record>
+
+
+<record id="view_agriculture_profitability_dashboard_graph" model="ir.ui.view">
+        <field name="name">agriculture.profitability.dashboard.graph</field>
+        <field name="model">agriculture.farm.crop.campaign</field>
+        <field name="arch" type="xml">
+            <graph string="Tableau de bord - Rentabilité agricole" type="bar">
+                <field name="farm_id" type="row"/>
+                <field name="crop_id" type="col"/>
+                <field name="analysis_operation_cost" type="measure"/>
+                <field name="analysis_revenue" type="measure"/>
+                <field name="analysis_gross_margin" type="measure"/>
+            </graph>
+        </field>
+    </record>
+    <record id="view_agriculture_profitability_dashboard_pivot" model="ir.ui.view">
+        <field name="name">agriculture.profitability.dashboard.pivot</field>
+        <field name="model">agriculture.farm.crop.campaign</field>
+        <field name="arch" type="xml">
+            <pivot string="Synthèse de rentabilité agricole">
+                <field name="farm_id" type="row"/>
+                <field name="crop_id" type="row"/>
+                <field name="state" type="col"/>
+                <field name="analysis_area_ha" type="measure"/>
+                <field name="analysis_operation_cost" type="measure"/>
+                <field name="analysis_revenue" type="measure"/>
+                <field name="analysis_gross_margin" type="measure"/>
+                <field name="analysis_cost_per_ha" type="measure"/>
+                <field name="analysis_margin_per_ha" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+
+    <record id="action_agriculture_profitability_dashboard" model="ir.actions.act_window">
+        <field name="name">Tableau de bord général</field>
+        <field name="res_model">agriculture.farm.crop.campaign</field>
+        <field name="view_mode">graph,pivot,list,form</field>
+        <field name="search_view_id" ref="view_agriculture_campaign_analysis_search"/>
+    </record>
+    <record id="action_view_profitability_dashboard_graph" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="view_agriculture_profitability_dashboard_graph"/>
+        <field name="act_window_id" ref="action_agriculture_profitability_dashboard"/>
+    </record>
+    <record id="action_view_profitability_dashboard_pivot" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">pivot</field>
+        <field name="view_id" ref="view_agriculture_profitability_dashboard_pivot"/>
+        <field name="act_window_id" ref="action_agriculture_profitability_dashboard"/>
+    </record>
+
+</odoo>

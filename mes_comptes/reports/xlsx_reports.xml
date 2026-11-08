@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_mes_transactions_xlsx" model="ir.actions.report">
+        <field name="name">Export Excel des opérations</field>
+        <field name="model">mes.comptes.transaction</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">mes_comptes.transactions_xlsx</field>
+        <field name="binding_model_id" ref="model_mes_comptes_transaction"/>
+        <field name="binding_type">report</field>
+        <field name="multi">True</field>
+    </record>
+    <record id="action_report_mes_accounts_xlsx" model="ir.actions.report">
+        <field name="name">Export Excel des comptes</field>
+        <field name="model">mes.comptes.account</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">mes_comptes.accounts_xlsx</field>
+        <field name="binding_model_id" ref="model_mes_comptes_account"/>
+        <field name="binding_type">report</field>
+        <field name="multi">True</field>
+    </record>
+    <record id="action_report_mes_budgets_xlsx" model="ir.actions.report">
+        <field name="name">Export Excel des budgets</field>
+        <field name="model">mes.comptes.budget</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">mes_comptes.budgets_xlsx</field>
+        <field name="binding_model_id" ref="model_mes_comptes_budget"/>
+        <field name="binding_type">report</field>
+        <field name="multi">True</field>
+    </record>
+    <record id="action_report_mes_transfers_xlsx" model="ir.actions.report">
+        <field name="name">Export Excel des virements</field>
+        <field name="model">mes.comptes.transfer</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">mes_comptes.transfers_xlsx</field>
+        <field name="binding_model_id" ref="model_mes_comptes_transfer"/>
+        <field name="binding_type">report</field>
+        <field name="multi">True</field>
+    </record>
+    <record id="action_report_mes_debts_xlsx" model="ir.actions.report">
+        <field name="name">Export Excel des dettes</field>
+        <field name="model">mes.comptes.debt</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">mes_comptes.debts_xlsx</field>
+        <field name="binding_model_id" ref="model_mes_comptes_debt"/>
+        <field name="binding_type">report</field>
+        <field name="multi">True</field>
+    </record>
+    <record id="action_report_mes_debt_payments_xlsx" model="ir.actions.report">
+        <field name="name">Export Excel des règlements de dettes</field>
+        <field name="model">mes.comptes.debt.payment</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">mes_comptes.debt_payments_xlsx</field>
+        <field name="binding_model_id" ref="model_mes_comptes_debt_payment"/>
+        <field name="binding_type">report</field>
+        <field name="multi">True</field>
+    </record>
+</odoo>

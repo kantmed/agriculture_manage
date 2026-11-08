@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_account_asset_agriculture_form" model="ir.ui.view">
+        <field name="name">account.asset.asset.agriculture.form</field>
+        <field name="model">account.asset.asset</field>
+        <field name="inherit_id" ref="base_accounting_kit.account_asset_asset_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Affectation agricole" name="agriculture_assignment">
+                    <group>
+                        <group>
+                            <field name="agriculture_scope" readonly="state != 'draft'"/>
+                            <field name="agriculture_farm_id" invisible="agriculture_scope not in ('farm', 'site')" readonly="state != 'draft'" domain="[('company_id', '=', company_id)]"/>
+                            <field name="agriculture_site_id" invisible="agriculture_scope != 'site'" readonly="state != 'draft'" domain="[('farm_id', '=', agriculture_farm_id)]"/>
+                            <field name="agriculture_origin" readonly="state != 'draft'"/>
+                            <field name="agriculture_project_id" readonly="state != 'draft'" domain="[('company_id', '=', company_id)]"/>
+                            <field name="agriculture_invoice_line_id" readonly="1" invisible="not agriculture_invoice_line_id"/>
+                        </group>
+                        <group invisible="agriculture_scope != 'company'">
+                            <field name="agriculture_allocation_total" readonly="1"/>
+                            <div class="text-muted">Pour une immobilisation partagée, la somme des parts doit être de 100 %. Les comptes analytiques des exploitations servent à ventiler les amortissements.</div>
+                        </group>
+                    </group>
+                    <field name="agriculture_allocation_ids" invisible="agriculture_scope != 'company'" readonly="state != 'draft'">
+                        <list editable="bottom">
+                            <field name="farm_id" domain="[('company_id', '=', parent.company_id)]"/>
+                            <field name="percentage"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="action_agriculture_asset" model="ir.actions.act_window">
+        <field name="name">Immobilisations agricoles</field>
+        <field name="res_model">account.asset.asset</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('agriculture_scope', '!=', 'none')]</field>
+        <field name="context">{'default_agriculture_scope': 'farm'}</field>
+    </record>
+    <menuitem id="menu_agriculture_asset" name="Immobilisations agricoles"
+              parent="agriculture_manage.menu_farm_root" action="action_agriculture_asset"
+              sequence="45" groups="account.group_account_user"/>
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_task_form_agriculture" model="ir.ui.view">
+        <field name="name">project.task.form.agriculture</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="Informations agricoles" name="agriculture_task_group">
+                    <field name="agriculture_farm_id" readonly="1"/>
+                    <field name="agriculture_plot_id" options="{'no_create': True}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

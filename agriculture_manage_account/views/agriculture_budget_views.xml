@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_agriculture_crop_budget_form_inherit_accounting" model="ir.ui.view">
+        <field name="name">agriculture.farm.crop.budget.form.accounting</field>
+        <field name="model">agriculture.farm.crop.budget</field>
+        <field name="inherit_id" ref="agriculture_manage_analysis.view_agriculture_crop_budget_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='actual_total']" position="after">
+                <field name="accounting_expense_total"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

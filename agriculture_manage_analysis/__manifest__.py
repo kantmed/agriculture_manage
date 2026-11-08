@@ -1,0 +1,25 @@
+{
+    "name": "Agriculture Management - Analysis, Profitability & Budgets",
+    "version": "20.0.1.5.1",
+    "category": "Agriculture",
+    "summary": "Analyse de rentabilité et gestion des budgets agricoles",
+    "description": "Budgets par campagne et parcelle, dépenses complémentaires, suivi des coûts réels et écarts.",
+    "author": "Agriculture Management",
+    "license": "LGPL-3",
+    "depends": [
+        "agriculture_manage",
+        "agriculture_manage_crop",
+        "agriculture_manage_stock",
+        "stock_account",
+    ],
+    "data": [
+        "security/agriculture_budget_security.xml",
+        "security/ir.access.csv",
+        "data_agriculture_budget_sequence.xml",
+        "views/agriculture_analysis_views.xml",
+        "views/agriculture_analysis_menu.xml",
+        "views/agriculture_budget_views.xml",
+    ],
+    "application": False,
+    "installable": True,
+}

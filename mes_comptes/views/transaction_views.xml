@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mes_transaction_list" model="ir.ui.view">
+        <field name="name">mes.comptes.transaction.list</field><field name="model">mes.comptes.transaction</field>
+        <field name="arch" type="xml">
+            <list string="Recettes et dépenses" decoration-success="transaction_type == 'income'" decoration-danger="transaction_type == 'expense'">
+                <field name="date"/><field name="name"/><field name="transaction_type"/><field name="category_id"/><field name="account_id"/><field name="amount"/><field name="state"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mes_transaction_form" model="ir.ui.view">
+        <field name="name">mes.comptes.transaction.form</field><field name="model">mes.comptes.transaction</field>
+        <field name="arch" type="xml">
+            <form string="Opération">
+                <header>
+                    <button name="action_post" type="object" string="Valider" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_cancel" type="object" string="Annuler" invisible="state != 'posted'"/>
+                    <button name="action_reset_draft" type="object" string="Remettre en brouillon" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,posted,cancel"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" placeholder="Libellé de l'opération"/></h1></div>
+                    <group><group><field name="transaction_type"/><field name="date"/><field name="account_id"/><field name="category_id" domain="[('transaction_type', '=', transaction_type)]"/></group>
+                    <group><field name="amount"/><field name="currency_id" invisible="1"/><field name="partner_name"/><field name="payment_method"/><field name="reference"/></group></group>
+                    <group><field name="note"/></group><field name="user_id" invisible="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_mes_transactions" model="ir.actions.act_window">
+        <field name="name">Toutes les opérations</field><field name="res_model">mes.comptes.transaction</field><field name="view_mode">list,form</field>
+    </record>
+    <record id="action_mes_income" model="ir.actions.act_window">
+        <field name="name">Recettes</field><field name="res_model">mes.comptes.transaction</field><field name="view_mode">list,form</field><field name="domain">[('transaction_type','=','income')]</field>
+        <field name="context">{'default_transaction_type': 'income'}</field>
+    </record>
+    <record id="action_mes_expense" model="ir.actions.act_window">
+        <field name="name">Dépenses</field><field name="res_model">mes.comptes.transaction</field><field name="view_mode">list,form</field><field name="domain">[('transaction_type','=','expense')]</field>
+        <field name="context">{'default_transaction_type': 'expense'}</field>
+    </record>
+</odoo>

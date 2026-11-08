@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Catégorie de privilèges -->
+    <record id="privilege_mes_comptes"
+            model="res.groups.privilege">
+        <field name="name">Mes Comptes</field>
+        <field name="category_id"
+               ref="base.module_category_accounting"/>
+        <field name="sequence">50</field>
+    </record>
+
+    <!-- Groupe utilisateur -->
+    <record id="group_mes_comptes_user"
+            model="res.groups">
+        <field name="name">Utilisateur</field>
+        <field name="privilege_id"
+               ref="privilege_mes_comptes"/>
+        <field name="implied_ids"
+               eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <!-- Groupe responsable -->
+    <record id="group_mes_comptes_manager"
+            model="res.groups">
+        <field name="name">Responsable</field>
+        <field name="privilege_id"
+               ref="privilege_mes_comptes"/>
+        <field name="implied_ids"
+               eval="[(4, ref('group_mes_comptes_user'))]"/>
+    </record>
+</odoo>

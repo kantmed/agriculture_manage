@@ -1,0 +1,10 @@
+id,name,model_id,group_id/id,operation,domain
+access_agri_budget_user,budget agricole user,agriculture.farm.crop.budget,agriculture_manage.group_farm_user,r,
+access_agri_budget_manager,budget agricole manager,agriculture.farm.crop.budget,agriculture_manage.group_farm_manager,crud,
+access_agri_budget_admin,budget agricole admin,agriculture.farm.crop.budget,agriculture_manage.group_farm_admin,crud,
+access_agri_budget_line_user,budget agricole line user,agriculture.farm.crop.budget.line,agriculture_manage.group_farm_user,r,
+access_agri_budget_line_manager,budget agricole line manager,agriculture.farm.crop.budget.line,agriculture_manage.group_farm_manager,crud,
+access_agri_budget_line_admin,budget agricole line admin,agriculture.farm.crop.budget.line,agriculture_manage.group_farm_admin,crud,
+access_agri_budget_expense_user,budget agricole expense user,agriculture.farm.crop.budget.expense,agriculture_manage.group_farm_user,r,
+access_agri_budget_expense_manager,budget agricole expense manager,agriculture.farm.crop.budget.expense,agriculture_manage.group_farm_manager,crud,
+access_agri_budget_expense_admin,budget agricole expense admin,agriculture.farm.crop.budget.expense,agriculture_manage.group_farm_admin,crud,

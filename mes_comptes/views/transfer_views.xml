@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mes_transfer_list" model="ir.ui.view">
+        <field name="name">mes.comptes.transfer.list</field><field name="model">mes.comptes.transfer</field>
+        <field name="arch" type="xml"><list string="Virements"><field name="date"/><field name="name"/><field name="source_account_id"/><field name="destination_account_id"/><field name="amount"/><field name="destination_amount"/><field name="state"/></list></field>
+    </record>
+    <record id="view_mes_transfer_form" model="ir.ui.view">
+        <field name="name">mes.comptes.transfer.form</field><field name="model">mes.comptes.transfer</field>
+        <field name="arch" type="xml">
+            <form string="Virement">
+                <header><button name="action_post" type="object" string="Valider" class="btn-primary" invisible="state != 'draft'"/><button name="action_cancel" type="object" string="Annuler" invisible="state != 'posted'"/><field name="state" widget="statusbar"/></header>
+                <sheet><div class="oe_title"><h1><field name="name"/></h1></div><group><group><field name="date"/><field name="source_account_id"/><field name="destination_account_id"/></group><group><field name="amount"/><field name="currency_id" invisible="1"/><field name="destination_currency_id" invisible="1"/><field name="exchange_rate_manual" invisible="currency_id == destination_currency_id"/><field name="exchange_rate" invisible="currency_id == destination_currency_id" readonly="not exchange_rate_manual"/><field name="destination_amount" readonly="1"/></group></group><field name="note"/><field name="user_id" invisible="1"/></sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_mes_transfers" model="ir.actions.act_window"><field name="name">Virements</field><field name="res_model">mes.comptes.transfer</field><field name="view_mode">list,form</field></record>
+</odoo>

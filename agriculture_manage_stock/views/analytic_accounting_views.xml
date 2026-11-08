@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_farm_form_analytic_account" model="ir.ui.view">
+        <field name="name">agriculture.farm.form.analytic.account</field>
+        <field name="model">agriculture.farm</field>
+        <field name="inherit_id" ref="agriculture_manage.view_farm_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet//notebook" position="inside">
+                <page string="Comptabilité analytique">
+                    <group>
+                        <field name="analytic_account_id" domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]" options="{'no_create': True}"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_campaign_form_analytic_account" model="ir.ui.view">
+        <field name="name">agriculture.farm.crop.campaign.form.analytic.account</field>
+        <field name="model">agriculture.farm.crop.campaign</field>
+        <field name="inherit_id" ref="agriculture_manage_crop.view_farm_crop_campaign_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet//notebook" position="inside">
+                <page string="Comptabilité analytique">
+                    <group>
+                        <field name="analytic_account_id" domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]" options="{'no_create': True}"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_farm_plot_form_analytic_account" model="ir.ui.view">
+        <field name="name">agriculture.farm.plot.form.analytic.account</field>
+        <field name="model">agriculture.farm.plot</field>
+        <field name="inherit_id" ref="agriculture_manage.view_farm_plot_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group[last()]" position="after">
+                <group string="Comptabilité analytique">
+                    <field name="analytic_account_id" domain="['|', ('company_id', '=', False), ('company_id', '=', company_id)]" options="{'no_create': True}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

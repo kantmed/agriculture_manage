@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Les droits d'accès sont définis dans ir.model.access.csv.
+         Les règles multi-sociétés natives et les règles agricoles existantes restent applicables. -->
+</odoo>

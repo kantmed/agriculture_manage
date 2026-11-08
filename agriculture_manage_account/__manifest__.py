@@ -1,0 +1,27 @@
+{
+    "name": "Agriculture Management - Financial Accounts",
+    "version": "20.0.1.2.1",
+    "category": "Agriculture",
+    "summary": "Suivi des recettes, dépenses, paiements, comptes et dettes agricoles",
+    "description": "Gestion financière des exploitations, suivi des flux de trésorerie, règlements et soldes dus par campagne.",
+    "author": "Agriculture Management",
+    "license": "LGPL-3",
+    "depends": [
+        "agriculture_manage",
+        "agriculture_manage_crop",
+        "agriculture_manage_analysis",
+        "account",
+    ],
+    "data": [
+        "security/financial_security.xml",
+        "security/ir.access.csv",
+        "data/financial_sequence.xml",
+        "views/financial_account_views.xml",
+        "views/financial_transaction_views.xml",
+        "views/account_move_views.xml",
+        "views/agriculture_budget_views.xml",
+        "views/financial_menu.xml",
+    ],
+    "application": False,
+    "installable": True,
+}

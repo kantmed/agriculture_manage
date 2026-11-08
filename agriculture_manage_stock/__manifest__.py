@@ -1,0 +1,21 @@
+{
+    "name": "Agriculture Management - Stock",
+    "version": "20.0.1.4.2",
+    "category": "Agriculture",
+    "summary": "Gestion des stocks et consommation des intrants agricoles",
+    "description": "Magasins par exploitation, mouvements de stock et sorties d'intrants liées aux travaux agricoles.",
+    "author": "Agriculture Management",
+    "license": "LGPL-3",
+    "depends": ["agriculture_manage", "agriculture_manage_crop", "stock", "stock_account", "product", "uom", "mail"],
+    "data": [
+        "security/agriculture_stock_rules.xml",
+        "views/product_template_views.xml",
+        "views/stock_warehouse_views.xml",
+        "views/stock_picking_views.xml",
+        "views/farm_operation_views.xml",
+        "views/agriculture_stock_menu.xml",
+        "views/analytic_accounting_views.xml",
+    ],
+    "application": False,
+    "installable": True,
+}

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_farm_crop_root"
+              name="Production"
+              parent="agriculture_manage.menu_farm_root"
+              sequence="30"
+              groups="agriculture_manage.group_farm_user"/>
+
+    <menuitem id="menu_farm_crop_type"
+              name="Types de culture"
+              parent="agriculture_manage.menu_farm_configuration"
+              action="action_farm_crop_type"
+              sequence="30"/>
+
+    <menuitem id="menu_farm_crop"
+              name="Cultures"
+              parent="menu_farm_crop_root"
+              action="action_farm_crop"
+              sequence="10"/>
+
+    <menuitem id="menu_farm_crop_variety"
+              name="Variétés"
+              parent="menu_farm_crop_root"
+              action="action_farm_crop_variety"
+              sequence="20"/>
+
+    <menuitem id="menu_farm_crop_campaign"
+              name="Campagnes"
+              parent="menu_farm_crop_root"
+              action="action_farm_crop_campaign"
+              sequence="30"/>
+
+    <menuitem id="menu_farm_operation"
+              name="Opérations"
+              parent="menu_farm_crop_root"
+              action="action_farm_operation"
+              sequence="40"/>
+
+    <menuitem id="menu_farm_harvest"
+              name="Récoltes"
+              parent="menu_farm_crop_root"
+              action="action_farm_harvest"
+              sequence="50"/>
+</odoo>

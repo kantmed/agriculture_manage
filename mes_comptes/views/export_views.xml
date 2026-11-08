@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_mes_export_transactions" model="ir.actions.act_window">
+        <field name="name">Opérations à exporter</field>
+        <field name="res_model">mes.comptes.transaction</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_mes_export_accounts" model="ir.actions.act_window">
+        <field name="name">Comptes à exporter</field>
+        <field name="res_model">mes.comptes.account</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_mes_export_budgets" model="ir.actions.act_window">
+        <field name="name">Budgets à exporter</field>
+        <field name="res_model">mes.comptes.budget</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_mes_export_transfers" model="ir.actions.act_window">
+        <field name="name">Virements à exporter</field>
+        <field name="res_model">mes.comptes.transfer</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_mes_export_debts" model="ir.actions.act_window">
+        <field name="name">Dettes à exporter</field>
+        <field name="res_model">mes.comptes.debt</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="action_mes_export_debt_payments" model="ir.actions.act_window">
+        <field name="name">Règlements à exporter</field>
+        <field name="res_model">mes.comptes.debt.payment</field>
+        <field name="view_mode">list,form</field>
+    </record>
+</odoo>

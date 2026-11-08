@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_farm_operation_form_stock" model="ir.ui.view">
+        <field name="name">agriculture.farm.operation.form.stock</field>
+        <field name="model">agriculture.farm.operation</field>
+        <field name="inherit_id" ref="agriculture_manage_crop.view_farm_operation_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_prepare_stock_issue" type="object"
+                        string="Préparer la sortie de stock" class="btn-secondary"
+                        invisible="state != 'draft' or not line_ids" groups="stock.group_stock_user"/>
+            </xpath>
+            <xpath expr="//field[@name='line_ids']/list/field[@name='product_id']" position="after">
+                <field name="consume_stock" optional="show" groups="stock.group_stock_user"/>
+                <field name="warehouse_id" optional="show"
+                       invisible="not consume_stock"
+                       domain="['|', ('farm_id', '=', False), ('farm_id', '=', parent.farm_id)]"
+                       groups="stock.group_stock_user"/>
+                <field name="stock_move_id" optional="hide" readonly="1" groups="stock.group_stock_user"/>
+                <field name="stock_valuation_quantity" optional="hide" readonly="1" groups="stock.group_stock_user"/>
+                <field name="stock_valuation_value" optional="show" readonly="1" groups="stock.group_stock_user"/>
+                <field name="stock_cost_updated" optional="hide" readonly="1" groups="stock.group_stock_user"/>
+                <field name="stock_valuation_layer_count" optional="hide" readonly="1" groups="stock.group_stock_user"/>
+            </xpath>
+            <xpath expr="//sheet" position="inside">
+                <field name="farm_id" invisible="1"/>
+                <div class="oe_button_box" name="button_box" groups="stock.group_stock_user">
+                    <button name="action_view_stock_pickings" type="object"
+                            string="Sorties de stock" class="oe_stat_button"
+                            icon="fa-truck" invisible="stock_picking_count == 0">
+                        <field name="stock_picking_count" widget="statinfo"/>
+                    </button>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

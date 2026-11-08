@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Les transferts restent soumis aux ACL et règles multi-sociétés natives
+         du module stock. On évite d'ajouter des règles de groupe qui pourraient
+         élargir les droits par union avec les règles du module Inventory. -->
+</odoo>

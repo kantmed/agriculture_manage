@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_project_form_agriculture" model="ir.ui.view">
+        <field name="name">project.project.form.agriculture</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="Informations agricoles" name="agriculture_project_group">
+                    <group>
+                        <field name="agriculture_project_type"/>
+                        <field name="agriculture_farm_id"/>
+                    </group>
+                    <group>
+                        <field name="agriculture_plot_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                        <field name="agriculture_investment_estimate"/>
+                        <field name="agriculture_currency_id" invisible="1"/>
+                    </group>
+                </group>
+                <group string="Notes agricoles">
+                    <field name="agriculture_project_notes" nolabel="1"/>
+                </group>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Opérations de réalisation" name="agriculture_operations">
+                    <field name="agriculture_operation_ids" context="{'default_project_id': id, 'default_company_id': company_id}">
+                        <list create="1" delete="0">
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="date"/>
+                            <field name="operation_type"/>
+                            <field name="plot_id" optional="show"/>
+                            <field name="state"/>
+                        </list>
+                    </field>
+                    <button name="action_view_agriculture_operations" type="object" string="Ouvrir les opérations" class="oe_link"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_project_list_agriculture" model="ir.ui.view">
+        <field name="name">project.project.list.agriculture</field>
+        <field name="model">project.project</field>
+        <field name="arch" type="xml">
+            <list string="Projets agricoles">
+                <field name="name"/>
+                <field name="agriculture_farm_id"/>
+                <field name="agriculture_project_type" optional="show"/>
+                <field name="user_id" optional="show"/>
+            </list>
+        </field>
+    </record>
+</odoo>

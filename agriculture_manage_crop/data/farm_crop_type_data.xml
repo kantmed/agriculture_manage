@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="crop_type_cereal" model="agriculture.farm.crop.type">
+            <field name="name">Céréale</field>
+            <field name="code">CEREAL</field>
+            <field name="sequence">10</field>
+        </record>
+        <record id="crop_type_vegetable" model="agriculture.farm.crop.type">
+            <field name="name">Maraîchage</field>
+            <field name="code">VEGETABLE</field>
+            <field name="sequence">20</field>
+        </record>
+        <record id="crop_type_fruit" model="agriculture.farm.crop.type">
+            <field name="name">Arboriculture</field>
+            <field name="code">FRUIT</field>
+            <field name="sequence">30</field>
+        </record>
+        <record id="crop_type_legume" model="agriculture.farm.crop.type">
+            <field name="name">Légumineuse</field>
+            <field name="code">LEGUME</field>
+            <field name="sequence">40</field>
+        </record>
+        <record id="crop_type_forage" model="agriculture.farm.crop.type">
+            <field name="name">Fourrage</field>
+            <field name="code">FORAGE</field>
+            <field name="sequence">50</field>
+        </record>
+        <record id="crop_type_other" model="agriculture.farm.crop.type">
+            <field name="name">Autre</field>
+            <field name="code">OTHER</field>
+            <field name="sequence">60</field>
+        </record>
+    </data>
+</odoo>

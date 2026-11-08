@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_farm_form_projects" model="ir.ui.view">
+        <field name="name">agriculture.farm.form.projects</field>
+        <field name="model">agriculture.farm</field>
+        <field name="inherit_id" ref="agriculture_manage.view_farm_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Projets">
+                    <field name="project_ids" context="{'default_agriculture_farm_id': id}">
+                        <list>
+                            <field name="name"/>
+                            <field name="agriculture_project_type"/>
+                            <field name="user_id"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_plot_form_projects" model="ir.ui.view">
+        <field name="name">agriculture.farm.plot.form.projects</field>
+        <field name="model">agriculture.farm.plot</field>
+        <field name="inherit_id" ref="agriculture_manage.view_farm_plot_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="Projets concernés">
+                    <field name="project_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

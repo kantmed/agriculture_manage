@@ -1,0 +1,991 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo 19 - mes_comptes\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-03 22:29+0000\n"
+"PO-Revision-Date: 2026-11-03 22:00+0100\n"
+"Last-Translator: mes_comptes\n"
+"Language-Team: Arabic\n"
+"Language: ar_001\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__active
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__active
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_category__active
+msgid "Active"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Activité du mois par devise"
+msgstr "نشاط الشهر حسب العملة"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt_payment__amount
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__amount
+msgid "Amount"
+msgstr ""
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_transaction_form
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_transfer_form
+msgid "Annuler"
+msgstr "إلغاء"
+
+#. module: mes_comptes
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_debt_payment__state__cancel
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_transfer__state__cancel
+msgid "Annulé"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_debt__state__cancel
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_transaction__state__cancel
+msgid "Annulée"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__date_end
+msgid "Au"
+msgstr "إلى"
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Aucun compte enregistré."
+msgstr "لا توجد حسابات مسجلة."
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Aucune opération ce mois-ci."
+msgstr "لا توجد عمليات هذا الشهر."
+
+#. module: mes_comptes
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_account__account_type__other
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_transaction__payment_method__other
+msgid "Autre"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_debt_payment__state__draft
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_transaction__state__draft
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_transfer__state__draft
+msgid "Brouillon"
+msgstr ""
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_budget_form
+msgid "Budget"
+msgstr "ميزانية"
+
+#. module: mes_comptes
+#: model:ir.model,name:mes_comptes.model_mes_comptes_budget
+msgid "Budget par catégorie"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.actions.act_window,name:mes_comptes.action_mes_budgets
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_budgets
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_budget_list
+msgid "Budgets"
+msgstr "الميزانيات"
+
+#. module: mes_comptes
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_transaction__payment_method__card
+msgid "Carte"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__category_id
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__category_id
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_transactions
+msgid "Catégorie"
+msgstr "الفئة"
+
+#. module: mes_comptes
+#: model:ir.model,name:mes_comptes.model_mes_comptes_category
+msgid "Catégorie financière"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.actions.act_window,name:mes_comptes.action_mes_categories
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_categories
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_category_list
+msgid "Catégories"
+msgstr "الفئات"
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Chargement du tableau de bord…"
+msgstr "جارٍ تحميل لوحة التحكم…"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__account_id
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_transactions
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_account_form
+msgid "Compte"
+msgstr "الحساب"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__account_id
+msgid "Compte associé"
+msgstr "الحساب المرتبط"
+
+#. module: mes_comptes
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_account__account_type__bank
+msgid "Compte bancaire"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__destination_account_id
+msgid "Compte destinataire"
+msgstr "الحساب المستلم"
+
+#. module: mes_comptes
+#: model:ir.model,name:mes_comptes.model_mes_comptes_account
+msgid "Compte personnel"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__source_account_id
+msgid "Compte source"
+msgstr "الحساب المصدر"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt_payment__account_id
+msgid "Compte utilisé"
+msgstr "الحساب المستخدم"
+
+#. module: mes_comptes
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_accounts
+msgid "Comptes"
+msgstr "الحسابات"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_category__color
+msgid "Couleur"
+msgstr "اللون"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__create_uid
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__create_uid
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_category__create_uid
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__create_uid
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt_payment__create_uid
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__create_uid
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__create_date
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__create_date
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_category__create_date
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__create_date
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt_payment__create_date
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__create_date
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Créez un compte pour commencer."
+msgstr "أنشئ حسابًا للبدء."
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__currency_id
+msgid "Currency"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__date
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt_payment__date
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__date
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__date
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_transactions
+msgid "Date"
+msgstr "التاريخ"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__due_date
+msgid "Date d'échéance"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt_payment__debt_id
+msgid "Debt"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Dernières opérations du mois"
+msgstr "آخر عمليات الشهر"
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_debt_form
+msgid "Dette / créance"
+msgstr "دين / مستحق"
+
+#. module: mes_comptes
+#: model:ir.model,name:mes_comptes.model_mes_comptes_debt
+msgid "Dette ou créance"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.actions.act_window,name:mes_comptes.action_mes_debts
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_debts
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_debt_list
+msgid "Dettes et créances"
+msgstr "الديون والمستحقات"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__currency_id
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__currency_id
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt_payment__currency_id
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__currency_id
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__currency_id
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__destination_currency_id
+msgid "Devise"
+msgstr "العملة"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__display_name
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__display_name
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_category__display_name
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_dashboard__display_name
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__display_name
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt_payment__display_name
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__display_name
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__remaining_amount
+msgid "Disponible"
+msgstr "المتبقي"
+
+#. module: mes_comptes
+#: model:ir.model,name:mes_comptes.model_mes_comptes_dashboard
+msgid "Données du tableau de bord Mes Comptes"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__date_start
+msgid "Du"
+msgstr "من"
+
+#. module: mes_comptes
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_category__transaction_type__expense
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_transaction__transaction_type__expense
+msgid "Dépense"
+msgstr "مصروف"
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+#: model:ir.actions.act_window,name:mes_comptes.action_mes_expense
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_expense
+msgid "Dépenses"
+msgstr "المصروفات"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__spent_amount
+msgid "Dépensé"
+msgstr "المبلغ المنفق"
+
+#. module: mes_comptes
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_debt__state__open
+msgid "En cours"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_account__account_type__cash
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_transaction__payment_method__cash
+msgid "Espèces"
+msgstr ""
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_account_form
+msgid "Ex. Compte courant"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__id
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__id
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_category__id
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_dashboard__id
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__id
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt_payment__id
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__id
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__id
+msgid "ID"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/js/dashboard.js:0
+msgid "Impossible de charger les données du tableau de bord."
+msgstr "تعذر تحميل بيانات لوحة التحكم."
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/models/transaction.py:0
+msgid "La catégorie doit correspondre à la nature de l'opération."
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/models/budget.py:0
+msgid "La date de fin doit être postérieure à la date de début."
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__write_uid
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__write_uid
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_category__write_uid
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__write_uid
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt_payment__write_uid
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__write_uid
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__write_date
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__write_date
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_category__write_date
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__write_date
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt_payment__write_date
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__write_date
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/models/debt.py:0
+msgid "Le compte de règlement doit utiliser la même devise que la dette ou créance."
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/models/debt.py:0
+#: code:addons/mes_comptes/models/transaction.py:0
+#: code:addons/mes_comptes/models/transfer.py:0
+msgid "Le montant doit être strictement positif."
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/models/budget.py:0
+msgid "Le montant prévu doit être strictement positif."
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/models/transfer.py:0
+msgid "Le solde du compte source est insuffisant."
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/models/account.py:0
+msgid "Le solde initial ne peut pas être négatif."
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/models/transfer.py:0
+msgid "Le taux de change doit être strictement positif."
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/models/transfer.py:0
+msgid "Le taux doit être égal à 1 lorsque les devises sont identiques."
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/models/debt.py:0
+msgid "Le total des règlements dépasse le montant initial."
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/models/transfer.py:0
+msgid "Les deux comptes doivent être différents."
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__name
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__name
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_transactions
+msgid "Libellé"
+msgstr "الوصف"
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_transaction_form
+msgid "Libellé de l'opération"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_comptes_root
+#: model:res.groups.privilege,name:mes_comptes.privilege_mes_comptes
+msgid "Mes Comptes"
+msgstr "حساباتي"
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+#: model:ir.actions.act_window,name:mes_comptes.action_mes_accounts
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_account_list
+msgid "Mes comptes"
+msgstr "حساباتي"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__payment_method
+msgid "Mode de paiement"
+msgstr "طريقة الدفع"
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_transactions
+msgid "Montant"
+msgstr "المبلغ"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__destination_amount
+msgid "Montant crédité"
+msgstr "المبلغ المضاف"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__amount
+msgid "Montant débité"
+msgstr "المبلغ المخصوم"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__amount
+msgid "Montant initial"
+msgstr "المبلغ الأصلي"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__planned_amount
+msgid "Montant prévu"
+msgstr "المبلغ المخطط"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__paid_amount
+msgid "Montant réglé"
+msgstr "المبلغ المسدد"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_category__name
+msgid "Name"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__transaction_type
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_transactions
+msgid "Nature"
+msgstr "النوع"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__name
+msgid "Nom du budget"
+msgstr "اسم الميزانية"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__name
+msgid "Nom du compte"
+msgstr "اسم الحساب"
+
+#. module: mes_comptes
+#: model:ir.model.fields,help:mes_comptes.field_mes_comptes_transfer__exchange_rate
+msgid "Nombre d'unités de la devise destinataire pour une unité de la devise source."
+msgstr "عدد وحدات عملة الوجهة مقابل وحدة واحدة من عملة المصدر."
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__note
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt_payment__note
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__note
+msgid "Note"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__note
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__note
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_debt_form
+msgid "Notes"
+msgstr "ملاحظات"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__name
+msgid "Objet"
+msgstr "الموضوع"
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_transaction_form
+msgid "Opération"
+msgstr "عملية"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt_payment__transaction_id
+msgid "Opération générée"
+msgstr "العملية المنشأة"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__transaction_ids
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_operations
+msgid "Opérations"
+msgstr "العمليات"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__partner_name
+msgid "Personne / organisme"
+msgstr "الشخص / المؤسسة"
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_transactions
+msgid "Rapport d'opération"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.actions.report,name:mes_comptes.action_report_mes_transactions
+msgid "Rapport des opérations"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_category__transaction_type__income
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_transaction__transaction_type__income
+msgid "Recette"
+msgstr "إيراد"
+
+#. module: mes_comptes
+#: model:ir.model,name:mes_comptes.model_mes_comptes_transaction
+msgid "Recette ou dépense"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+#: model:ir.actions.act_window,name:mes_comptes.action_mes_income
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_income
+msgid "Recettes"
+msgstr "الإيرادات"
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_transaction_list
+msgid "Recettes et dépenses"
+msgstr "الإيرادات والمصروفات"
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/models/debt.py:0
+msgid "Remboursement payé : %s"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/models/debt.py:0
+msgid "Remboursement reçu : %s"
+msgstr ""
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_transaction_form
+msgid "Remettre en brouillon"
+msgstr "إرجاع إلى المسودة"
+
+#. module: mes_comptes
+#: model:res.groups,name:mes_comptes.group_mes_comptes_manager
+msgid "Responsable"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__remaining_amount
+msgid "Reste à régler"
+msgstr "المبلغ المتبقي"
+
+#. module: mes_comptes
+#: model:ir.model,name:mes_comptes.model_mes_comptes_debt_payment
+msgid "Règlement de dette ou créance"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__payment_ids
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_debt_form
+msgid "Règlements"
+msgstr "التسويات"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__code
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__reference
+msgid "Référence"
+msgstr "المرجع"
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Résultat"
+msgstr "الصافي"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__current_balance
+msgid "Solde actuel"
+msgstr "الرصيد الحالي"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__opening_balance
+msgid "Solde initial"
+msgstr "الرصيد الافتتاحي"
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Solde total —"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Soldes par devise"
+msgstr "الأرصدة حسب العملة"
+
+#. module: mes_comptes
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_debt__state__paid
+msgid "Soldée"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_debt__debt_type__borrowed
+msgid "Somme empruntée (dette)"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_debt__debt_type__lent
+msgid "Somme prêtée (créance)"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt_payment__state
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__state
+msgid "State"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__state
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__state
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_transactions
+msgid "Statut"
+msgstr "الحالة"
+
+#. module: mes_comptes
+#: model:ir.actions.client,name:mes_comptes.action_mes_dashboard
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_dashboard
+msgid "Tableau de bord"
+msgstr "لوحة التحكم"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__exchange_rate
+msgid "Taux de change"
+msgstr "سعر الصرف"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__partner_name
+msgid "Tiers"
+msgstr "الطرف المقابل"
+
+#. module: mes_comptes
+#: model:ir.actions.act_window,name:mes_comptes.action_mes_transactions
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_all_transactions
+msgid "Toutes les opérations"
+msgstr "كل العمليات"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_category__transaction_type
+msgid "Transaction Type"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__account_type
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__debt_type
+msgid "Type"
+msgstr "النوع"
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/models/budget.py:0
+msgid "Un budget doit être associé à une catégorie de dépense."
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__user_id
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__user_id
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__user_id
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__user_id
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__user_id
+msgid "User"
+msgstr ""
+
+#. module: mes_comptes
+#: model:res.groups,name:mes_comptes.group_mes_comptes_user
+msgid "Utilisateur"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__usage_percent
+msgid "Utilisation (%)"
+msgstr "نسبة الاستخدام (%)"
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_debt_form
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_transaction_form
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_transfer_form
+msgid "Valider"
+msgstr "تأكيد"
+
+#. module: mes_comptes
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_debt_payment__state__posted
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_transfer__state__posted
+msgid "Validé"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_transaction__state__posted
+msgid "Validée"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/models/transfer.py:0
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_transaction__payment_method__transfer
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_transfer_form
+msgid "Virement"
+msgstr "تحويل"
+
+#. module: mes_comptes
+#: model:ir.model,name:mes_comptes.model_mes_comptes_transfer
+msgid "Virement entre comptes"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.actions.act_window,name:mes_comptes.action_mes_transfers
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_transfers
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_transfer_list
+msgid "Virements"
+msgstr "التحويلات"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__incoming_transfer_ids
+msgid "Virements entrants"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__outgoing_transfer_ids
+msgid "Virements sortants"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Voir les opérations"
+msgstr "عرض العمليات"
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Vue d'ensemble de votre situation financière"
+msgstr "نظرة عامة على وضعك المالي"
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Activité du mois par devise — comparatif avec le mois précédent"
+msgstr "نشاط الشهر حسب العملة — مقارنة بالشهر السابق"
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Comparatif annuel — année en cours et même période précédente"
+msgstr "مقارنة سنوية — السنة الحالية والفترة نفسها من السنة السابقة"
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Évolution mensuelle — 12 derniers mois"
+msgstr "التطور الشهري — آخر 12 شهرًا"
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Cette année"
+msgstr "هذه السنة"
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Année précédente"
+msgstr "السنة السابقة"
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Mois précédent"
+msgstr "الشهر السابق"
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__exchange_rate_manual
+msgid "Taux manuel"
+msgstr "سعر يدوي"
+
+#. module: mes_comptes
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_currency_rates
+#: model:ir.actions.act_window,name:mes_comptes.action_mes_currency_rates
+msgid "Historique des taux"
+msgstr "سجل أسعار الصرف"
+
+#. module: mes_comptes
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_reports
+msgid "Rapports et exports"
+msgstr "التقارير والتصدير"
+
+#. module: mes_comptes
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_financial_report
+#: model:ir.actions.act_window,name:mes_comptes.action_mes_financial_report_wizard
+msgid "Rapport financier PDF"
+msgstr "تقرير مالي PDF"
+
+#. module: mes_comptes
+#: model:ir.actions.report,name:mes_comptes.action_report_mes_financial
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_financial_report_wizard
+msgid "Rapport financier"
+msgstr "تقرير مالي"
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_financial_report_wizard
+msgid "Imprimer le rapport"
+msgstr "طباعة التقرير"
+
+#. module: mes_comptes
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_export_transactions
+msgid "Exporter les opérations"
+msgstr "تصدير العمليات"
+
+#. module: mes_comptes
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_export_accounts
+msgid "Exporter les comptes"
+msgstr "تصدير الحسابات"
+
+#. module: mes_comptes
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_export_budgets
+msgid "Exporter les budgets"
+msgstr "تصدير الميزانيات"
+
+#. module: mes_comptes
+#: model:ir.actions.act_window,name:mes_comptes.action_mes_export_transactions
+msgid "Opérations à exporter"
+msgstr "العمليات المطلوب تصديرها"
+
+#. module: mes_comptes
+#: model:ir.actions.act_window,name:mes_comptes.action_mes_export_accounts
+msgid "Comptes à exporter"
+msgstr "الحسابات المطلوب تصديرها"
+
+#. module: mes_comptes
+#: model:ir.actions.act_window,name:mes_comptes.action_mes_export_budgets
+msgid "Budgets à exporter"
+msgstr "الميزانيات المطلوب تصديرها"
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
+msgid "Période :"
+msgstr "الفترة:"
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
+msgid "Synthèse par devise"
+msgstr "ملخص حسب العملة"
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
+msgid "Détail des opérations"
+msgstr "تفاصيل العمليات"
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
+msgid "Aucune opération validée sur cette période."
+msgstr "لا توجد عمليات مؤكدة خلال هذه الفترة."
+
+#. module: mes_comptes
+#: model:ir.actions.report,name:mes_comptes.action_report_mes_transactions_xlsx
+msgid "Export Excel des opérations"
+msgstr "تصدير العمليات إلى Excel"
+
+#. module: mes_comptes
+#: model:ir.actions.report,name:mes_comptes.action_report_mes_accounts_xlsx
+msgid "Export Excel des comptes"
+msgstr "تصدير الحسابات إلى Excel"
+
+#. module: mes_comptes
+#: model:ir.actions.report,name:mes_comptes.action_report_mes_budgets_xlsx
+msgid "Export Excel des budgets"
+msgstr "تصدير الميزانيات إلى Excel"
+
+#. module: mes_comptes
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
+msgid "Oui"
+msgstr "نعم"
+
+#. module: mes_comptes
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
+msgid "Non"
+msgstr "لا"
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/wizard/financial_report.py:0
+msgid "La date de fin doit être postérieure ou égale à la date de début."
+msgstr "يجب أن يكون تاريخ الانتهاء مساويًا لتاريخ البدء أو لاحقًا له."
+
+#. module: mes_comptes
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_account__account_type__savings
+msgid "Épargne"
+msgstr ""
+
+#~ msgid "Actif"
+#~ msgstr "نشط"
+
+#~ msgid "Date d"
+#~ msgstr "تاريخ"
+
+#~ msgid "Nom"
+#~ msgstr "الاسم"
+
+#~ msgid "Solde total"
+#~ msgstr "إجمالي الرصيد"
+
+#~ msgid "Solde total — "
+#~ msgstr "إجمالي الرصيد — "
+
+#~ msgid "Type de compte"
+#~ msgstr "نوع الحساب"

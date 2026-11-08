@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_agri_financial_transaction" model="ir.sequence">
+        <field name="name">Mouvement financier agricole</field>
+        <field name="code">agriculture.farm.financial.transaction</field>
+        <field name="prefix">FIN/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+    <record id="seq_agri_financial_payment" model="ir.sequence">
+        <field name="name">Règlement financier agricole</field>
+        <field name="code">agriculture.farm.financial.payment</field>
+        <field name="prefix">PAY/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

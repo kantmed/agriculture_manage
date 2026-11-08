@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+<t t-name="mes_comptes.Dashboard" t-translation="on">
+<div class="o_mes_comptes_dashboard p-4">
+
+    <!-- ══ EN-TÊTE ══════════════════════════════════════════════════════════ -->
+    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+        <div>
+            <h1 class="mb-0">Mes Comptes</h1>
+            <p class="text-muted mb-0">Vue d'ensemble de votre situation financière</p>
+        </div>
+        <div class="d-flex align-items-center gap-2 flex-wrap">
+            <!-- Navigateur de mois -->
+            <div class="btn-group" role="group" aria-label="Navigation mensuelle">
+                <button class="btn btn-outline-secondary btn-sm"
+                        t-on-click="() => this.changeMonth(-1)"
+                        title="Mois précédent">‹</button>
+                <button class="btn btn-outline-secondary btn-sm o_mc_month_label"
+                        disabled="disabled">
+                    <t t-out="this.state.data ? this.currentMonthLabel || 'Actuel' : '…'"/>
+                </button>
+                <button class="btn btn-outline-secondary btn-sm"
+                        t-on-click="() => this.changeMonth(1)"
+                        title="Mois suivant">›</button>
+                <button class="btn btn-outline-secondary btn-sm"
+                        t-on-click="() => this.goToday()"
+                        title="Revenir au mois courant">⟲</button>
+            </div>
+            <button class="btn btn-primary btn-sm" t-on-click="openTransactions">
+                Voir les opérations
+            </button>
+        </div>
+    </div>
+
+    <!-- ══ ÉTATS ════════════════════════════════════════════════════════════ -->
+    <t t-if="this.state.loading">
+        <div class="text-center p-5 text-muted">
+            <div class="spinner-border spinner-border-sm me-2" role="status"/>
+            Chargement…
+        </div>
+    </t>
+    <t t-elif="this.state.error">
+        <div class="alert alert-warning" t-out="this.state.error"/>
+    </t>
+
+    <t t-elif="this.state.data">
+
+        <!-- ── SOLDES PAR DEVISE (toujours visible) ───────────────────────── -->
+        <h5 class="o_mc_section_title">Soldes par devise</h5>
+        <div class="row g-3 mb-3">
+            <t t-foreach="this.state.data.balance_by_currency" t-as="item" t-key="item.currency_id">
+                <div class="col-12 col-sm-6 col-xl-3">
+                    <div class="card o_mc_kpi h-100">
+                        <div class="card-body">
+                            <div class="text-muted small">Solde total — <t t-out="item.currency_name"/></div>
+                            <div class="o_mc_value" t-out="this.format(item.balance, item.currency_id)"/>
+                        </div>
+                    </div>
+                </div>
+            </t>
+            <t t-if="!this.state.data.balance_by_currency.length">
+                <div class="col-12 text-muted">Créez un compte pour commencer.</div>
+            </t>
+        </div>
+
+        <!-- ── MES COMPTES + DERNIÈRES OPÉRATIONS (sous les soldes) ─────── -->
+        <div class="row g-3 mb-4">
+            <!-- Mes comptes -->
+            <div class="col-12 col-lg-5">
+                <div class="card h-100">
+                    <div class="card-header fw-bold">Mes comptes</div>
+                    <div class="list-group list-group-flush">
+                        <t t-foreach="this.state.data.accounts" t-as="account" t-key="account.id">
+                            <div class="list-group-item d-flex justify-content-between align-items-center">
+                                <div>
+                                    <div class="fw-semibold" t-out="account.name"/>
+                                    <small class="text-muted" t-out="account.type"/>
+                                </div>
+                                <strong t-out="this.format(account.balance, account.currency_id)"/>
+                            </div>
+                        </t>
+                        <t t-if="!this.state.data.accounts.length">
+                            <div class="p-3 text-muted">Aucun compte enregistré.</div>
+                        </t>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dernières opérations du mois -->
+            <div class="col-12 col-lg-7">
+                <div class="card h-100">
+                    <div class="card-header fw-bold">Dernières opérations du mois</div>
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Libellé</th>
+                                    <th>Nature</th>
+                                    <th class="text-end">Montant</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="this.state.data.recent_transactions" t-as="tx" t-key="tx.id">
+                                    <tr>
+                                        <td t-out="tx.date"/>
+                                        <td t-out="tx.name"/>
+                                        <td>
+                                            <span t-att-class="tx.type === 'income' ? 'badge text-bg-success' : 'badge text-bg-danger'"
+                                                  t-out="this.transactionTypeLabel(tx.type)"/>
+                                        </td>
+                                        <td class="text-end" t-out="this.format(tx.amount, tx.currency_id)"/>
+                                    </tr>
+                                </t>
+                                <t t-if="!this.state.data.recent_transactions.length">
+                                    <tr><td colspan="4" class="text-center text-muted p-3">Aucune opération ce mois-ci.</td></tr>
+                                </t>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══ ONGLETS ═══════════════════════════════════════════════════════ -->
+        <ul class="nav nav-tabs o_mc_tabs mb-3" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button role="tab"
+                        t-att-class="'nav-link' + (this.isTab('vue_generale') ? ' active' : '')"
+                        t-on-click="() => this.setTab('vue_generale')">
+                    Activité du mois
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button role="tab"
+                        t-att-class="'nav-link' + (this.isTab('annuel') ? ' active' : '')"
+                        t-on-click="() => this.setTab('annuel')">
+                    Comparatif annuel
+                </button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button role="tab"
+                        t-att-class="'nav-link' + (this.isTab('evolution') ? ' active' : '')"
+                        t-on-click="() => this.setTab('evolution')">
+                    Évolution 12 mois
+                </button>
+            </li>
+        </ul>
+
+        <!-- ── Onglet 1 : Activité du mois ──────────────────────────────── -->
+        <t t-if="this.isTab('vue_generale')">
+            <div class="row g-3 mb-4">
+                <t t-foreach="this.state.data.monthly_by_currency" t-as="item" t-key="item.currency_id">
+                    <div class="col-12 col-xl-4">
+                        <div class="card h-100">
+                            <div class="card-header fw-bold" t-out="item.currency_name"/>
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">Recettes</span>
+                                    <strong class="text-success" t-out="this.format(item.income, item.currency_id)"/>
+                                </div>
+                                <div class="d-flex justify-content-between small text-muted mb-2">
+                                    <span>Mois précédent</span>
+                                    <span t-out="this.format(item.previous.income, item.currency_id)"/>
+                                </div>
+                                <div class="d-flex justify-content-between mb-2">
+                                    <span class="text-muted">Dépenses</span>
+                                    <strong class="text-danger" t-out="this.format(item.expense, item.currency_id)"/>
+                                </div>
+                                <div class="d-flex justify-content-between small text-muted mb-2">
+                                    <span>Mois précédent</span>
+                                    <span t-out="this.format(item.previous.expense, item.currency_id)"/>
+                                </div>
+                                <hr/>
+                                <div class="d-flex justify-content-between">
+                                    <span>Résultat</span>
+                                    <strong t-out="this.format(item.net, item.currency_id)"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+                <t t-if="!this.state.data.monthly_by_currency.length">
+                    <div class="col-12 text-muted">Aucune opération ce mois-ci.</div>
+                </t>
+            </div>
+        </t>
+
+        <!-- ── Onglet 2 : Comparatif annuel ─────────────────────────────── -->
+        <t t-if="this.isTab('annuel')">
+            <div class="row g-3 mb-4">
+                <t t-foreach="this.state.data.yearly_by_currency" t-as="item" t-key="item.currency_id">
+                    <div class="col-12 col-xl-4">
+                        <div class="card h-100">
+                            <div class="card-header fw-bold" t-out="item.currency_name"/>
+                            <div class="card-body">
+                                <div class="d-flex gap-3 small mb-2">
+                                    <span><i class="o_mc_compare_current"/> Cette année</span>
+                                    <span><i class="o_mc_compare_previous"/> Année précédente</span>
+                                </div>
+                                <t t-foreach="['income', 'expense']" t-as="kind" t-key="kind">
+                                    <div class="mb-3">
+                                        <div class="d-flex justify-content-between">
+                                            <span t-out="this.financialTypeLabel(kind)"/>
+                                            <small>
+                                                <t t-out="this.format(item[kind], item.currency_id)"/> /
+                                                <t t-out="this.format(item.previous[kind], item.currency_id)"/>
+                                            </small>
+                                        </div>
+                                        <div class="o_mc_compare_track">
+                                            <div class="o_mc_compare_current"
+                                                 t-att-style="'width: ' + this.comparisonWidth(item[kind], item)"/>
+                                            <div class="o_mc_compare_previous"
+                                                 t-att-style="'width: ' + this.comparisonWidth(item.previous[kind], item)"/>
+                                        </div>
+                                    </div>
+                                </t>
+                                <div class="d-flex justify-content-between border-top pt-2">
+                                    <span>Résultat</span>
+                                    <strong>
+                                        <t t-out="this.format(item.net, item.currency_id)"/> /
+                                        <t t-out="this.format(item.previous.net, item.currency_id)"/>
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+                <t t-if="!this.state.data.yearly_by_currency.length">
+                    <div class="col-12 text-muted">Aucune donnée annuelle disponible.</div>
+                </t>
+            </div>
+        </t>
+
+        <!-- ── Onglet 3 : Évolution 12 mois ─────────────────────────────── -->
+        <t t-if="this.isTab('evolution')">
+            <div class="row g-3 mb-4">
+                <t t-foreach="this.state.data.charts_by_currency" t-as="chart" t-key="chart.currency_id">
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header fw-bold" t-out="chart.currency_name"/>
+                            <div class="card-body">
+                                <div class="d-flex gap-3 small mb-2">
+                                    <span><i class="o_mc_legend_income"/> Recettes</span>
+                                    <span><i class="o_mc_legend_expense"/> Dépenses</span>
+                                </div>
+                                <div class="o_mc_chart_scroll">
+                                    <div class="o_mc_chart">
+                                        <t t-foreach="chart.monthly_trend" t-as="month" t-key="month.label">
+                                            <div class="o_mc_chart_month"
+                                                 t-att-title="month.label + ' — ' + this.format(month.income, chart.currency_id) + ' / ' + this.format(month.expense, chart.currency_id)">
+                                                <div class="o_mc_chart_bars">
+                                                    <span class="o_mc_bar_income"
+                                                          t-att-style="'height: ' + this.chartHeight(month.income, chart)"/>
+                                                    <span class="o_mc_bar_expense"
+                                                          t-att-style="'height: ' + this.chartHeight(month.expense, chart)"/>
+                                                </div>
+                                                <small t-out="month.label"/>
+                                            </div>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </t>
+            </div>
+        </t>
+
+    </t><!-- /t-elif this.state.data -->
+</div>
+</t>
+</templates>

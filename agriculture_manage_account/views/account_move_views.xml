@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_move_form_agriculture_dimensions" model="ir.ui.view">
+        <field name="name">account.move.form.agriculture.dimensions</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='invoice_date']" position="after">
+                <field name="agriculture_farm_id" invisible="move_type not in ('out_invoice', 'in_invoice', 'out_refund', 'in_refund')"/>
+                <field name="agriculture_campaign_id" invisible="move_type not in ('out_invoice', 'in_invoice', 'out_refund', 'in_refund')"/>
+                <field name="agriculture_plot_id" invisible="move_type not in ('out_invoice', 'in_invoice', 'out_refund', 'in_refund')"/>
+                <field name="agriculture_operation_id" invisible="move_type not in ('out_invoice', 'in_invoice', 'out_refund', 'in_refund')"/>
+                <field name="agriculture_harvest_id" invisible="move_type not in ('out_invoice', 'in_invoice', 'out_refund', 'in_refund')"/>
+                <field name="agriculture_budget_id" invisible="move_type not in ('in_invoice', 'in_refund')" domain="[('company_id', '=', company_id)]"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

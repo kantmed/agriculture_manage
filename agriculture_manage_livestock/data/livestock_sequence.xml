@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo><data noupdate="1">
+<record id="seq_livestock_location" model="ir.sequence"><field name="name">Emplacement d'élevage</field><field name="code">agriculture.livestock.location</field><field name="prefix">EL-%(year)s-</field><field name="padding">5</field></record>
+<record id="seq_livestock_herd" model="ir.sequence"><field name="name">Lot d'élevage</field><field name="code">agriculture.livestock.herd</field><field name="prefix">LOT-%(year)s-</field><field name="padding">5</field></record>
+<record id="seq_livestock_animal" model="ir.sequence"><field name="name">Animal</field><field name="code">agriculture.livestock.animal</field><field name="prefix">ANI-%(year)s-</field><field name="padding">6</field></record>
+<record id="seq_livestock_movement" model="ir.sequence"><field name="name">Mouvement de cheptel</field><field name="code">agriculture.livestock.movement</field><field name="prefix">MVT-%(year)s-</field><field name="padding">6</field></record>
+</data></odoo>

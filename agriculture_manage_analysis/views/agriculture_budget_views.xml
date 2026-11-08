@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_agriculture_crop_budget_list" model="ir.ui.view">
+        <field name="name">agriculture.farm.crop.budget.list</field>
+        <field name="model">agriculture.farm.crop.budget</field>
+        <field name="arch" type="xml">
+            <list string="Budgets agricoles"
+                  decoration-danger="is_over_budget"
+                  decoration-muted="state in ('cancelled',)">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="campaign_id"/>
+                <field name="farm_id"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="state"/>
+                <field name="budget_total" sum="Budget total"/>
+                <field name="actual_total" sum="Dépenses réelles"/>
+                <field name="remaining_total" sum="Budget restant"/>
+                <field name="consumption_rate" widget="percentage"/>
+                <field name="is_over_budget" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_agriculture_crop_budget_search" model="ir.ui.view">
+        <field name="name">agriculture.farm.crop.budget.search</field>
+        <field name="model">agriculture.farm.crop.budget</field>
+        <field name="arch" type="xml">
+            <search string="Rechercher un budget">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="campaign_id"/>
+                <field name="farm_id"/>
+                <filter name="filter_draft" string="Brouillons" domain="[('state','=','draft')]"/>
+                <filter name="filter_confirmed" string="Confirmés" domain="[('state','=','confirmed')]"/>
+                <filter name="filter_over_budget" string="Budgets dépassés" domain="[('is_over_budget','=',True)]"/>
+                <group>
+                    <filter name="group_farm" string="Exploitation" context="{'group_by':'farm_id'}"/>
+                    <filter name="group_campaign" string="Campagne" context="{'group_by':'campaign_id'}"/>
+                    <filter name="group_state" string="État" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_agriculture_crop_budget_form" model="ir.ui.view">
+        <field name="name">agriculture.farm.crop.budget.form</field>
+        <field name="model">agriculture.farm.crop.budget</field>
+        <field name="arch" type="xml">
+            <form string="Budget agricole">
+                <header>
+                    <button name="action_confirm" type="object" string="Confirmer"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_close" type="object" string="Clôturer"
+                            invisible="state != 'confirmed'"/>
+                    <button name="action_set_draft" type="object" string="Remettre en brouillon"
+                            invisible="state not in ('confirmed','cancelled')"/>
+                    <button name="action_cancel" type="object" string="Annuler"
+                            invisible="state in ('closed','cancelled')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,closed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_campaign" type="object" class="oe_stat_button"
+                                icon="fa-leaf">
+                            <div class="o_stat_info"><span class="o_stat_text">Campagne</span></div>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name" placeholder="Ex. Budget campagne céréalière 2026"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code" readonly="1"/>
+                            <field name="campaign_id" domain="[('company_id', 'in', allowed_company_ids)]"
+                                   readonly="state != 'draft'"/>
+                            <field name="farm_id" readonly="1"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="currency_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="date_start" readonly="state != 'draft'"/>
+                            <field name="date_end" readonly="state != 'draft'"/>
+                        </group>
+                    </group>
+                    <group string="Synthèse budgétaire">
+                        <group>
+                            <field name="budget_total"/>
+                            <field name="actual_total"/>
+                            <field name="variance_total"/>
+                        </group>
+                        <group>
+                            <field name="remaining_total"/>
+                            <field name="consumption_rate" widget="percentage"/>
+                            <field name="is_over_budget"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Prévisions">
+                            <field name="line_ids" readonly="state in ('closed','cancelled')">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="name"/>
+                                    <field name="category"/>
+                                    <field name="campaign_plot_id"
+                                           domain="[('campaign_id','=',parent.campaign_id)]"/>
+                                    <field name="planned_amount"/>
+                                    <field name="actual_amount" readonly="1"/>
+                                    <field name="variance_amount" readonly="1"/>
+                                    <field name="remaining_amount" readonly="1"/>
+                                    <field name="consumption_rate" widget="percentage" readonly="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Dépenses complémentaires">
+                            <field name="expense_ids" readonly="state in ('closed','cancelled')">
+                                <list editable="bottom">
+                                    <field name="date"/>
+                                    <field name="name"/>
+                                    <field name="category"/>
+                                    <field name="campaign_plot_id"
+                                           domain="[('campaign_id','=',parent.campaign_id)]"/>
+                                    <field name="partner_id"/>
+                                    <field name="amount"/>
+                                    <field name="state"/>
+                                    <field name="description" optional="hide"/>
+                                    <button name="action_cancel" type="object" icon="fa-times"
+                                            title="Annuler" invisible="state != 'draft'"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_agriculture_crop_budget_line_list" model="ir.ui.view">
+        <field name="name">agriculture.farm.crop.budget.line.list</field>
+        <field name="model">agriculture.farm.crop.budget.line</field>
+        <field name="arch" type="xml">
+            <list string="Détail des budgets">
+                <field name="budget_id"/>
+                <field name="name"/>
+                <field name="category"/>
+                <field name="campaign_plot_id"/>
+                <field name="planned_amount" sum="Prévu"/>
+                <field name="actual_amount" sum="Réel"/>
+                <field name="variance_amount" sum="Écart"/>
+                <field name="remaining_amount" sum="Restant"/>
+                <field name="consumption_rate" widget="percentage"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_agriculture_crop_budget_graph" model="ir.ui.view">
+        <field name="name">agriculture.farm.crop.budget.graph</field>
+        <field name="model">agriculture.farm.crop.budget</field>
+        <field name="arch" type="xml">
+            <graph string="Budgets et dépenses réelles" type="bar">
+                <field name="campaign_id" type="row"/>
+                <field name="budget_total" type="measure"/>
+                <field name="actual_total" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <record id="action_agriculture_crop_budget" model="ir.actions.act_window">
+        <field name="name">Budgets agricoles</field>
+        <field name="res_model">agriculture.farm.crop.budget</field>
+        <field name="view_mode">list,form,graph</field>
+        <field name="search_view_id" ref="view_agriculture_crop_budget_search"/>
+        <field name="context">{'search_default_filter_confirmed': 0}</field>
+    </record>
+
+    <menuitem id="menu_agriculture_crop_budget"
+              name="Budgets agricoles"
+              parent="menu_agriculture_analysis_root"
+              action="action_agriculture_crop_budget"
+              sequence="30"
+              groups="agriculture_manage.group_farm_user"/>
+</odoo>

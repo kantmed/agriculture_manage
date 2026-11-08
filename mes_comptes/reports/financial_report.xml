@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_mes_transactions" model="ir.actions.report">
+        <field name="name">Rapport des opérations</field>
+        <field name="model">mes.comptes.transaction</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mes_comptes.report_transactions</field>
+        <field name="binding_model_id" ref="model_mes_comptes_transaction"/>
+        <field name="binding_type">report</field>
+        <field name="paperformat_id" ref="base.paperformat_euro"/>
+    </record>
+    <template id="report_transactions">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <h2>Rapport des opérations</h2>
+                    <table class="table table-sm table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Libellé</th>
+                                <th>Nature</th>
+                                <th>Compte</th>
+                                <th>Catégorie</th>
+                                <th class="text-end">Montant</th>
+                                <th>Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="docs" t-as="o">
+                                <tr>
+                                    <td><span t-field="o.date"/></td>
+                                    <td><span t-field="o.name"/></td>
+                                    <td><span t-field="o.transaction_type"/></td>
+                                    <td><span t-field="o.account_id"/></td>
+                                    <td><span t-field="o.category_id"/></td>
+                                    <td class="text-end">
+                                        <span t-field="o.amount" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                                    </td>
+                                    <td><span t-field="o.state"/></td>
+                                </tr>
+                            </t>
+                            <tr t-if="not docs">
+                                <td colspan="7" class="text-center">Aucune opération sélectionnée.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+    <record id="action_report_mes_financial" model="ir.actions.report">
+        <field name="name">Rapport financier</field>
+        <field name="model">mes.comptes.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mes_comptes.report_financial</field>
+        <field name="paperformat_id" ref="base.paperformat_euro"/>
+    </record>
+    <record id="action_report_mes_financial_html" model="ir.actions.report">
+        <field name="name">Aperçu rapport financier</field>
+        <field name="model">mes.comptes.report.wizard</field>
+        <field name="report_type">qweb-html</field>
+        <field name="report_name">mes_comptes.report_financial</field>
+    </record>
+    <template id="report_financial">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="wizard">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2>Rapport financier</h2>
+                        <p>
+                            <strong>Période :</strong>
+                            <span t-field="wizard.date_start"/> —
+                            <span t-field="wizard.date_end"/>
+                        </p>
+                        <h3>Synthèse par devise</h3>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr><th>Devise</th><th class="text-end">Recettes</th><th class="text-end">Dépenses</th><th class="text-end">Résultat</th></tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="totals" t-as="row">
+                                    <tr>
+                                        <td t-out="row['currency'].name"/>
+                                        <td class="text-end"><span t-out="row['income']" t-options="{'widget': 'monetary', 'display_currency': row['currency']}"/></td>
+                                        <td class="text-end"><span t-out="row['expense']" t-options="{'widget': 'monetary', 'display_currency': row['currency']}"/></td>
+                                        <td class="text-end"><span t-out="row['net']" t-options="{'widget': 'monetary', 'display_currency': row['currency']}"/></td>
+                                    </tr>
+                                </t>
+                                <tr t-if="not totals"><td colspan="4" class="text-center">Aucune opération validée sur cette période.</td></tr>
+                            </tbody>
+                        </table>
+                        <h3>Détail des opérations</h3>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr><th>Date</th><th>Libellé</th><th>Nature</th><th>Compte</th><th>Catégorie</th><th class="text-end">Montant</th></tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="transactions" t-as="tx">
+                                    <tr>
+                                        <td><span t-field="tx.date"/></td>
+                                        <td><span t-field="tx.name"/></td>
+                                        <td><span t-field="tx.transaction_type"/></td>
+                                        <td><span t-field="tx.account_id"/></td>
+                                        <td><span t-field="tx.category_id"/></td>
+                                        <td class="text-end"><span t-field="tx.amount" t-options="{'widget': 'monetary', 'display_currency': tx.currency_id}"/></td>
+                                    </tr>
+                                </t>
+                                <tr t-if="not transactions"><td colspan="6" class="text-center">Aucune opération validée sur cette période.</td></tr>
+                            </tbody>
+                        </table>
+                        <h3 class="mt-4">Virements</h3>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr><th>Date</th><th>Libellé</th><th>Compte source</th><th>Compte destinataire</th><th class="text-end">Montant débité</th><th class="text-end">Montant crédité</th></tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="transfers" t-as="tr">
+                                    <tr>
+                                        <td><span t-field="tr.date"/></td>
+                                        <td><span t-field="tr.name"/></td>
+                                        <td><span t-field="tr.source_account_id"/></td>
+                                        <td><span t-field="tr.destination_account_id"/></td>
+                                        <td class="text-end"><span t-field="tr.amount" t-options="{'widget': 'monetary', 'display_currency': tr.currency_id}"/></td>
+                                        <td class="text-end"><span t-field="tr.destination_amount" t-options="{'widget': 'monetary', 'display_currency': tr.destination_currency_id}"/></td>
+                                    </tr>
+                                </t>
+                                <tr t-if="not transfers"><td colspan="6" class="text-center">Aucun virement sur cette période.</td></tr>
+                            </tbody>
+                        </table>
+                        <h3 class="mt-4">Règlements de dettes / créances</h3>
+                        <table class="table table-sm">
+                            <thead>
+                                <tr><th>Date</th><th>Dette / créance</th><th>Compte utilisé</th><th class="text-end">Montant</th></tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="debt_payments" t-as="dp">
+                                    <tr>
+                                        <td><span t-field="dp.date"/></td>
+                                        <td><span t-field="dp.debt_id.name"/></td>
+                                        <td><span t-field="dp.account_id"/></td>
+                                        <td class="text-end"><span t-field="dp.amount" t-options="{'widget': 'monetary', 'display_currency': dp.currency_id}"/></td>
+                                    </tr>
+                                </t>
+                                <tr t-if="not debt_payments"><td colspan="4" class="text-center">Aucun règlement sur cette période.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
