@@ -1,0 +1,11 @@
+.agriculture-farm-table {
+    vertical-align: middle;
+}
+
+.agriculture-farm-card {
+    border-radius: 12px;
+}
+
+[dir="rtl"] .agriculture-farm-card {
+    text-align: right;
+}

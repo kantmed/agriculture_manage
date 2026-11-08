@@ -1,9 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="website_agriculture" name="Agriculture">
+    <template id="website_home"
+              name="Agriculture Website Home">
         <t t-call="website.layout">
-            <div class="container">
-                <h1>Bienvenue sur le site agricole</h1>
+            <div id="wrap" class="oe_structure">
+                <section class="container py-5">
+                    <h1 class="text-center">
+                        Agriculture Management
+                    </h1>
+                    <p class="text-center lead">
+                        Plateforme de gestion agricole.
+                    </p>
+                    <div class="text-center mt-4">
+                        <a href="/my/agriculture"
+                           class="btn btn-primary btn-lg">
+                            Accéder à mon espace
+                        </a>
+                    </div>
+                </section>
             </div>
         </t>
     </template>

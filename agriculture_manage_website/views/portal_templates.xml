@@ -1,9 +1,49 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="portal_my_agriculture" name="Mon agriculture">
+    <template id="portal_dashboard"
+              name="Agriculture Portal Dashboard">
         <t t-call="portal.portal_layout">
-            <div class="container">
-                <h2>Mon espace agricole</h2>
+            <div class="container my-4">
+                <h2>Agriculture Management</h2>
+                <p>Bienvenue dans votre espace agricole.</p>
+
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5>Exploitations</h5>
+                                <p>Gestion des exploitations agricoles.</p>
+                                <a href="#" class="btn btn-primary">
+                                    Consulter
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5>Parcelles</h5>
+                                <p>Gestion des parcelles agricoles.</p>
+                                <a href="#" class="btn btn-primary">
+                                    Consulter
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5>Activités</h5>
+                                <p>Suivi des activités agricoles.</p>
+                                <a href="#" class="btn btn-primary">
+                                    Consulter
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </t>
     </template>

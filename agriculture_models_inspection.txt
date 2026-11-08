@@ -1,0 +1,1371 @@
+====================================================================================================
+AGRICULTURE MANAGEMENT - INSPECTION DES MODELES ODOO 20
+Date : 2026-11-08 18:16:11
+====================================================================================================
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.asset.allocation
+NOM : Répartition d'une immobilisation entre exploitations
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+asset_id                       many2one           Immobilisation                      account.asset.asset
+farm_id                        many2one           Exploitation utilisatrice           agriculture.farm
+company_id                     many2one           Company                             res.company
+percentage                     float              Part des coûts (%)                  
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.farm
+NOM : Exploitation agricole
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+activity_ids                   one2many           Activities                          mail.activity
+activity_state                 selection          Activity State                      
+activity_user_id               many2one           Responsible User                    res.users
+activity_type_id               many2one           Next Activity Type                  mail.activity.type
+activity_type_icon             char               Activity Type Icon                  
+activity_date_deadline         date               Next Activity Deadline              
+my_activity_date_deadline      date               My Activity Deadline                
+activity_summary               char               Next Activity Summary               
+activity_exception_decoration  selection          Activity Exception Decoration       
+activity_exception_icon        char               Icon                                
+activity_plans_ids             many2many          Activity Plans                      mail.activity.plan
+activity_calendar_event_id     many2one           Next Activity Calendar Event        calendar.event
+message_is_follower            boolean            Is Follower                         
+message_follower_ids           one2many           Followers                           mail.followers
+message_partner_ids            many2many          Followers (Partners)                res.partner
+message_ids                    one2many           Messages                            mail.message
+has_message                    boolean            Has Message                         
+message_needaction             boolean            Action Needed                       
+message_needaction_counter     integer            Number of Actions                   
+message_has_error              boolean            Message Delivery error              
+message_has_error_counter      integer            Number of errors                    
+message_attachment_count       integer            Attachment Count                    
+rating_ids                     one2many           Ratings                             rating.rating
+message_has_sms_error          boolean            SMS Delivery error                  
+name                           char               Nom de l'exploitation               
+code                           char               Référence                           
+active                         boolean            Active                              
+company_id                     many2one           Société                             res.company
+manager_id                     many2one           Responsable                         res.users
+partner_id                     many2one           Contact                             res.partner
+phone                          char               Téléphone                           
+email                          char               E-mail                              
+street                         char               Adresse                             
+city                           char               Ville                               
+state_id                       many2one           Wilaya                              res.country.state
+country_id                     many2one           Pays                                res.country
+activity_type_ids              many2many          Activités agricoles                 agriculture.farm.activity.type
+site_ids                       one2many           Sites                               agriculture.farm.site
+plot_ids                       one2many           Parcelles                           agriculture.farm.plot
+total_area                     float              Superficie totale (ha)              
+allocated_area                 float              Superficie des parcelles (ha)       
+site_sequence                  integer            Site Sequence                       
+plot_sequence                  integer            Plot Sequence                       
+notes                          html               Observations                        
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+analytic_account_id            many2one           Compte analytique                   account.analytic.account
+project_ids                    one2many           Projets agricoles                   project.project
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.farm.activity.type
+NOM : Type d'activité agricole
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+name                           char               Activité                            
+code                           char               Code                                
+sequence                       integer            Ordre                               
+active                         boolean            Active                              
+description                    text               Description                         
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.farm.crop
+NOM : Culture agricole
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+name                           char               Culture                             
+code                           char               Référence                           
+abbreviation                   char               Abréviation                         
+crop_type_id                   many2one           Type de culture                     agriculture.farm.crop.type
+description                    text               Description                         
+active                         boolean            Active                              
+company_id                     many2one           Société                             res.company
+variety_ids                    one2many           Variétés                            agriculture.farm.crop.variety
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.farm.crop.budget
+NOM : Budget agricole
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+activity_ids                   one2many           Activities                          mail.activity
+activity_state                 selection          Activity State                      
+activity_user_id               many2one           Responsible User                    res.users
+activity_type_id               many2one           Next Activity Type                  mail.activity.type
+activity_type_icon             char               Activity Type Icon                  
+activity_date_deadline         date               Next Activity Deadline              
+my_activity_date_deadline      date               My Activity Deadline                
+activity_summary               char               Next Activity Summary               
+activity_exception_decoration  selection          Activity Exception Decoration       
+activity_exception_icon        char               Icon                                
+activity_plans_ids             many2many          Activity Plans                      mail.activity.plan
+activity_calendar_event_id     many2one           Next Activity Calendar Event        calendar.event
+message_is_follower            boolean            Is Follower                         
+message_follower_ids           one2many           Followers                           mail.followers
+message_partner_ids            many2many          Followers (Partners)                res.partner
+message_ids                    one2many           Messages                            mail.message
+has_message                    boolean            Has Message                         
+message_needaction             boolean            Action Needed                       
+message_needaction_counter     integer            Number of Actions                   
+message_has_error              boolean            Message Delivery error              
+message_has_error_counter      integer            Number of errors                    
+message_attachment_count       integer            Attachment Count                    
+rating_ids                     one2many           Ratings                             rating.rating
+message_has_sms_error          boolean            SMS Delivery error                  
+name                           char               Budget                              
+code                           char               Référence                           
+campaign_id                    many2one           Campagne                            agriculture.farm.crop.campaign
+farm_id                        many2one           Exploitation                        agriculture.farm
+company_id                     many2one           Société                             res.company
+currency_id                    many2one           Currency                            res.currency
+date_start                     date               Début de période                    
+date_end                       date               Fin de période                      
+state                          selection          État                                
+line_ids                       one2many           Prévisions budgétaires              agriculture.farm.crop.budget.line
+expense_ids                    one2many           Dépenses complémentaires            agriculture.farm.crop.budget.expense
+budget_total                   monetary           Budget prévisionnel                 
+actual_total                   monetary           Dépenses réelles                    
+variance_total                 monetary           Écart (réel - prévu)                
+remaining_total                monetary           Budget restant                      
+consumption_rate               float              Consommation (%)                    
+is_over_budget                 boolean            Dépassement                         
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+financial_transaction_ids      one2many           Mouvements financiers liés          agriculture.farm.financial.transaction
+account_move_ids               one2many           Factures comptables liées           account.move
+accounting_expense_total       monetary           Dépenses comptabilisées (factures   
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.farm.crop.budget.expense
+NOM : Dépense complémentaire du budget agricole
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+name                           char               Libellé                             
+budget_id                      many2one           Budget                              agriculture.farm.crop.budget
+date                           date               Date                                
+category                       selection          Catégorie                           
+campaign_plot_id               many2one           Parcelle de campagne                agriculture.farm.crop.campaign.plot
+partner_id                     many2one           Bénéficiaire / fournisseur          res.partner
+amount                         monetary           Montant                             
+currency_id                    many2one           Currency                            res.currency
+state                          selection          État                                
+description                    text               Description                         
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.farm.crop.budget.line
+NOM : Ligne de budget agricole
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+budget_id                      many2one           Budget                              agriculture.farm.crop.budget
+sequence                       integer            Sequence                            
+name                           char               Désignation                         
+category                       selection          Catégorie                           
+campaign_plot_id               many2one           Parcelle de campagne                agriculture.farm.crop.campaign.plot
+plot_id                        many2one           Parcelle                            agriculture.farm.plot
+currency_id                    many2one           Currency                            res.currency
+planned_amount                 monetary           Montant prévu                       
+actual_amount                  monetary           Montant réel                        
+variance_amount                monetary           Écart                               
+remaining_amount               monetary           Restant                             
+consumption_rate               float              Consommation (%)                    
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.farm.crop.campaign
+NOM : Campagne culturale
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+name                           char               Campagne                            
+code                           char               Référence                           
+farm_id                        many2one           Exploitation                        agriculture.farm
+crop_id                        many2one           Culture                             agriculture.farm.crop
+variety_id                     many2one           Variété                             agriculture.farm.crop.variety
+start_date                     date               Date de début                       
+end_date                       date               Date de fin                         
+state                          selection          État                                
+company_id                     many2one           Société                             res.company
+campaign_plot_ids              one2many           Parcelles de la campagne            agriculture.farm.crop.campaign.plot
+operation_ids                  one2many           Opérations                          agriculture.farm.operation
+harvest_ids                    one2many           Récoltes                            agriculture.farm.harvest
+notes                          html               Observations                        
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+analytic_account_id            many2one           Compte analytique de la campagne    account.analytic.account
+analysis_currency_id           many2one           Currency                            res.currency
+analysis_area_ha               float              Surface totale (ha)                 
+analysis_operation_cost        monetary           Coût des travaux                    
+analysis_harvest_quantity      float              Quantité récoltée                   
+analysis_harvest_uom_id        many2one           Unité récoltée                      uom.uom
+analysis_revenue               monetary           Recettes des récoltes               
+analysis_gross_margin          monetary           Marge brute                         
+analysis_cost_per_ha           monetary           Coût par hectare                    
+analysis_margin_per_ha         monetary           Marge par hectare                   
+analysis_cost_per_unit         monetary           Coût par unité récoltée             
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.farm.crop.campaign.plot
+NOM : Parcelle de campagne
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+campaign_id                    many2one           Campagne                            agriculture.farm.crop.campaign
+plot_id                        many2one           Parcelle                            agriculture.farm.plot
+area_ha                        float              Surface (ha)                        
+planting_date                  date               Date de semis/plantation            
+expected_harvest_date          date               Date de récolte prévue              
+state                          selection          État                                
+notes                          text               Notes                               
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+analysis_currency_id           many2one           Currency                            res.currency
+analysis_operation_cost        monetary           Coût des travaux                    
+analysis_harvest_quantity      float              Quantité récoltée                   
+analysis_harvest_uom_id        many2one           Unité récoltée                      uom.uom
+analysis_revenue               monetary           Recettes                            
+analysis_gross_margin          monetary           Marge brute                         
+analysis_cost_per_ha           monetary           Coût par hectare                    
+analysis_margin_per_ha         monetary           Marge par hectare                   
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.farm.crop.type
+NOM : Type de culture
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+name                           char               Type de culture                     
+code                           char               Code                                
+sequence                       integer            Ordre                               
+active                         boolean            Active                              
+description                    text               Description                         
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.farm.crop.variety
+NOM : Variété de culture
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+crop_id                        many2one           Culture                             agriculture.farm.crop
+name                           char               Variété                             
+code                           char               Code                                
+maturity_days                  integer            Cycle (jours)                       
+yield_potential                float              Rendement potentiel (t/ha)          
+notes                          text               Notes                               
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.farm.dashboard
+NOM : Tableau de bord agricole
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+company_name                   char               Société                             
+site_count                     integer            Sites actifs                        
+plot_count                     integer            Parcelles actives                   
+total_area                     float              Superficie totale (ha)              
+cultivated_area                float              Superficie en culture (ha)          
+available_area                 float              Superficie disponible (ha)          
+infrastructure_count           integer            Infrastructures actives             
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.farm.financial.account
+NOM : Compte financier agricole
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+activity_ids                   one2many           Activities                          mail.activity
+activity_state                 selection          Activity State                      
+activity_user_id               many2one           Responsible User                    res.users
+activity_type_id               many2one           Next Activity Type                  mail.activity.type
+activity_type_icon             char               Activity Type Icon                  
+activity_date_deadline         date               Next Activity Deadline              
+my_activity_date_deadline      date               My Activity Deadline                
+activity_summary               char               Next Activity Summary               
+activity_exception_decoration  selection          Activity Exception Decoration       
+activity_exception_icon        char               Icon                                
+activity_plans_ids             many2many          Activity Plans                      mail.activity.plan
+activity_calendar_event_id     many2one           Next Activity Calendar Event        calendar.event
+message_is_follower            boolean            Is Follower                         
+message_follower_ids           one2many           Followers                           mail.followers
+message_partner_ids            many2many          Followers (Partners)                res.partner
+message_ids                    one2many           Messages                            mail.message
+has_message                    boolean            Has Message                         
+message_needaction             boolean            Action Needed                       
+message_needaction_counter     integer            Number of Actions                   
+message_has_error              boolean            Message Delivery error              
+message_has_error_counter      integer            Number of errors                    
+message_attachment_count       integer            Attachment Count                    
+rating_ids                     one2many           Ratings                             rating.rating
+message_has_sms_error          boolean            SMS Delivery error                  
+name                           char               Nom du compte                       
+code                           char               Référence                           
+account_type                   selection          Type                                
+company_id                     many2one           Société                             res.company
+currency_id                    many2one           Devise                              res.currency
+journal_id                     many2one           Journal comptable                   account.journal
+opening_balance                monetary           Solde initial                       
+active                         boolean            Active                              
+payment_ids                    one2many           Règlements                          agriculture.farm.financial.payment
+incoming_transfer_ids          one2many           Virements entrants                  agriculture.farm.financial.transaction
+outgoing_transfer_ids          one2many           Virements sortants                  agriculture.farm.financial.transaction
+balance                        monetary           Solde                               
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.farm.financial.payment
+NOM : Règlement financier agricole
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+name                           char               Référence                           
+transaction_id                 many2one           Mouvement                           agriculture.farm.financial.transaction
+payment_date                   date               Date de règlement                   
+account_id                     many2one           Compte financier                    agriculture.farm.financial.account
+currency_id                    many2one           Devise                              res.currency
+amount                         monetary           Montant réglé                       
+payment_method                 selection          Mode de règlement                   
+state                          selection          État                                
+note                           char               Note                                
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.farm.financial.transaction
+NOM : Mouvement financier agricole
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+activity_ids                   one2many           Activities                          mail.activity
+activity_state                 selection          Activity State                      
+activity_user_id               many2one           Responsible User                    res.users
+activity_type_id               many2one           Next Activity Type                  mail.activity.type
+activity_type_icon             char               Activity Type Icon                  
+activity_date_deadline         date               Next Activity Deadline              
+my_activity_date_deadline      date               My Activity Deadline                
+activity_summary               char               Next Activity Summary               
+activity_exception_decoration  selection          Activity Exception Decoration       
+activity_exception_icon        char               Icon                                
+activity_plans_ids             many2many          Activity Plans                      mail.activity.plan
+activity_calendar_event_id     many2one           Next Activity Calendar Event        calendar.event
+message_is_follower            boolean            Is Follower                         
+message_follower_ids           one2many           Followers                           mail.followers
+message_partner_ids            many2many          Followers (Partners)                res.partner
+message_ids                    one2many           Messages                            mail.message
+has_message                    boolean            Has Message                         
+message_needaction             boolean            Action Needed                       
+message_needaction_counter     integer            Number of Actions                   
+message_has_error              boolean            Message Delivery error              
+message_has_error_counter      integer            Number of errors                    
+message_attachment_count       integer            Attachment Count                    
+rating_ids                     one2many           Ratings                             rating.rating
+message_has_sms_error          boolean            SMS Delivery error                  
+name                           char               Libellé                             
+reference                      char               Référence                           
+transaction_type               selection          Type de mouvement                   
+category                       selection          Catégorie                           
+date                           date               Date                                
+company_id                     many2one           Company                             res.company
+currency_id                    many2one           Devise                              res.currency
+amount                         monetary           Montant                             
+partner_id                     many2one           Client / Fournisseur                res.partner
+product_id                     many2one           Article / Service comptable         product.product
+account_move_id                many2one           Pièce comptable                     account.move
+farm_id                        many2one           Exploitation                        agriculture.farm
+campaign_id                    many2one           Campagne                            agriculture.farm.crop.campaign
+plot_id                        many2one           Parcelle                            agriculture.farm.plot
+operation_id                   many2one           Opération agricole                  agriculture.farm.operation
+harvest_id                     many2one           Récolte                             agriculture.farm.harvest
+budget_id                      many2one           Budget agricole                     agriculture.farm.crop.budget
+account_id                     many2one           Compte financier                    agriculture.farm.financial.account
+destination_account_id         many2one           Compte destinataire                 agriculture.farm.financial.account
+payment_ids                    one2many           Règlements                          agriculture.farm.financial.payment
+paid_amount                    monetary           Montant réglé                       
+residual_amount                monetary           Reste à payer                       
+payment_state                  selection          État du règlement                   
+state                          selection          État                                
+description                    text               Description                         
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+sale_order_id                  many2one           Commande client                     sale.order
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.farm.harvest
+NOM : Récolte
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+name                           char               Récolte                             
+code                           char               Référence                           
+campaign_id                    many2one           Campagne                            agriculture.farm.crop.campaign
+plot_id                        many2one           Parcelle                            agriculture.farm.plot
+harvest_date                   date               Date de récolte                     
+quantity                       float              Quantité                            
+uom_id                         many2one           Unité                               uom.uom
+quality                        selection          Qualité                             
+product_id                     many2one           Produit récolté                     product.product
+location_id                    many2one           Emplacement source                  stock.location
+location_dest_id               many2one           Emplacement de destination          stock.location
+picking_id                     many2one           Transfert de stock                  stock.picking
+state                          selection          État                                
+company_id                     many2one           Société                             res.company
+lot_ids                        one2many           Lots                                agriculture.farm.harvest.lot
+notes                          html               Observations                        
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+analysis_currency_id           many2one           Currency                            res.currency
+sale_unit_price                monetary           Prix de vente unitaire              
+sale_total                     monetary           Recette de la récolte               
+sale_order_ids                 one2many           Commandes clients                   sale.order
+sale_order_count               integer            Sale Order Count                    
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.farm.harvest.lot
+NOM : Lot de récolte
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+harvest_id                     many2one           Récolte                             agriculture.farm.harvest
+name                           char               Lot                                 
+code                           char               Référence                           
+quantity                       float              Quantité                            
+uom_id                         many2one           Unité                               uom.uom
+storage_location               char               Emplacement de stockage             
+quality                        selection          Qualité                             
+notes                          text               Notes                               
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.farm.infrastructure
+NOM : Infrastructure agricole
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+activity_ids                   one2many           Activities                          mail.activity
+activity_state                 selection          Activity State                      
+activity_user_id               many2one           Responsible User                    res.users
+activity_type_id               many2one           Next Activity Type                  mail.activity.type
+activity_type_icon             char               Activity Type Icon                  
+activity_date_deadline         date               Next Activity Deadline              
+my_activity_date_deadline      date               My Activity Deadline                
+activity_summary               char               Next Activity Summary               
+activity_exception_decoration  selection          Activity Exception Decoration       
+activity_exception_icon        char               Icon                                
+activity_plans_ids             many2many          Activity Plans                      mail.activity.plan
+activity_calendar_event_id     many2one           Next Activity Calendar Event        calendar.event
+message_is_follower            boolean            Is Follower                         
+message_follower_ids           one2many           Followers                           mail.followers
+message_partner_ids            many2many          Followers (Partners)                res.partner
+message_ids                    one2many           Messages                            mail.message
+has_message                    boolean            Has Message                         
+message_needaction             boolean            Action Needed                       
+message_needaction_counter     integer            Number of Actions                   
+message_has_error              boolean            Message Delivery error              
+message_has_error_counter      integer            Number of errors                    
+message_attachment_count       integer            Attachment Count                    
+rating_ids                     one2many           Ratings                             rating.rating
+message_has_sms_error          boolean            SMS Delivery error                  
+name                           char               Nom de l'infrastructure             
+code                           char               Référence                           
+active                         boolean            Active                              
+farm_id                        many2one           Exploitation                        agriculture.farm
+site_id                        many2one           Site                                agriculture.farm.site
+company_id                     many2one           Société                             res.company
+infrastructure_type            selection          Type d'infrastructure               
+construction_date              date               Date de construction                
+area                           float              Surface (m²)                        
+capacity                       float              Capacité                            
+capacity_unit                  char               Unité de capacité                   
+condition                      selection          État                                
+description                    html               Description                         
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.farm.irrigation.type
+NOM : Type d'irrigation
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+name                           char               Type d'irrigation                   
+code                           char               Code                                
+sequence                       integer            Ordre                               
+active                         boolean            Active                              
+description                    text               Description                         
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.farm.operation
+NOM : Opération culturale
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+name                           char               Opération                           
+code                           char               Référence                           
+campaign_id                    many2one           Campagne                            agriculture.farm.crop.campaign
+plot_id                        many2one           Parcelle                            agriculture.farm.plot
+operation_type                 selection          Type d'opération                    
+date                           date               Date                                
+description                    text               Description                         
+state                          selection          État                                
+location_id                    many2one           Emplacement source                  stock.location
+location_dest_id               many2one           Emplacement destination             stock.location
+picking_id                     many2one           Transfert de stock                  stock.picking
+company_id                     many2one           Société                             res.company
+line_ids                       one2many           Intrants / lignes                   agriculture.farm.operation.line
+notes                          html               Observations                        
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+farm_id                        many2one           Exploitation                        agriculture.farm
+stock_picking_ids              one2many           Sorties de stock                    stock.picking
+stock_picking_count            integer            Stock Picking Count                 
+project_id                     many2one           Projet                              project.project
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.farm.operation.line
+NOM : Ligne d'opération culturale
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+operation_id                   many2one           Opération                           agriculture.farm.operation
+product_id                     many2one           Produit                             product.product
+provider_id                    many2one           Prestataire                         res.partner
+name                           char               Intrant / prestation                
+quantity                       float              Quantité                            
+uom_id                         many2one           Unité                               uom.uom
+cost                           float              Coût                                
+notes                          char               Notes                               
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+consume_stock                  boolean            Consommer du stock                  
+warehouse_id                   many2one           Magasin source                      stock.warehouse
+stock_move_id                  many2one           Mouvement principal                 stock.move
+stock_move_ids                 one2many           Mouvements de stock                 stock.move
+currency_id                    many2one           Devise                              res.currency
+stock_valuation_value          monetary           Valeur valorisée consommée          
+stock_valuation_quantity       float              Quantité valorisée                  
+stock_cost_updated             boolean            Coût actualisé depuis le stock      
+stock_valuation_layer_count    integer            Couches de valorisation             
+analysis_currency_id           many2one           Currency                            res.currency
+analysis_cost                  monetary           Coût réel retenu                    
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.farm.plot
+NOM : Parcelle agricole
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+activity_ids                   one2many           Activities                          mail.activity
+activity_state                 selection          Activity State                      
+activity_user_id               many2one           Responsible User                    res.users
+activity_type_id               many2one           Next Activity Type                  mail.activity.type
+activity_type_icon             char               Activity Type Icon                  
+activity_date_deadline         date               Next Activity Deadline              
+my_activity_date_deadline      date               My Activity Deadline                
+activity_summary               char               Next Activity Summary               
+activity_exception_decoration  selection          Activity Exception Decoration       
+activity_exception_icon        char               Icon                                
+activity_plans_ids             many2many          Activity Plans                      mail.activity.plan
+activity_calendar_event_id     many2one           Next Activity Calendar Event        calendar.event
+message_is_follower            boolean            Is Follower                         
+message_follower_ids           one2many           Followers                           mail.followers
+message_partner_ids            many2many          Followers (Partners)                res.partner
+message_ids                    one2many           Messages                            mail.message
+has_message                    boolean            Has Message                         
+message_needaction             boolean            Action Needed                       
+message_needaction_counter     integer            Number of Actions                   
+message_has_error              boolean            Message Delivery error              
+message_has_error_counter      integer            Number of errors                    
+message_attachment_count       integer            Attachment Count                    
+rating_ids                     one2many           Ratings                             rating.rating
+message_has_sms_error          boolean            SMS Delivery error                  
+name                           char               Nom de la parcelle                  
+code                           char               Référence                           
+active                         boolean            Active                              
+farm_id                        many2one           Exploitation                        agriculture.farm
+site_id                        many2one           Site                                agriculture.farm.site
+area                           float              Superficie                          
+area_unit                      selection          Unité                               
+area_ha                        float              Superficie en hectares              
+soil_type                      selection          Type de sol                         
+irrigation_type_id             many2one           Type d'irrigation                   agriculture.farm.irrigation.type
+state                          selection          État                                
+latitude                       float              Latitude                            
+longitude                      float              Longitude                           
+osm_url                        char               Carte OpenStreetMap                 
+has_coordinates                boolean            Coordonnées GPS renseignées         
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+company_id                     many2one           Société                             res.company
+analytic_account_id            many2one           Compte analytique de la parcelle    account.analytic.account
+project_ids                    many2many          Projets concernés                   project.project
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.farm.site
+NOM : Site agricole
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+activity_ids                   one2many           Activities                          mail.activity
+activity_state                 selection          Activity State                      
+activity_user_id               many2one           Responsible User                    res.users
+activity_type_id               many2one           Next Activity Type                  mail.activity.type
+activity_type_icon             char               Activity Type Icon                  
+activity_date_deadline         date               Next Activity Deadline              
+my_activity_date_deadline      date               My Activity Deadline                
+activity_summary               char               Next Activity Summary               
+activity_exception_decoration  selection          Activity Exception Decoration       
+activity_exception_icon        char               Icon                                
+activity_plans_ids             many2many          Activity Plans                      mail.activity.plan
+activity_calendar_event_id     many2one           Next Activity Calendar Event        calendar.event
+message_is_follower            boolean            Is Follower                         
+message_follower_ids           one2many           Followers                           mail.followers
+message_partner_ids            many2many          Followers (Partners)                res.partner
+message_ids                    one2many           Messages                            mail.message
+has_message                    boolean            Has Message                         
+message_needaction             boolean            Action Needed                       
+message_needaction_counter     integer            Number of Actions                   
+message_has_error              boolean            Message Delivery error              
+message_has_error_counter      integer            Number of errors                    
+message_attachment_count       integer            Attachment Count                    
+rating_ids                     one2many           Ratings                             rating.rating
+message_has_sms_error          boolean            SMS Delivery error                  
+name                           char               Nom du site                         
+code                           char               Référence                           
+active                         boolean            Active                              
+farm_id                        many2one           Exploitation                        agriculture.farm
+company_id                     many2one           Société                             res.company
+site_type                      selection          Type de site                        
+address                        char               Adresse                             
+city                           char               Commune                             
+notes                          html               Observations                        
+has_coordinates                boolean            Coordonnées GPS renseignées         
+latitude                       float              Latitude                            
+longitude                      float              Longitude                           
+osm_url                        char               Carte OpenStreetMap                 
+plot_ids                       one2many           Parcelles                           agriculture.farm.plot
+infrastructure_ids             one2many           Infrastructures                     agriculture.farm.infrastructure
+plot_count                     integer            Nombre de parcelles                 
+infrastructure_count           integer            Nombre d'infrastructures            
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.livestock.animal
+NOM : Animal
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+activity_ids                   one2many           Activities                          mail.activity
+activity_state                 selection          Activity State                      
+activity_user_id               many2one           Responsible User                    res.users
+activity_type_id               many2one           Next Activity Type                  mail.activity.type
+activity_type_icon             char               Activity Type Icon                  
+activity_date_deadline         date               Next Activity Deadline              
+my_activity_date_deadline      date               My Activity Deadline                
+activity_summary               char               Next Activity Summary               
+activity_exception_decoration  selection          Activity Exception Decoration       
+activity_exception_icon        char               Icon                                
+activity_plans_ids             many2many          Activity Plans                      mail.activity.plan
+activity_calendar_event_id     many2one           Next Activity Calendar Event        calendar.event
+message_is_follower            boolean            Is Follower                         
+message_follower_ids           one2many           Followers                           mail.followers
+message_partner_ids            many2many          Followers (Partners)                res.partner
+message_ids                    one2many           Messages                            mail.message
+has_message                    boolean            Has Message                         
+message_needaction             boolean            Action Needed                       
+message_needaction_counter     integer            Number of Actions                   
+message_has_error              boolean            Message Delivery error              
+message_has_error_counter      integer            Number of errors                    
+message_attachment_count       integer            Attachment Count                    
+rating_ids                     one2many           Ratings                             rating.rating
+message_has_sms_error          boolean            SMS Delivery error                  
+name                           char               Nom / Identification                
+code                           char               Numéro interne                      
+identification_number          char               Boucle / Identifiant externe        
+farm_id                        many2one           Farm                                agriculture.farm
+site_id                        many2one           Site                                agriculture.farm.site
+company_id                     many2one           Société                             res.company
+species_id                     many2one           Species                             agriculture.livestock.species
+breed_id                       many2one           Breed                               agriculture.livestock.breed
+herd_id                        many2one           Herd                                agriculture.livestock.herd
+sex                            selection          Sex                                 
+birth_date                     date               Birth Date                          
+entry_date                     date               Entry Date                          
+origin                         selection          Origin                              
+state                          selection          State                               
+current_weight                 float              Current Weight                      
+weight_uom_id                  many2one           Weight Uom                          uom.uom
+weight_ids                     one2many           Weight                              agriculture.livestock.weight
+health_event_ids               one2many           Suivi sanitaire                     agriculture.livestock.health
+mother_id                      many2one           Mère                                agriculture.livestock.animal
+father_id                      many2one           Père                                agriculture.livestock.animal
+reproduction_id                many2one           Cycle de reproduction               agriculture.livestock.reproduction
+offspring_ids                  one2many           Descendance                         agriculture.livestock.animal
+reproduction_ids               one2many           Cycles de reproduction              agriculture.livestock.reproduction
+active                         boolean            Active                              
+notes                          text               Notes                               
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.livestock.breed
+NOM : Race animale
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+name                           char               Race                                
+code                           char               Code                                
+species_id                     many2one           Species                             agriculture.livestock.species
+description                    text               Description                         
+active                         boolean            Active                              
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.livestock.feeding
+NOM : Distribution d'aliments
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+activity_ids                   one2many           Activities                          mail.activity
+activity_state                 selection          Activity State                      
+activity_user_id               many2one           Responsible User                    res.users
+activity_type_id               many2one           Next Activity Type                  mail.activity.type
+activity_type_icon             char               Activity Type Icon                  
+activity_date_deadline         date               Next Activity Deadline              
+my_activity_date_deadline      date               My Activity Deadline                
+activity_summary               char               Next Activity Summary               
+activity_exception_decoration  selection          Activity Exception Decoration       
+activity_exception_icon        char               Icon                                
+activity_plans_ids             many2many          Activity Plans                      mail.activity.plan
+activity_calendar_event_id     many2one           Next Activity Calendar Event        calendar.event
+message_is_follower            boolean            Is Follower                         
+message_follower_ids           one2many           Followers                           mail.followers
+message_partner_ids            many2many          Followers (Partners)                res.partner
+message_ids                    one2many           Messages                            mail.message
+has_message                    boolean            Has Message                         
+message_needaction             boolean            Action Needed                       
+message_needaction_counter     integer            Number of Actions                   
+message_has_error              boolean            Message Delivery error              
+message_has_error_counter      integer            Number of errors                    
+message_attachment_count       integer            Attachment Count                    
+rating_ids                     one2many           Ratings                             rating.rating
+message_has_sms_error          boolean            SMS Delivery error                  
+name                           char               Référence                           
+date                           date               Date de distribution                
+state                          selection          État                                
+animal_id                      many2one           Animal                              agriculture.livestock.animal
+herd_id                        many2one           Lot                                 agriculture.livestock.herd
+farm_id                        many2one           Exploitation                        agriculture.farm
+company_id                     many2one           Company                             res.company
+species_id                     many2one           Species                             agriculture.livestock.species
+headcount                      float              Effectif concerné                   
+feeding_days                   integer            Nombre de jours couverts            
+ration_id                      many2one           Ration                              agriculture.livestock.ration
+warehouse_id                   many2one           Magasin source                      stock.warehouse
+line_ids                       one2many           Aliments distribués                 agriculture.livestock.feeding.line
+stock_picking_ids              many2many          Sorties de stock                    stock.picking
+stock_picking_count            integer            Nombre de transferts                
+notes                          text               Observations                        
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.livestock.feeding.line
+NOM : Ligne de distribution alimentaire
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+feeding_id                     many2one           Feeding                             agriculture.livestock.feeding
+product_id                     many2one           Aliment                             product.product
+quantity                       float              Quantité                            
+uom_id                         many2one           Unité                               uom.uom
+note                           char               Remarque                            
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.livestock.health
+NOM : Événement sanitaire
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+activity_ids                   one2many           Activities                          mail.activity
+activity_state                 selection          Activity State                      
+activity_user_id               many2one           Responsible User                    res.users
+activity_type_id               many2one           Next Activity Type                  mail.activity.type
+activity_type_icon             char               Activity Type Icon                  
+activity_date_deadline         date               Next Activity Deadline              
+my_activity_date_deadline      date               My Activity Deadline                
+activity_summary               char               Next Activity Summary               
+activity_exception_decoration  selection          Activity Exception Decoration       
+activity_exception_icon        char               Icon                                
+activity_plans_ids             many2many          Activity Plans                      mail.activity.plan
+activity_calendar_event_id     many2one           Next Activity Calendar Event        calendar.event
+message_is_follower            boolean            Is Follower                         
+message_follower_ids           one2many           Followers                           mail.followers
+message_partner_ids            many2many          Followers (Partners)                res.partner
+message_ids                    one2many           Messages                            mail.message
+has_message                    boolean            Has Message                         
+message_needaction             boolean            Action Needed                       
+message_needaction_counter     integer            Number of Actions                   
+message_has_error              boolean            Message Delivery error              
+message_has_error_counter      integer            Number of errors                    
+message_attachment_count       integer            Attachment Count                    
+rating_ids                     one2many           Ratings                             rating.rating
+message_has_sms_error          boolean            SMS Delivery error                  
+name                           char               Référence                           
+event_type                     selection          Type d'intervention                 
+state                          selection          État                                
+animal_id                      many2one           Animal                              agriculture.livestock.animal
+herd_id                        many2one           Lot                                 agriculture.livestock.herd
+farm_id                        many2one           Farm                                agriculture.farm
+company_id                     many2one           Company                             res.company
+species_id                     many2one           Species                             agriculture.livestock.species
+date                           date               Date prévue / intervention          
+done_date                      date               Date de réalisation                 
+next_date                      date               Prochain rappel                     
+veterinarian                   char               Vétérinaire / intervenant           
+diagnosis                      text               Diagnostic                          
+symptoms                       text               Symptômes / observations            
+treatment                      text               Protocole / traitement              
+product_id                     many2one           Médicament / vaccin                 product.product
+quantity                       float              Quantité utilisée                   
+product_uom_id                 many2one           Unité                               uom.uom
+dosage                         char               Posologie                           
+cost                           monetary           Coût                                
+currency_id                    many2one           Currency                            res.currency
+meat_withdrawal_days           integer            Délai d'attente viande (jours)      
+milk_withdrawal_days           integer            Délai d'attente lait (jours)        
+meat_withdrawal_end            date               Fin d'attente viande                
+milk_withdrawal_end            date               Fin d'attente lait                  
+notes                          text               Notes                               
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.livestock.herd
+NOM : Lot d'élevage
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+activity_ids                   one2many           Activities                          mail.activity
+activity_state                 selection          Activity State                      
+activity_user_id               many2one           Responsible User                    res.users
+activity_type_id               many2one           Next Activity Type                  mail.activity.type
+activity_type_icon             char               Activity Type Icon                  
+activity_date_deadline         date               Next Activity Deadline              
+my_activity_date_deadline      date               My Activity Deadline                
+activity_summary               char               Next Activity Summary               
+activity_exception_decoration  selection          Activity Exception Decoration       
+activity_exception_icon        char               Icon                                
+activity_plans_ids             many2many          Activity Plans                      mail.activity.plan
+activity_calendar_event_id     many2one           Next Activity Calendar Event        calendar.event
+message_is_follower            boolean            Is Follower                         
+message_follower_ids           one2many           Followers                           mail.followers
+message_partner_ids            many2many          Followers (Partners)                res.partner
+message_ids                    one2many           Messages                            mail.message
+has_message                    boolean            Has Message                         
+message_needaction             boolean            Action Needed                       
+message_needaction_counter     integer            Number of Actions                   
+message_has_error              boolean            Message Delivery error              
+message_has_error_counter      integer            Number of errors                    
+message_attachment_count       integer            Attachment Count                    
+rating_ids                     one2many           Ratings                             rating.rating
+message_has_sms_error          boolean            SMS Delivery error                  
+name                           char               Name                                
+code                           char               Code                                
+farm_id                        many2one           Farm                                agriculture.farm
+site_id                        many2one           Site                                agriculture.farm.site
+company_id                     many2one           Société                             res.company
+species_id                     many2one           Species                             agriculture.livestock.species
+breed_id                       many2one           Breed                               agriculture.livestock.breed
+tracking_mode                  selection          Tracking Mode                       
+purpose                        selection          Purpose                             
+location_id                    many2one           Location                            agriculture.livestock.location
+quantity                       float              Effectif collectif                  
+animal_ids                     one2many           Animal                              agriculture.livestock.animal
+health_event_ids               one2many           Suivi sanitaire                     agriculture.livestock.health
+individual_count               integer            Individual Count                    
+headcount                      float              Headcount                           
+active                         boolean            Active                              
+notes                          text               Notes                               
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.livestock.location
+NOM : Emplacement d'élevage
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+activity_ids                   one2many           Activities                          mail.activity
+activity_state                 selection          Activity State                      
+activity_user_id               many2one           Responsible User                    res.users
+activity_type_id               many2one           Next Activity Type                  mail.activity.type
+activity_type_icon             char               Activity Type Icon                  
+activity_date_deadline         date               Next Activity Deadline              
+my_activity_date_deadline      date               My Activity Deadline                
+activity_summary               char               Next Activity Summary               
+activity_exception_decoration  selection          Activity Exception Decoration       
+activity_exception_icon        char               Icon                                
+activity_plans_ids             many2many          Activity Plans                      mail.activity.plan
+activity_calendar_event_id     many2one           Next Activity Calendar Event        calendar.event
+message_is_follower            boolean            Is Follower                         
+message_follower_ids           one2many           Followers                           mail.followers
+message_partner_ids            many2many          Followers (Partners)                res.partner
+message_ids                    one2many           Messages                            mail.message
+has_message                    boolean            Has Message                         
+message_needaction             boolean            Action Needed                       
+message_needaction_counter     integer            Number of Actions                   
+message_has_error              boolean            Message Delivery error              
+message_has_error_counter      integer            Number of errors                    
+message_attachment_count       integer            Attachment Count                    
+rating_ids                     one2many           Ratings                             rating.rating
+message_has_sms_error          boolean            SMS Delivery error                  
+name                           char               Name                                
+code                           char               Code                                
+farm_id                        many2one           Farm                                agriculture.farm
+site_id                        many2one           Site                                agriculture.farm.site
+company_id                     many2one           Société                             res.company
+location_type                  selection          Location Type                       
+capacity                       float              Capacity                            
+active                         boolean            Active                              
+notes                          text               Notes                               
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.livestock.movement
+NOM : Mouvement de cheptel
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+activity_ids                   one2many           Activities                          mail.activity
+activity_state                 selection          Activity State                      
+activity_user_id               many2one           Responsible User                    res.users
+activity_type_id               many2one           Next Activity Type                  mail.activity.type
+activity_type_icon             char               Activity Type Icon                  
+activity_date_deadline         date               Next Activity Deadline              
+my_activity_date_deadline      date               My Activity Deadline                
+activity_summary               char               Next Activity Summary               
+activity_exception_decoration  selection          Activity Exception Decoration       
+activity_exception_icon        char               Icon                                
+activity_plans_ids             many2many          Activity Plans                      mail.activity.plan
+activity_calendar_event_id     many2one           Next Activity Calendar Event        calendar.event
+message_is_follower            boolean            Is Follower                         
+message_follower_ids           one2many           Followers                           mail.followers
+message_partner_ids            many2many          Followers (Partners)                res.partner
+message_ids                    one2many           Messages                            mail.message
+has_message                    boolean            Has Message                         
+message_needaction             boolean            Action Needed                       
+message_needaction_counter     integer            Number of Actions                   
+message_has_error              boolean            Message Delivery error              
+message_has_error_counter      integer            Number of errors                    
+message_attachment_count       integer            Attachment Count                    
+rating_ids                     one2many           Ratings                             rating.rating
+message_has_sms_error          boolean            SMS Delivery error                  
+name                           char               Name                                
+date                           date               Date                                
+movement_type                  selection          Movement Type                       
+tracking_mode                  selection          Tracking Mode                       
+farm_id                        many2one           Farm                                agriculture.farm
+company_id                     many2one           Société                             res.company
+species_id                     many2one           Species                             agriculture.livestock.species
+animal_id                      many2one           Animal                              agriculture.livestock.animal
+source_herd_id                 many2one           Source Herd                         agriculture.livestock.herd
+destination_herd_id            many2one           Destination Herd                    agriculture.livestock.herd
+quantity                       float              Quantity                            
+state                          selection          State                               
+notes                          text               Notes                               
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.livestock.production
+NOM : Production animale
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+activity_ids                   one2many           Activities                          mail.activity
+activity_state                 selection          Activity State                      
+activity_user_id               many2one           Responsible User                    res.users
+activity_type_id               many2one           Next Activity Type                  mail.activity.type
+activity_type_icon             char               Activity Type Icon                  
+activity_date_deadline         date               Next Activity Deadline              
+my_activity_date_deadline      date               My Activity Deadline                
+activity_summary               char               Next Activity Summary               
+activity_exception_decoration  selection          Activity Exception Decoration       
+activity_exception_icon        char               Icon                                
+activity_plans_ids             many2many          Activity Plans                      mail.activity.plan
+activity_calendar_event_id     many2one           Next Activity Calendar Event        calendar.event
+message_is_follower            boolean            Is Follower                         
+message_follower_ids           one2many           Followers                           mail.followers
+message_partner_ids            many2many          Followers (Partners)                res.partner
+message_ids                    one2many           Messages                            mail.message
+has_message                    boolean            Has Message                         
+message_needaction             boolean            Action Needed                       
+message_needaction_counter     integer            Number of Actions                   
+message_has_error              boolean            Message Delivery error              
+message_has_error_counter      integer            Number of errors                    
+message_attachment_count       integer            Attachment Count                    
+rating_ids                     one2many           Ratings                             rating.rating
+message_has_sms_error          boolean            SMS Delivery error                  
+name                           char               Référence                           
+date                           date               Date de production / collecte       
+production_type                selection          Type de production                  
+animal_id                      many2one           Animal                              agriculture.livestock.animal
+herd_id                        many2one           Lot                                 agriculture.livestock.herd
+farm_id                        many2one           Exploitation                        agriculture.farm
+company_id                     many2one           Société                             res.company
+species_id                     many2one           Espèce                              agriculture.livestock.species
+headcount                      float              Effectif concerné                   
+product_description            char               Produit / variété                   
+quantity                       float              Quantité produite                   
+uom_id                         many2one           Unité de mesure                     uom.uom
+quantity_per_head              float              Quantité par tête                   
+quality                        selection          Qualité                             
+collection_reference           char               Référence de collecte / lot         
+state                          selection          État                                
+recorded_by                    many2one           Enregistré par                      res.users
+notes                          text               Observations                        
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.livestock.ration
+NOM : Ration alimentaire
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+activity_ids                   one2many           Activities                          mail.activity
+activity_state                 selection          Activity State                      
+activity_user_id               many2one           Responsible User                    res.users
+activity_type_id               many2one           Next Activity Type                  mail.activity.type
+activity_type_icon             char               Activity Type Icon                  
+activity_date_deadline         date               Next Activity Deadline              
+my_activity_date_deadline      date               My Activity Deadline                
+activity_summary               char               Next Activity Summary               
+activity_exception_decoration  selection          Activity Exception Decoration       
+activity_exception_icon        char               Icon                                
+activity_plans_ids             many2many          Activity Plans                      mail.activity.plan
+activity_calendar_event_id     many2one           Next Activity Calendar Event        calendar.event
+message_is_follower            boolean            Is Follower                         
+message_follower_ids           one2many           Followers                           mail.followers
+message_partner_ids            many2many          Followers (Partners)                res.partner
+message_ids                    one2many           Messages                            mail.message
+has_message                    boolean            Has Message                         
+message_needaction             boolean            Action Needed                       
+message_needaction_counter     integer            Number of Actions                   
+message_has_error              boolean            Message Delivery error              
+message_has_error_counter      integer            Number of errors                    
+message_attachment_count       integer            Attachment Count                    
+rating_ids                     one2many           Ratings                             rating.rating
+message_has_sms_error          boolean            SMS Delivery error                  
+name                           char               Nom de la ration                    
+active                         boolean            Active                              
+farm_id                        many2one           Exploitation                        agriculture.farm
+company_id                     many2one           Société                             res.company
+species_id                     many2one           Espèce                              agriculture.livestock.species
+purpose                        selection          Objectif                            
+line_ids                       one2many           Composition de la ration            agriculture.livestock.ration.line
+notes                          text               Observations                        
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.livestock.ration.line
+NOM : Ligne de ration alimentaire
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+ration_id                      many2one           Ration                              agriculture.livestock.ration
+sequence                       integer            Sequence                            
+product_id                     many2one           Aliment                             product.product
+quantity_per_head              float              Quantité par tête et par jour       
+uom_id                         many2one           Unité                               uom.uom
+note                           char               Remarque                            
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.livestock.reproduction
+NOM : Cycle de reproduction
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+activity_ids                   one2many           Activities                          mail.activity
+activity_state                 selection          Activity State                      
+activity_user_id               many2one           Responsible User                    res.users
+activity_type_id               many2one           Next Activity Type                  mail.activity.type
+activity_type_icon             char               Activity Type Icon                  
+activity_date_deadline         date               Next Activity Deadline              
+my_activity_date_deadline      date               My Activity Deadline                
+activity_summary               char               Next Activity Summary               
+activity_exception_decoration  selection          Activity Exception Decoration       
+activity_exception_icon        char               Icon                                
+activity_plans_ids             many2many          Activity Plans                      mail.activity.plan
+activity_calendar_event_id     many2one           Next Activity Calendar Event        calendar.event
+message_is_follower            boolean            Is Follower                         
+message_follower_ids           one2many           Followers                           mail.followers
+message_partner_ids            many2many          Followers (Partners)                res.partner
+message_ids                    one2many           Messages                            mail.message
+has_message                    boolean            Has Message                         
+message_needaction             boolean            Action Needed                       
+message_needaction_counter     integer            Number of Actions                   
+message_has_error              boolean            Message Delivery error              
+message_has_error_counter      integer            Number of errors                    
+message_attachment_count       integer            Attachment Count                    
+rating_ids                     one2many           Ratings                             rating.rating
+message_has_sms_error          boolean            SMS Delivery error                  
+name                           char               Référence                           
+female_id                      many2one           Femelle                             agriculture.livestock.animal
+male_id                        many2one           Mâle / père                         agriculture.livestock.animal
+farm_id                        many2one           Farm                                agriculture.farm
+company_id                     many2one           Société                             res.company
+species_id                     many2one           Species                             agriculture.livestock.species
+service_method                 selection          Mode de reproduction                
+service_date                   date               Date de saillie / insémination      
+expected_birth_date            date               Date prévisionnelle de mise bas     
+pregnancy_state                selection          État                                
+pregnancy_check_date           date               Date de confirmation                
+actual_birth_date              date               Date réelle de mise bas             
+offspring_count                integer            Nombre de petits nés                
+offspring_ids                  one2many           Petits enregistrés                  agriculture.livestock.animal
+offspring_total                integer            Petits créés                        
+notes                          text               Observations                        
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.livestock.species
+NOM : Espèce animale
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+name                           char               Name                                
+code                           char               Code                                
+category                       selection          Category                            
+sequence                       integer            Sequence                            
+individual_tracking            boolean            Individual Tracking                 
+batch_tracking                 boolean            Batch Tracking                      
+active                         boolean            Active                              
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : agriculture.livestock.weight
+NOM : Pesée d'un animal
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+animal_id                      many2one           Animal                              agriculture.livestock.animal
+date                           date               Date                                
+weight                         float              Weight                              
+uom_id                         many2one           Uom                                 uom.uom
+notes                          char               Notes                               
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
+
+====================================================================================================
+MODELE TECHNIQUE : ir.actions.act_window_close
+NOM : Fermer la fenêtre d'action
+====================================================================================================
+CHAMP                          TYPE               LIBELLE                             RELATION
+----------------------------------------------------------------------------------------------------
+id                             integer            ID                                  
+display_name                   char               Display Name                        
+name                           char               Action Name                         
+type                           char               Action Type                         
+xml_id                         char               External ID                         
+path                           char               Path to show in the URL             
+help                           html               Action Description                  
+explanation                    text               Explanation                         
+binding_model_id               many2one           Binding Model                       ir.model
+binding_type                   selection          Binding Type                        
+binding_view_types             char               Binding View Types                  
+create_uid                     many2one           Created by                          res.users
+create_date                    datetime           Created on                          
+write_uid                      many2one           Last Updated by                     res.users
+write_date                     datetime           Last Updated on                     
