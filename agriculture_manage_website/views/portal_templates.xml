@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_my_agriculture" name="Mon agriculture">
+        <t t-call="portal.portal_layout">
+            <div class="container">
+                <h2>Mon espace agricole</h2>
+            </div>
+        </t>
+    </template>
+</odoo>

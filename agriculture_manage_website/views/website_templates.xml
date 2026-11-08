@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="website_agriculture" name="Agriculture">
+        <t t-call="website.layout">
+            <div class="container">
+                <h1>Bienvenue sur le site agricole</h1>
+            </div>
+        </t>
+    </template>
+</odoo>

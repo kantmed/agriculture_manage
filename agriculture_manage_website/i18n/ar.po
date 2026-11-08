@@ -1,0 +1,8 @@
+#. module: agriculture_manage_website
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo 20 - agriculture_manage_website\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
