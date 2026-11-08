@@ -38,3 +38,6 @@ access_lfeeding_admin,feeding admin,agriculture.livestock.feeding,agriculture_ma
 access_lfeedingline_user,feeding line user,agriculture.livestock.feeding.line,agriculture_manage.group_farm_user,r,"[('feeding_id.farm_id', 'in', user.farm_ids.ids)]"
 access_lfeedingline_manager,feeding line manager,agriculture.livestock.feeding.line,agriculture_manage.group_farm_manager,crud,"[('feeding_id.company_id', 'in', company_ids)]"
 access_lfeedingline_admin,feeding line admin,agriculture.livestock.feeding.line,agriculture_manage.group_farm_admin,crud,
+access_lproduction_user,production user,agriculture.livestock.production,agriculture_manage.group_farm_user,r,"[('farm_id', 'in', user.farm_ids.ids)]"
+access_lproduction_manager,production manager,agriculture.livestock.production,agriculture_manage.group_farm_manager,crud,"[('company_id', 'in', company_ids)]"
+access_lproduction_admin,production admin,agriculture.livestock.production,agriculture_manage.group_farm_admin,crud,

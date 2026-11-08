@@ -82,3 +82,27 @@ Vérifications réalisées sur l'archive :
 - syntaxe Python, XML et structure des CSV ;
 - cohérence des fichiers déclarés dans le manifeste.
 L'installation, les droits effectifs, les transferts réels et les scénarios multi-sociétés doivent encore être testés sur une base de test Odoo 20 avant mise en production.
+
+
+## Version 20.0.1.4.0 — Suivi de la production animale
+
+Ajouts :
+- enregistrement des productions de lait, œufs, laine, miel, viande et autres productions ;
+- saisie par animal identifié ou par lot collectif ;
+- mémorisation de l'effectif concerné au moment de l'enregistrement ;
+- saisie de la quantité, de l'unité, de la qualité et d'une référence de collecte/lot ;
+- calcul indicatif de la quantité produite par tête ;
+- historique des enregistrements par date, exploitation, espèce et type de production ;
+- validation et annulation contrôlées, avec verrouillage des données après validation.
+
+Périmètre et limites :
+- cette version enregistre les quantités produites ; elle ne crée pas de produit fini ni de mouvement d'entrée en stock ;
+- aucune vente, facture, recette ou écriture comptable n'est générée ;
+- aucun calcul de rendement laitier, ponte, croissance ou qualité réglementaire n'est imposé ;
+- le suivi des périodes de lactation, des cycles de ponte, de la tonte et des abattages détaillés pourra faire l'objet d'évolutions dédiées ;
+- pour « Autre production », la description du produit est obligatoire.
+
+Vérifications réalisées sur l'archive :
+- syntaxe Python, XML et structure CSV ;
+- présence de tous les fichiers déclarés dans le manifeste.
+L'installation, les règles d'accès et les scénarios fonctionnels doivent être testés sur une base de test Odoo 20 avant déploiement.

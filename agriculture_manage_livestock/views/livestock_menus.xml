@@ -7,6 +7,7 @@
 <menuitem id="menu_livestock_rations" name="Rations alimentaires" parent="menu_livestock_root" action="action_lration" sequence="28"/>
 <menuitem id="menu_livestock_feeding" name="Distributions alimentaires" parent="menu_livestock_root" action="action_lfeeding" sequence="29"/>
 <menuitem id="menu_livestock_health" name="Santé animale" parent="menu_livestock_root" action="action_lhealth" sequence="27"/>
+<menuitem id="menu_livestock_production" name="Productions animales" parent="menu_livestock_root" action="action_lproduction" sequence="35"/>
 <menuitem id="menu_livestock_movements" name="Mouvements" parent="menu_livestock_root" action="action_lmovement" sequence="30"/>
 <menuitem id="menu_livestock_weights" name="Pesées" parent="menu_livestock_root" action="action_lweight" sequence="40"/>
 <menuitem id="menu_livestock_locations" name="Emplacements" parent="menu_livestock_root" action="action_llocation" sequence="50"/>
