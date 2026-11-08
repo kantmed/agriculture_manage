@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="activity_list" name="Activités">
+        <t t-call="portal.portal_layout">
+            <div class="container my-4">
+                <div class="d-flex justify-content-between mb-3">
+                    <h2>Types d'activité</h2>
+                    <a href="/my/agriculture/activities/new" class="btn btn-primary">Nouveau type</a>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr><th>Code</th><th>Nom</th><th>Ordre</th><th>Actif</th><th></th></tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="activities" t-as="activity" t-key="activity.id">
+                            <tr>
+                                <td><a t-att-href="'/my/agriculture/activities/%s' % activity.id" t-out="activity.code"/></td>
+                                <td t-out="activity.name"/>
+                                <td t-out="activity.sequence"/>
+                                <td t-out="activity.active"/>
+                                <td>
+                                    <a t-att-href="'/my/agriculture/activities/%s/edit' % activity.id" class="btn btn-sm btn-secondary">Modifier</a>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+                <a href="/my/agriculture" class="btn btn-secondary">Retour</a>
+            </div>
+        </t>
+    </template>
+
+    <template id="activity_form" name="Formulaire activité">
+        <t t-call="portal.portal_layout">
+            <div class="container my-4">
+                <h2 t-if="not activity">Nouveau type d'activité</h2>
+                <h2 t-if="activity">Modifier le type d'activité</h2>
+                <form t-att-action="'/my/agriculture/activities/%s/update' % activity.id if activity else '/my/agriculture/activities/create'" method="post">
+                    <div class="mb-3">
+                        <label>Code</label>
+                        <input type="text" name="code" class="form-control" t-att-value="values.get('code') if values else (activity.code if activity else '')"/>
+                    </div>
+                    <div class="mb-3">
+                        <label>Nom</label>
+                        <input type="text" name="name" class="form-control" t-att-value="values.get('name') if values else (activity.name if activity else '')"/>
+                    </div>
+                    <div class="mb-3">
+                        <label>Ordre</label>
+                        <input type="number" name="sequence" class="form-control" t-att-value="values.get('sequence') if values else (activity.sequence if activity else 10)"/>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" name="active" class="form-check-input" t-att-checked="'checked' if (activity.active if activity else True) else None"/>
+                        <label class="form-check-label">Actif</label>
+                    </div>
+                    <div class="mb-3">
+                        <label>Description</label>
+                        <textarea name="description" class="form-control" t-out="values.get('description') if values else (activity.description if activity else '')"/>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    <a href="/my/agriculture/activities" class="btn btn-secondary">Annuler</a>
+                </form>
+            </div>
+        </t>
+    </template>
+
+    <template id="activity_detail" name="Détail activité">
+        <t t-call="portal.portal_layout">
+            <div class="container my-4">
+                <h2 t-out="activity.name"/>
+                <p>Code : <span t-out="activity.code"/></p>
+                <p>Ordre : <span t-out="activity.sequence"/></p>
+                <p>Actif : <span t-out="activity.active"/></p>
+                <p t-out="activity.description"/>
+                <a t-att-href="'/my/agriculture/activities/%s/edit' % activity.id" class="btn btn-secondary">Modifier</a>
+                <form t-att-action="'/my/agriculture/activities/%s/delete' % activity.id" method="post" style="display:inline">
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                </form>
+                <a href="/my/agriculture/activities" class="btn btn-secondary">Retour</a>
+            </div>
+        </t>
+    </template>
+</odoo>

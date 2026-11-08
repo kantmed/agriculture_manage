@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="plot_list" name="Parcelles">
+        <t t-call="portal.portal_layout">
+            <div class="container my-4">
+                <div class="d-flex justify-content-between mb-3">
+                    <h2>Parcelles agricoles</h2>
+                    <a href="/my/agriculture/plots/new" class="btn btn-primary">Nouvelle parcelle</a>
+                </div>
+                <table class="table">
+                    <thead>
+                        <tr><th>Nom</th><th>Exploitation</th><th>Superficie</th><th>État</th><th></th></tr>
+                    </thead>
+                    <tbody>
+                        <t t-foreach="plots" t-as="plot" t-key="plot.id">
+                            <tr>
+                                <td><a t-att-href="'/my/agriculture/plots/%s' % plot.id" t-out="plot.name"/></td>
+                                <td t-out="plot.farm_id.name"/>
+                                <td t-out="plot.area"/>
+                                <td t-out="plot.state"/>
+                                <td>
+                                    <a t-att-href="'/my/agriculture/plots/%s/edit' % plot.id" class="btn btn-sm btn-secondary">Modifier</a>
+                                </td>
+                            </tr>
+                        </t>
+                    </tbody>
+                </table>
+                <a href="/my/agriculture" class="btn btn-secondary">Retour</a>
+            </div>
+        </t>
+    </template>
+
+    <template id="plot_form" name="Formulaire parcelle">
+        <t t-call="portal.portal_layout">
+            <div class="container my-4">
+                <h2 t-if="not plot">Nouvelle parcelle</h2>
+                <h2 t-if="plot">Modifier la parcelle</h2>
+                <form t-att-action="'/my/agriculture/plots/%s/update' % plot.id if plot else '/my/agriculture/plots/create'" method="post">
+                    <div class="mb-3">
+                        <label>Nom</label>
+                        <input type="text" name="name" class="form-control" t-att-value="values.get('name') if values else (plot.name if plot else '')"/>
+                    </div>
+                    <div class="mb-3">
+                        <label>Exploitation</label>
+                        <select name="farm_id" class="form-control">
+                            <t t-foreach="farms" t-as="farm" t-key="farm.id">
+                                <option t-att-value="farm.id" t-att-selected="'selected' if (values.get('farm_id') if values else (plot.farm_id.id if plot else None)) == farm.id else None" t-out="farm.name"/>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label>Superficie</label>
+                        <input type="number" step="0.01" name="area" class="form-control" t-att-value="values.get('area') if values else (plot.area if plot else 0)"/>
+                    </div>
+                    <div class="mb-3">
+                        <label>Unité</label>
+                        <select name="area_unit" class="form-control">
+                            <option value="ha">ha</option>
+                            <option value="m2">m²</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label>État</label>
+                        <select name="state" class="form-control">
+                            <option value="available">Disponible</option>
+                            <option value="cultivated">En culture</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Enregistrer</button>
+                    <a href="/my/agriculture/plots" class="btn btn-secondary">Annuler</a>
+                </form>
+            </div>
+        </t>
+    </template>
+
+    <template id="plot_detail" name="Détail parcelle">
+        <t t-call="portal.portal_layout">
+            <div class="container my-4">
+                <h2 t-out="plot.name"/>
+                <p>Exploitation : <span t-out="plot.farm_id.name"/></p>
+                <p>Superficie : <span t-out="plot.area"/> <span t-out="plot.area_unit"/></p>
+                <p>État : <span t-out="plot.state"/></p>
+                <a t-att-href="'/my/agriculture/plots/%s/edit' % plot.id" class="btn btn-secondary">Modifier</a>
+                <form t-att-action="'/my/agriculture/plots/%s/delete' % plot.id" method="post" style="display:inline">
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                </form>
+                <a href="/my/agriculture/plots" class="btn btn-secondary">Retour</a>
+            </div>
+        </t>
+    </template>
+</odoo>
