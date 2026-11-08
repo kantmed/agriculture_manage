@@ -11,7 +11,10 @@ class AgricultureWebsite(http.Controller):
         website=True
     )
     def agriculture_home(self, **kwargs):
+        dashboard = request.env[
+            "agriculture.farm.dashboard"
+        ].sudo().create({})
         return request.render(
             'agriculture_manage_website.website_home',
-            {}
+            {'dashboard': dashboard}
         )
