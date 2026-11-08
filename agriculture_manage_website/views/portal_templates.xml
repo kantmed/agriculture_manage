@@ -13,7 +13,7 @@
                             <div class="card-body">
                                 <h5>Exploitations</h5>
                                 <p>Gestion des exploitations agricoles.</p>
-                                <a href="#" class="btn btn-primary">
+                                <a href="/my/agriculture/farms" class="btn btn-primary">
                                     Consulter
                                 </a>
                             </div>
@@ -25,7 +25,7 @@
                             <div class="card-body">
                                 <h5>Parcelles</h5>
                                 <p>Gestion des parcelles agricoles.</p>
-                                <a href="#" class="btn btn-primary">
+                                <a href="/my/agriculture/plots" class="btn btn-primary">
                                     Consulter
                                 </a>
                             </div>
@@ -37,13 +37,42 @@
                             <div class="card-body">
                                 <h5>Activités</h5>
                                 <p>Suivi des activités agricoles.</p>
-                                <a href="#" class="btn btn-primary">
+                                <a href="/my/agriculture/activities" class="btn btn-primary">
                                     Consulter
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+        </t>
+    </template>
+
+
+    <template id="portal_plots" name="Parcelles">
+        <t t-call="portal.portal_layout">
+            <div class="container my-4">
+                <h2>Parcelles agricoles</h2>
+                <ul>
+                    <t t-foreach="plots" t-as="plot" t-key="plot.id">
+                        <li t-out="plot.name"/>
+                    </t>
+                </ul>
+                <a href="/my/agriculture" class="btn btn-secondary">Retour</a>
+            </div>
+        </t>
+    </template>
+
+    <template id="portal_activities" name="Activités">
+        <t t-call="portal.portal_layout">
+            <div class="container my-4">
+                <h2>Types d'activité</h2>
+                <ul>
+                    <t t-foreach="activities" t-as="activity" t-key="activity.id">
+                        <li t-out="activity.name"/>
+                    </t>
+                </ul>
+                <a href="/my/agriculture" class="btn btn-secondary">Retour</a>
             </div>
         </t>
     </template>
