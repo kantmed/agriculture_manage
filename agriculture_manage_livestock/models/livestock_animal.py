@@ -24,6 +24,7 @@ class AgricultureLivestockAnimal(models.Model):
     current_weight = fields.Float(digits=(16, 2))
     weight_uom_id = fields.Many2one("uom.uom", default=lambda self: self.env.ref("uom.product_uom_kgm", raise_if_not_found=False))
     weight_ids = fields.One2many("agriculture.livestock.weight", "animal_id")
+    health_event_ids = fields.One2many("agriculture.livestock.health", "animal_id", string="Suivi sanitaire")
     mother_id = fields.Many2one("agriculture.livestock.animal", string="Mère", ondelete="restrict", index=True)
     father_id = fields.Many2one("agriculture.livestock.animal", string="Père", ondelete="restrict", index=True)
     reproduction_id = fields.Many2one("agriculture.livestock.reproduction", string="Cycle de reproduction", ondelete="restrict", index=True)

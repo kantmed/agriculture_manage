@@ -23,3 +23,6 @@ access_lweight_admin,weight admin,agriculture.livestock.weight,agriculture_manag
 access_lreproduction_user,reproduction user,agriculture.livestock.reproduction,agriculture_manage.group_farm_user,r,"[('farm_id', 'in', user.farm_ids.ids)]"
 access_lreproduction_manager,reproduction manager,agriculture.livestock.reproduction,agriculture_manage.group_farm_manager,crud,"[('company_id', 'in', company_ids)]"
 access_lreproduction_admin,reproduction admin,agriculture.livestock.reproduction,agriculture_manage.group_farm_admin,crud,
+access_lhealth_user,health user,agriculture.livestock.health,agriculture_manage.group_farm_user,r,"[('farm_id', 'in', user.farm_ids.ids)]"
+access_lhealth_manager,health manager,agriculture.livestock.health,agriculture_manage.group_farm_manager,crud,"[('company_id', 'in', company_ids)]"
+access_lhealth_admin,health admin,agriculture.livestock.health,agriculture_manage.group_farm_admin,crud,

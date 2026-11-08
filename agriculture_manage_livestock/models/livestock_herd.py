@@ -22,6 +22,7 @@ class AgricultureLivestockHerd(models.Model):
     location_id = fields.Many2one("agriculture.livestock.location", domain="[('farm_id', '=', farm_id)]", ondelete="restrict")
     quantity = fields.Float(string="Effectif collectif", default=0.0)
     animal_ids = fields.One2many("agriculture.livestock.animal", "herd_id")
+    health_event_ids = fields.One2many("agriculture.livestock.health", "herd_id", string="Suivi sanitaire")
     individual_count = fields.Integer(compute="_compute_counts")
     headcount = fields.Float(compute="_compute_counts", store=True)
     active = fields.Boolean(default=True)

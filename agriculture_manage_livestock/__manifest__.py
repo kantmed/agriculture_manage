@@ -1,8 +1,8 @@
 {
     "name": "Agriculture Management - Livestock",
-    "version": "20.0.1.1.0",
+    "version": "20.0.1.2.0",
     "category": "Agriculture",
-    "summary": "Gestion du cheptel, de la reproduction, des lots et des mouvements d'élevage",
+    "summary": "Gestion du cheptel, de la reproduction, de la santé animale, des lots et des mouvements",
     "description": "Gestion des espèces, races, animaux, lots, emplacements, mouvements, pesées et cycles de reproduction.",
     "author": "Agriculture Management",
     "license": "LGPL-3",
@@ -12,6 +12,7 @@
         "data/livestock_sequence.xml",
         "data/livestock_species_data.xml",
         "views/livestock_views.xml",
+        "views/livestock_health_views.xml",
         "views/livestock_menus.xml"
     ],
     "application": True,

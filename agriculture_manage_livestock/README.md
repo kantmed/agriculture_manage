@@ -33,3 +33,20 @@ Pour une première installation, remplacer `-u` par `-i`.
 
 ### Vérifications
 Les contrôles statiques (syntaxe Python, XML, manifest et structure CSV) ont été effectués. L'installation, les droits effectifs et le scénario complet de reproduction doivent encore être testés sur une base de test Odoo 20 avant déploiement en production.
+
+
+## Version 20.0.1.2.0 — Santé animale
+
+Ajouts :
+- suivi sanitaire individuel ou collectif par lot ;
+- vaccinations, traitements, maladies, déparasitage, visites vétérinaires,
+  quarantaine et interventions ;
+- planification, réalisation et annulation d'un événement ;
+- médicament/vaccin, dosage, quantité, coût et intervenant ;
+- prochain rappel et délais d'attente viande/lait.
+
+Limites connues :
+- aucun mouvement de stock n'est généré automatiquement ;
+- aucun ordre de facturation ou écriture comptable n'est créé ;
+- les délais d'attente sont enregistrés et restent à saisir/valider par l'utilisateur ;
+- les décès restent gérés par les mouvements de cheptel, pas par cet écran sanitaire.

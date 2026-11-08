@@ -6,3 +6,4 @@ from . import livestock_animal
 from . import livestock_movement
 from . import livestock_weight
 from . import livestock_reproduction
+from . import livestock_health
