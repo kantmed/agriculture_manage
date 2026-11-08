@@ -24,6 +24,11 @@ class AgricultureLivestockAnimal(models.Model):
     current_weight = fields.Float(digits=(16, 2))
     weight_uom_id = fields.Many2one("uom.uom", default=lambda self: self.env.ref("uom.product_uom_kgm", raise_if_not_found=False))
     weight_ids = fields.One2many("agriculture.livestock.weight", "animal_id")
+    mother_id = fields.Many2one("agriculture.livestock.animal", string="Mère", ondelete="restrict", index=True)
+    father_id = fields.Many2one("agriculture.livestock.animal", string="Père", ondelete="restrict", index=True)
+    reproduction_id = fields.Many2one("agriculture.livestock.reproduction", string="Cycle de reproduction", ondelete="restrict", index=True)
+    offspring_ids = fields.One2many("agriculture.livestock.animal", "mother_id", string="Descendance")
+    reproduction_ids = fields.One2many("agriculture.livestock.reproduction", "female_id", string="Cycles de reproduction")
     active = fields.Boolean(default=True)
     notes = fields.Text()
 
@@ -34,7 +39,7 @@ class AgricultureLivestockAnimal(models.Model):
                 vals["code"] = self.env["ir.sequence"].next_by_code("agriculture.livestock.animal") or "Nouveau"
         return super().create(vals_list)
 
-    @api.constrains("site_id", "farm_id", "herd_id", "species_id", "breed_id", "birth_date", "entry_date")
+    @api.constrains("site_id", "farm_id", "herd_id", "species_id", "breed_id", "birth_date", "entry_date", "mother_id", "father_id", "reproduction_id")
     def _check_consistency(self):
         for rec in self:
             if rec.site_id and rec.site_id.farm_id != rec.farm_id:
@@ -50,3 +55,16 @@ class AgricultureLivestockAnimal(models.Model):
                 raise ValidationError(_("La date de naissance doit précéder la date d'entrée."))
             if rec.birth_date and rec.birth_date > fields.Date.context_today(rec):
                 raise ValidationError(_("La date de naissance ne peut pas être dans le futur."))
+            if rec in (rec.mother_id | rec.father_id):
+                raise ValidationError(_("Un animal ne peut pas être son propre parent."))
+            for parent in (rec.mother_id, rec.father_id):
+                if parent and (parent.farm_id != rec.farm_id or parent.species_id != rec.species_id):
+                    raise ValidationError(_("Les parents doivent appartenir à la même exploitation et à la même espèce que le petit."))
+            if rec.mother_id and rec.mother_id.sex != "female":
+                raise ValidationError(_("La mère doit être de sexe féminin."))
+            if rec.father_id and rec.father_id.sex != "male":
+                raise ValidationError(_("Le père doit être de sexe masculin."))
+            if rec.mother_id and rec.mother_id == rec.father_id:
+                raise ValidationError(_("Un animal ne peut pas être à la fois la mère et le père."))
+            if rec.reproduction_id and rec.reproduction_id.female_id != rec.mother_id:
+                raise ValidationError(_("La femelle du cycle doit correspondre à la mère de l'animal."))
