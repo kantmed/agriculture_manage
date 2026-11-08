@@ -6,4 +6,11 @@
 <record id="seq_livestock_movement" model="ir.sequence"><field name="name">Mouvement de cheptel</field><field name="code">agriculture.livestock.movement</field><field name="prefix">MVT-%(year)s-</field><field name="padding">6</field></record>
 <record id="seq_livestock_reproduction" model="ir.sequence"><field name="name">Cycle de reproduction</field><field name="code">agriculture.livestock.reproduction</field><field name="prefix">REP-%(year)s-</field><field name="padding">5</field></record>
 <record id="seq_livestock_health" model="ir.sequence"><field name="name">Suivi sanitaire élevage</field><field name="code">agriculture.livestock.health</field><field name="prefix">SAN-%(year)s-</field><field name="padding">5</field></record>
-</data></odoo>
+</data>    <record id="seq_livestock_feeding" model="ir.sequence">
+        <field name="name">Distribution alimentaire</field>
+        <field name="code">agriculture.livestock.feeding</field>
+        <field name="prefix">ALIM/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="company_id" eval="False"/>
+    </record>
+</odoo>

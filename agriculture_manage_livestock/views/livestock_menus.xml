@@ -4,6 +4,8 @@
 <menuitem id="menu_livestock_herd" name="Lots" parent="menu_livestock_root" action="action_lherd" sequence="10"/>
 <menuitem id="menu_livestock_animals" name="Animaux" parent="menu_livestock_root" action="action_lanimal" sequence="20"/>
 <menuitem id="menu_livestock_reproduction" name="Reproduction" parent="menu_livestock_root" action="action_lreproduction" sequence="25"/>
+<menuitem id="menu_livestock_rations" name="Rations alimentaires" parent="menu_livestock_root" action="action_lration" sequence="28"/>
+<menuitem id="menu_livestock_feeding" name="Distributions alimentaires" parent="menu_livestock_root" action="action_lfeeding" sequence="29"/>
 <menuitem id="menu_livestock_health" name="Santé animale" parent="menu_livestock_root" action="action_lhealth" sequence="27"/>
 <menuitem id="menu_livestock_movements" name="Mouvements" parent="menu_livestock_root" action="action_lmovement" sequence="30"/>
 <menuitem id="menu_livestock_weights" name="Pesées" parent="menu_livestock_root" action="action_lweight" sequence="40"/>

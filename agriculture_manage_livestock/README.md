@@ -50,3 +50,35 @@ Limites connues :
 - aucun ordre de facturation ou écriture comptable n'est créé ;
 - les délais d'attente sont enregistrés et restent à saisir/valider par l'utilisateur ;
 - les décès restent gérés par les mouvements de cheptel, pas par cet écran sanitaire.
+
+
+## Version 20.0.1.3.0 — Alimentation animale et consommation de stock
+
+Ajouts :
+- création de rations par exploitation et par espèce ;
+- composition d'une ration en aliments classés dans la catégorie agricole « Aliments pour animaux » ;
+- quantités de ration exprimées par tête et par jour ;
+- préparation d'une distribution pour un animal identifié ou un lot ;
+- calcul des quantités proposées selon l'effectif mémorisé et le nombre de jours couverts ;
+- génération d'un transfert interne Odoo depuis le magasin de l'exploitation vers l'emplacement virtuel de production ;
+- validation physique et réservation du stock laissées au flux standard de l'application Inventaire ;
+- clôture de la distribution après validation de la sortie et contrôle des quantités réellement sorties.
+
+Règles :
+- les aliments doivent être des produits suivis en stock et classés avec `Catégorie agricole = Aliments pour animaux` ;
+- le magasin doit appartenir à la même société et, s'il est affecté à une exploitation, à la même exploitation ;
+- une distribution concerne exactement un animal ou un lot ;
+- la préparation crée un transfert Odoo en brouillon confirmé ; elle ne force jamais la validation du stock ;
+- une distribution terminée ne peut pas être annulée directement. Utiliser un retour de stock ou un mouvement correctif dans Inventaire.
+
+Limites de cette version :
+- pas de calcul nutritionnel (énergie, protéines, minéraux) ni de formulation automatique ;
+- pas de gestion des pâturages ou de l'ingestion au pâturage ;
+- pas de ventilation comptable/analytique spécifique des consommations d'aliments vers le coût de revient du cheptel ;
+- les retours, pertes et écarts de distribution restent gérés par les opérations natives de stock ;
+- les traductions françaises et arabes doivent être complétées dans une phase dédiée.
+
+Vérifications réalisées sur l'archive :
+- syntaxe Python, XML et structure des CSV ;
+- cohérence des fichiers déclarés dans le manifeste.
+L'installation, les droits effectifs, les transferts réels et les scénarios multi-sociétés doivent encore être testés sur une base de test Odoo 20 avant mise en production.
