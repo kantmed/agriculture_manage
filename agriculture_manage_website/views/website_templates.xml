@@ -43,6 +43,62 @@
                             Accéder à mon espace
                         </a>
                     </div>
+                    <div class="row mt-5">
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5>Exploitations</h5>
+                                    <a href="/my/agriculture/farms" class="btn btn-primary btn-sm">Gérer</a>
+                                    <a href="/my/agriculture/farms/new" class="btn btn-outline-primary btn-sm">Nouveau</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5>Parcelles</h5>
+                                    <a href="/my/agriculture/plots" class="btn btn-primary btn-sm">Gérer</a>
+                                    <a href="/my/agriculture/plots/new" class="btn btn-outline-primary btn-sm">Nouveau</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5>Campagnes</h5>
+                                    <a href="/my/agriculture/campaigns" class="btn btn-primary btn-sm">Gérer</a>
+                                    <a href="/my/agriculture/campaigns/new" class="btn btn-outline-primary btn-sm">Nouveau</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5>Sites</h5>
+                                    <a href="/my/agriculture/sites" class="btn btn-primary btn-sm">Gérer</a>
+                                    <a href="/my/agriculture/sites/new" class="btn btn-outline-primary btn-sm">Nouveau</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5>Infrastructures</h5>
+                                    <a href="/my/agriculture/infrastructures" class="btn btn-primary btn-sm">Gérer</a>
+                                    <a href="/my/agriculture/infrastructures/new" class="btn btn-outline-primary btn-sm">Nouveau</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h5>Activités</h5>
+                                    <a href="/my/agriculture/activities" class="btn btn-primary btn-sm">Gérer</a>
+                                    <a href="/my/agriculture/activities/new" class="btn btn-outline-primary btn-sm">Nouveau</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </section>
             </div>
         </t>
