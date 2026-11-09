@@ -179,6 +179,40 @@
                     <div class="col-md-6"><strong>Coût :</strong> <t t-out="maintenance_request.agriculture_intervention_cost"/> <t t-out="maintenance_request.agriculture_currency_id.symbol or ''"/></div>
                     <div class="col-12"><strong>Description :</strong><div t-field="maintenance_request.description"/></div>
                 </div></div></div>
+                <section class="mt-4" aria-labelledby="maintenance-messages-title">
+                    <h3 id="maintenance-messages-title">Échanges avec l'équipe de maintenance</h3>
+                    <div t-if="message_sent" class="alert alert-success" role="status">
+                        Votre message a été transmis à l'équipe de maintenance.
+                    </div>
+                    <div t-if="message_error == 'empty'" class="alert alert-warning" role="alert">
+                        Saisissez un message avant de l'envoyer.
+                    </div>
+                    <div t-if="message_error == 'long'" class="alert alert-warning" role="alert">
+                        Votre message dépasse la limite de 4 000 caractères.
+                    </div>
+                    <div class="list-group mb-3" t-if="messages">
+                        <div t-foreach="messages" t-as="message" class="list-group-item">
+                            <div class="d-flex justify-content-between flex-wrap gap-2">
+                                <strong t-out="message.author_id.name or 'Utilisateur'"/>
+                                <small class="text-muted"><span t-field="message.date"/></small>
+                            </div>
+                            <div class="mt-2" t-out="message.body"/>
+                        </div>
+                    </div>
+                    <p t-else="" class="text-muted">Aucun échange public pour le moment.</p>
+                    <form method="post"
+                          t-att-action="'/my/agriculture/maintenance/requests/%s/message' % maintenance_request.id">
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <label class="form-label" for="maintenance_message">Ajouter un message</label>
+                        <textarea id="maintenance_message" name="message" rows="4"
+                                  maxlength="4000" required="required" class="form-control"
+                                  placeholder="Précisez un détail ou répondez à l'équipe de maintenance..."/>
+                        <button type="submit" class="btn btn-primary mt-2">Envoyer le message</button>
+                    </form>
+                    <p class="text-muted small mt-2">
+                        Seuls les échanges publics sont affichés. Les notes internes de l'équipe restent confidentielles.
+                    </p>
+                </section>
             </div>
         </t>
     </template>

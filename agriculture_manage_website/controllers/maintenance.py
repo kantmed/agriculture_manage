@@ -179,11 +179,61 @@ class AgricultureMaintenancePortal(http.Controller):
                 create_values["schedule_date"] = schedule_date
 
             maintenance_request = request.env["maintenance.request"].sudo().create(create_values)
+            # Subscribe the requester so that public chatter replies can notify them.
+            if request.env.user.partner_id:
+                maintenance_request.message_subscribe(
+                    partner_ids=[request.env.user.partner_id.id]
+                )
             return request.redirect(
                 "/my/agriculture/maintenance/requests/%s?created=1" % maintenance_request.id
             )
         except (ValueError, ValidationError, AccessError, UserError) as error:
             return self._request_form(values=values, error=str(error))
+
+    def _portal_messages(self, maintenance_request):
+        """Return only customer-visible comments; never expose internal notes."""
+        return request.env["mail.message"].sudo().search(
+            [
+                ("model", "=", "maintenance.request"),
+                ("res_id", "=", maintenance_request.id),
+                ("message_type", "=", "comment"),
+                ("subtype_id.internal", "=", False),
+            ],
+            order="date asc, id asc",
+            limit=100,
+        )
+
+    @http.route(
+        "/my/agriculture/maintenance/requests/<int:request_id>/message",
+        type="http", auth="user", website=True, methods=["POST"],
+    )
+    def request_message(self, request_id, **kwargs):
+        maintenance_request = request.env["maintenance.request"].sudo().search(
+            [("id", "=", request_id)] + self._request_domain(), limit=1
+        )
+        if not maintenance_request:
+            return request.not_found()
+
+        body = (request.httprequest.form.get("message") or "").strip()
+        if not body:
+            return request.redirect(
+                "/my/agriculture/maintenance/requests/%s?message_error=empty" % request_id
+            )
+        if len(body) > 4000:
+            return request.redirect(
+                "/my/agriculture/maintenance/requests/%s?message_error=long" % request_id
+            )
+
+        # Post as the portal requester; the message is a public comment, not an internal note.
+        maintenance_request.with_user(request.env.user).sudo().message_post(
+            body=body,
+            message_type="comment",
+            subtype_xmlid="mail.mt_comment",
+            author_id=request.env.user.partner_id.id,
+        )
+        return request.redirect(
+            "/my/agriculture/maintenance/requests/%s?message_sent=1" % request_id
+        )
 
     @http.route(
         "/my/agriculture/maintenance/requests/<int:request_id>",
@@ -200,5 +250,8 @@ class AgricultureMaintenancePortal(http.Controller):
             {
                 "maintenance_request": maintenance_request,
                 "created": kwargs.get("created") == "1",
+                "messages": self._portal_messages(maintenance_request),
+                "message_sent": kwargs.get("message_sent") == "1",
+                "message_error": kwargs.get("message_error") or "",
             },
         )
