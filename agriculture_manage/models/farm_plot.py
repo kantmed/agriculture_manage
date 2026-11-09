@@ -77,6 +77,66 @@ class AgricultureFarmPlot(models.Model):
         string="Type d'irrigation",
     )
 
+    soil_ph = fields.Float(
+        string="pH du sol",
+        digits=(4, 2),
+        tracking=True,
+        help="Valeur mesurée du pH, comprise entre 0 et 14.",
+    )
+
+    soil_fertility = fields.Selection(
+        [
+            ("low", "Faible"),
+            ("medium", "Moyenne"),
+            ("high", "Élevée"),
+            ("unknown", "Non évaluée"),
+        ],
+        string="Fertilité du sol",
+        default="unknown",
+        tracking=True,
+    )
+
+    organic_matter_percent = fields.Float(
+        string="Matière organique (%)",
+        digits=(5, 2),
+        tracking=True,
+    )
+
+    slope_percent = fields.Float(
+        string="Pente (%)",
+        digits=(5, 2),
+        help="Inclinaison moyenne de la parcelle.",
+    )
+
+    soil_analysis_date = fields.Date(string="Date d'analyse du sol")
+    soil_notes = fields.Text(string="Observations sur le sol")
+
+    irrigation_water_source = fields.Selection(
+        [
+            ("well", "Puits"),
+            ("borehole", "Forage"),
+            ("dam", "Barrage / retenue"),
+            ("network", "Réseau d'irrigation"),
+            ("rain", "Eaux pluviales"),
+            ("other", "Autre"),
+        ],
+        string="Source d'eau",
+        tracking=True,
+    )
+
+    water_availability = fields.Selection(
+        [
+            ("reliable", "Régulière"),
+            ("seasonal", "Saisonnière"),
+            ("limited", "Limitée"),
+            ("none", "Indisponible"),
+            ("unknown", "Non renseignée"),
+        ],
+        string="Disponibilité de l'eau",
+        default="unknown",
+        tracking=True,
+    )
+
     state = fields.Selection(
         [
             ("available", "Disponible"),
@@ -176,6 +236,16 @@ class AgricultureFarmPlot(models.Model):
                         "total": plot.farm_id.total_area,
                     }
                 )
+
+    @api.constrains("soil_ph", "organic_matter_percent", "slope_percent")
+    def _check_soil_measurements(self):
+        for plot in self:
+            if plot.soil_ph and not 0 <= plot.soil_ph <= 14:
+                raise ValidationError(_("Le pH du sol doit être compris entre 0 et 14."))
+            if not 0 <= plot.organic_matter_percent <= 100:
+                raise ValidationError(_("Le taux de matière organique doit être compris entre 0 et 100 %."))
+            if not 0 <= plot.slope_percent <= 100:
+                raise ValidationError(_("La pente doit être comprise entre 0 et 100 %."))
 
     @api.constrains("latitude", "longitude", "has_coordinates")
     def _check_coordinates(self):

@@ -11,7 +11,10 @@
                 <field name="site_id"/>
                 <field name="area_ha"/>
                 <field name="soil_type"/>
+                <field name="soil_ph" optional="hide"/>
+                <field name="soil_fertility" optional="hide"/>
                 <field name="irrigation_type_id"/>
+                <field name="irrigation_water_source" optional="hide"/>
                 <field name="state"/>
             </list>
         </field>
@@ -42,11 +45,29 @@
                             <field name="active" invisible="1"/>
                         </group>
                     </group>
-                    <group>
+                    <group string="Caractéristiques du sol">
                         <group>
                             <field name="soil_type"/>
-                            <field name="irrigation_type_id"/>
+                            <field name="soil_ph"/>
+                            <field name="soil_fertility"/>
+                            <field name="organic_matter_percent"/>
                         </group>
+                        <group>
+                            <field name="slope_percent"/>
+                            <field name="soil_analysis_date"/>
+                        </group>
+                        <field name="soil_notes" placeholder="Résultats d'analyse, recommandations et observations..."/>
+                    </group>
+                    <group string="Irrigation et ressource en eau">
+                        <group>
+                            <field name="irrigation_type_id"/>
+                            <field name="irrigation_water_source"/>
+                        </group>
+                        <group>
+                            <field name="water_availability"/>
+                        </group>
+                    </group>
+                    <group>
                         <group string="Coordonnées GPS">
                             <field name="has_coordinates"/>
                             <field name="latitude" invisible="not has_coordinates"/>

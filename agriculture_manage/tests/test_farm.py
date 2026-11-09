@@ -109,6 +109,32 @@ class TestAgricultureFarm(TransactionCase):
         self.assertEqual(site.plot_count, 1)
         self.assertAlmostEqual(site.plot_area, 1.25)
 
+    def test_plot_soil_measurements_are_validated(self):
+        farm = self.env["agriculture.farm"].create(
+            {"name": "Exploitation analyse du sol", "total_area": 2}
+        )
+        plot = self.env["agriculture.farm.plot"].create(
+            {
+                "name": "Parcelle analyse",
+                "farm_id": farm.id,
+                "area": 1,
+                "soil_ph": 6.5,
+                "organic_matter_percent": 2.4,
+                "slope_percent": 5,
+                "soil_fertility": "medium",
+                "irrigation_water_source": "well",
+            }
+        )
+        self.assertEqual(plot.soil_ph, 6.5)
+        self.assertEqual(plot.soil_fertility, "medium")
+
+        with self.assertRaises(ValidationError):
+            plot.write({"soil_ph": 15})
+        with self.assertRaises(ValidationError):
+            plot.write({"organic_matter_percent": 101})
+        with self.assertRaises(ValidationError):
+            plot.write({"slope_percent": -1})
+
     def test_global_area_cannot_be_reduced_below_plot_total(self):
         farm = self.env["agriculture.farm"].create(
             {"name": "Exploitation superficie", "total_area": 1}
