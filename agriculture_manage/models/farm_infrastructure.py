@@ -61,7 +61,39 @@ class AgricultureFarmInfrastructure(models.Model):
 
     construction_date = fields.Date(
         string="Date de construction",
+        tracking=True,
     )
+    responsible_id = fields.Many2one(
+        "res.users",
+        string="Responsable",
+        tracking=True,
+        domain=[("share", "=", False)],
+    )
+    latitude = fields.Float(
+        string="Latitude",
+        digits=(10, 7),
+        help="Coordonnée GPS en degrés décimaux, entre -90 et 90.",
+    )
+    longitude = fields.Float(
+        string="Longitude",
+        digits=(10, 7),
+        help="Coordonnée GPS en degrés décimaux, entre -180 et 180.",
+    )
+    last_maintenance_date = fields.Date(
+        string="Dernière maintenance",
+        tracking=True,
+    )
+    next_maintenance_date = fields.Date(
+        string="Prochaine maintenance",
+        tracking=True,
+    )
+    maintenance_due = fields.Boolean(
+        string="Maintenance à effectuer",
+        compute="_compute_maintenance_due",
+        search="_search_maintenance_due",
+        help="Indique si la prochaine date de maintenance est atteinte ou dépassée.",
+    )
+    maintenance_notes = fields.Text(string="Notes de maintenance")
     area = fields.Float(
         string="Surface (m²)",
     )
@@ -110,6 +142,56 @@ class AgricultureFarmInfrastructure(models.Model):
             ):
                 raise ValidationError(
                     _("Le site doit appartenir à la même exploitation.")
+                )
+
+    @api.depends("next_maintenance_date", "condition")
+    def _compute_maintenance_due(self):
+        today = fields.Date.context_today(self)
+        for infrastructure in self:
+            infrastructure.maintenance_due = bool(
+                infrastructure.next_maintenance_date
+                and infrastructure.next_maintenance_date <= today
+                and infrastructure.condition != "out_of_service"
+            )
+
+    @api.model
+    def _search_maintenance_due(self, operator, value):
+        if operator not in ("=", "!="):
+            raise NotImplementedError("Opérateur non pris en charge pour maintenance_due")
+        today = fields.Date.context_today(self)
+        due_domain = [
+            ("next_maintenance_date", "<=", today),
+            ("condition", "!=", "out_of_service"),
+        ]
+        # Odoo 20 no longer exposes the legacy odoo.osv.expression import.
+        # This prefix domain is the equivalent OR of the three conditions.
+        not_due_domain = [
+            "|", "|",
+            ("next_maintenance_date", "=", False),
+            ("next_maintenance_date", ">", today),
+            ("condition", "=", "out_of_service"),
+        ]
+        is_due = bool(value) if operator == "=" else not bool(value)
+        return due_domain if is_due else not_due_domain
+
+    @api.constrains("latitude", "longitude")
+    def _check_gps_coordinates(self):
+        for infrastructure in self:
+            if infrastructure.latitude and not -90 <= infrastructure.latitude <= 90:
+                raise ValidationError(_("La latitude doit être comprise entre -90 et 90."))
+            if infrastructure.longitude and not -180 <= infrastructure.longitude <= 180:
+                raise ValidationError(_("La longitude doit être comprise entre -180 et 180."))
+
+    @api.constrains("last_maintenance_date", "next_maintenance_date")
+    def _check_maintenance_dates(self):
+        for infrastructure in self:
+            if (
+                infrastructure.last_maintenance_date
+                and infrastructure.next_maintenance_date
+                and infrastructure.next_maintenance_date < infrastructure.last_maintenance_date
+            ):
+                raise ValidationError(
+                    _("La prochaine maintenance ne peut pas précéder la dernière maintenance.")
                 )
 
     @api.constrains("area", "capacity")

@@ -109,6 +109,48 @@ class TestAgricultureFarm(TransactionCase):
         self.assertEqual(site.plot_count, 1)
         self.assertAlmostEqual(site.plot_area, 1.25)
 
+
+    def test_infrastructure_gps_and_maintenance_validation(self):
+        farm = self.env["agriculture.farm"].create(
+            {"name": "Exploitation infrastructure", "total_area": 4}
+        )
+        infrastructure = self.env["agriculture.farm.infrastructure"].create(
+            {
+                "name": "Forage principal",
+                "farm_id": farm.id,
+                "infrastructure_type": "well",
+                "latitude": 32.4912,
+                "longitude": 3.6735,
+                "last_maintenance_date": "2026-01-10",
+                "next_maintenance_date": "2026-12-10",
+            }
+        )
+        self.assertEqual(infrastructure.latitude, 32.4912)
+        self.assertFalse(infrastructure.maintenance_due)
+
+        with self.assertRaises(ValidationError):
+            infrastructure.write({"latitude": 91})
+        with self.assertRaises(ValidationError):
+            infrastructure.write({"longitude": 181})
+        with self.assertRaises(ValidationError):
+            infrastructure.write({"next_maintenance_date": "2025-12-01"})
+
+    def test_infrastructure_maintenance_due_flag(self):
+        farm = self.env["agriculture.farm"].create(
+            {"name": "Exploitation maintenance", "total_area": 4}
+        )
+        infrastructure = self.env["agriculture.farm.infrastructure"].create(
+            {
+                "name": "Réservoir principal",
+                "farm_id": farm.id,
+                "infrastructure_type": "reservoir",
+                "next_maintenance_date": "2020-01-01",
+            }
+        )
+        self.assertTrue(infrastructure.maintenance_due)
+        infrastructure.write({"condition": "out_of_service"})
+        self.assertFalse(infrastructure.maintenance_due)
+
     def test_plot_soil_measurements_are_validated(self):
         farm = self.env["agriculture.farm"].create(
             {"name": "Exploitation analyse du sol", "total_area": 2}

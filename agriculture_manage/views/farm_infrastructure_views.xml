@@ -11,7 +11,10 @@
                 <field name="site_id"/>
                 <field name="infrastructure_type"/>
                 <field name="condition"/>
-                <field name="construction_date"/>
+                <field name="responsible_id" optional="hide"/>
+                <field name="construction_date" optional="hide"/>
+                <field name="next_maintenance_date" optional="show"/>
+                <field name="maintenance_due" optional="show"/>
             </list>
         </field>
     </record>
@@ -38,11 +41,26 @@
                         <group>
                             <field name="construction_date"/>
                             <field name="condition"/>
+                            <field name="responsible_id"/>
                             <field name="area"/>
                             <field name="capacity"/>
                             <field name="capacity_unit"/>
                             <field name="active" invisible="1"/>
                         </group>
+                    </group>
+                    <group string="Localisation GPS">
+                        <field name="latitude"/>
+                        <field name="longitude"/>
+                    </group>
+                    <group string="Maintenance">
+                        <group>
+                            <field name="last_maintenance_date"/>
+                            <field name="next_maintenance_date"/>
+                        </group>
+                        <group>
+                            <field name="maintenance_due" readonly="1"/>
+                        </group>
+                        <field name="maintenance_notes" placeholder="Interventions réalisées, pièces remplacées, observations..."/>
                     </group>
                     <field name="description" placeholder="Description de l'infrastructure..."/>
                 </sheet>
@@ -62,6 +80,7 @@
                 <field name="site_id"/>
                 <filter name="active" string="Actives" domain="[('active', '=', True)]"/>
                 <filter name="inactive" string="Archivées" domain="[('active', '=', False)]"/>
+                <filter name="maintenance_due" string="Maintenance à effectuer" domain="[('maintenance_due', '=', True)]"/>
                     <filter name="group_farm" string="Exploitation" context="{'group_by': 'farm_id'}"/>
                     <filter name="group_type" string="Type" context="{'group_by': 'infrastructure_type'}"/>
                     <filter name="group_condition" string="État" context="{'group_by': 'condition'}"/>
