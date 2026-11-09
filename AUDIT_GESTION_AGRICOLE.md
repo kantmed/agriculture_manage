@@ -26,6 +26,12 @@ Correction :
 - les superficies cultivées et disponibles restent calculées à partir des parcelles actives par état.
 - adaptation du test de tableau de bord pour vérifier les valeurs distinctes.
 
+## Deuxième anomalie corrigée — archivage des parcelles
+
+Le champ calculé `allocated_area` de l'exploitation ne dépendait que de la superficie des parcelles. Lorsqu'une parcelle était archivée ou réactivée, le cumul stocké pouvait donc rester périmé.
+
+Correction : ajout de `plot_ids.active` aux dépendances du calcul, avec un test couvrant l'archivage puis la réactivation d'une parcelle.
+
 ## Vérifications exécutées
 
 - Compilation syntaxique Python (`compileall`) sur le dépôt : réussie.

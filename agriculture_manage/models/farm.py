@@ -100,7 +100,7 @@ class AgricultureFarm(models.Model):
 
     notes = fields.Html(string="Observations")
 
-    @api.depends("plot_ids.area_ha")
+    @api.depends("plot_ids.area_ha", "plot_ids.active")
     def _compute_allocated_area(self):
         for farm in self:
             farm.allocated_area = sum(farm.plot_ids.mapped("area_ha"))

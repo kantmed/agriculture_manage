@@ -57,6 +57,28 @@ class TestAgricultureFarm(TransactionCase):
 
         self.assertAlmostEqual(farm.allocated_area, farm.total_area)
 
+    def test_archiving_plot_recomputes_allocated_area(self):
+        farm = self.env["agriculture.farm"].create(
+            {"name": "Exploitation parcelle archivée", "total_area": 2}
+        )
+        plot = self.env["agriculture.farm.plot"].create(
+            {
+                "name": "Parcelle à archiver",
+                "farm_id": farm.id,
+                "area": 75,
+                "area_unit": "are",
+            }
+        )
+        self.assertAlmostEqual(farm.allocated_area, 0.75)
+
+        plot.write({"active": False})
+        farm.invalidate_recordset(["allocated_area"])
+        self.assertAlmostEqual(farm.allocated_area, 0.0)
+
+        plot.write({"active": True})
+        farm.invalidate_recordset(["allocated_area"])
+        self.assertAlmostEqual(farm.allocated_area, 0.75)
+
     def test_global_area_cannot_be_reduced_below_plot_total(self):
         farm = self.env["agriculture.farm"].create(
             {"name": "Exploitation superficie", "total_area": 1}
