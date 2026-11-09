@@ -7,13 +7,13 @@
                     <h2>Sites agricoles</h2>
                     <a href="/my/agriculture/sites/new" class="btn btn-primary">Nouveau site</a>
                 </div>
-                <div class="card"><div class="card-body"><div class="card"><div class="card-body"><form method="get" action="/my/agriculture/sites" class="mb-3">
+                <form method="get" action="/my/agriculture/sites" class="mb-3">
                     <div class="input-group">
                         <input type="search" name="search" class="form-control"
                                placeholder="Nom du site ou exploitation" t-att-value="search"/>
                         <button class="btn btn-outline-primary" type="submit">Rechercher</button>
                     </div>
-                </form></div></div></div></div>
+                </form>
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">
                         <thead>
@@ -48,12 +48,14 @@
 
     <template id="site_form" name="Formulaire site agricole">
         <t t-call="portal.portal_layout">
-            <div class="container py-4">
+            <div class="o_form_view">
                 <h2 t-if="site">Modifier le site</h2>
                 <h2 t-else="">Nouveau site agricole</h2>
                 <div t-if="error" class="alert alert-danger" role="alert"><t t-out="error"/></div>
                 <form method="post"
                       t-att-action="('/my/agriculture/sites/%s/update' % site.id) if site else '/my/agriculture/sites/create'">
+                   <div class="o_form_sheet_bg">
+                   <div class="o_form_sheet">
                     <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                     <div class="row g-3">
                         <div class="col-md-6">
@@ -126,6 +128,8 @@
                         <button type="submit" class="btn btn-primary">Enregistrer</button>
                         <a href="/my/agriculture/sites" class="btn btn-secondary">Annuler</a>
                     </div>
+                    </div>
+                    </div>         
                 </form>
             </div>
         </t>

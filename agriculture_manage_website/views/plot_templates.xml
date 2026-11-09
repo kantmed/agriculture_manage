@@ -49,36 +49,34 @@
                                 <h1><input type="text" name="name" class="form-control" placeholder="Nom de la parcelle" required="required" t-att-value="values.get('name') if values else (plot.name if plot else '')"/></h1>
                             </div>
                             <div class="o_group">
-                                <table class="o_group_table">
-                                    <tr>
-                                        <td class="o_td_label"><label>Exploitation</label></td>
-                                        <td>
-                                            <select name="farm_id" class="form-select">
-                                                <t t-foreach="farms" t-as="farm" t-key="farm.id">
-                                                    <option t-att-value="farm.id" t-att-selected="'selected' if (values.get('farm_id') if values else (plot.farm_id.id if plot else None)) == farm.id else None" t-out="farm.name"/>
-                                                </t>
-                                            </select>
-                                        </td>
-                                        <td class="o_td_label"><label>Superficie</label></td>
-                                        <td><input type="number" step="0.01" name="area" class="form-control" t-att-value="values.get('area') if values else (plot.area if plot else 0)"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="o_td_label"><label>Unité</label></td>
-                                        <td>
-                                            <select name="area_unit" class="form-select">
-                                                <option value="ha">ha</option>
-                                                <option value="m2">m²</option>
-                                            </select>
-                                        </td>
-                                        <td class="o_td_label"><label>État</label></td>
-                                        <td>
-                                            <select name="state" class="form-select">
-                                                <option value="available">Disponible</option>
-                                                <option value="cultivated">En culture</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </table>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Exploitation</label>
+                                        <select name="farm_id" class="form-select">
+                                            <t t-foreach="farms" t-as="farm" t-key="farm.id">
+                                                <option t-att-value="farm.id" t-att-selected="'selected' if (values.get('farm_id') if values else (plot.farm_id.id if plot else None)) == farm.id else None" t-out="farm.name"/>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Superficie</label>
+                                        <input type="number" step="0.01" name="area" class="form-control" t-att-value="values.get('area') if values else (plot.area if plot else 0)"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Unité</label>
+                                        <select name="area_unit" class="form-select">
+                                            <option value="ha">ha</option>
+                                            <option value="m2">m²</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">État</label>
+                                        <select name="state" class="form-select">
+                                            <option value="available">Disponible</option>
+                                            <option value="cultivated">En culture</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             <div class="o_form_buttons mt-3">
                                 <button type="submit" class="btn btn-primary">Enregistrer</button>

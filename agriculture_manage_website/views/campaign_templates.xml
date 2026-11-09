@@ -43,8 +43,6 @@
 
     <template id="campaign_form" name="Formulaire campagne">
         <t t-call="portal.portal_layout">
-            <div class="card">
-                <div class="card-body">
                     <div class="o_form_view">
                 <form t-att-action="'/my/agriculture/campaigns/%s/update' % campaign.id if campaign else '/my/agriculture/campaigns/create'" method="post">
                     <div class="o_form_sheet_bg">
@@ -53,55 +51,51 @@
                                 <h1><input type="text" name="name" class="form-control" placeholder="Nom de la campagne" t-att-value="values.get('name') if values else (campaign.name if campaign else '')"/></h1>
                             </div>
                             <div class="o_group">
-                                <table class="o_group_table">
-                                    <tr>
-                                        <td class="o_td_label"><label for="code">Code</label></td>
-                                        <td><input type="text" name="code" class="form-control" readonly="readonly" t-att-value="values.get('code') if values else (campaign.code if campaign else '')"/></td>
-                                        <td class="o_td_label"><label for="start_date">Date de début</label></td>
-                                        <td><input type="date" name="start_date" class="form-control" t-att-value="values.get('start_date') if values else (campaign.start_date if campaign else '')"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="o_td_label"><label for="farm_id">Exploitation</label></td>
-                                        <td>
-                                            <select name="farm_id" class="form-select">
-                                                <t t-foreach="farms" t-as="farm" t-key="farm.id">
-                                                    <option t-att-value="farm.id" t-att-selected="'selected' if (values.get('farm_id') if values else (campaign.farm_id.id if campaign else None)) == farm.id else None" t-out="farm.name"/>
-                                                </t>
-                                            </select>
-                                        </td>
-                                        <td class="o_td_label"><label for="end_date">Date de fin</label></td>
-                                        <td><input type="date" name="end_date" class="form-control" t-att-value="values.get('end_date') if values else (campaign.end_date if campaign else '')"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="o_td_label"><label for="crop_id">Culture</label></td>
-                                        <td>
-                                            <select name="crop_id" class="form-select">
-                                                <t t-foreach="crops" t-as="crop" t-key="crop.id">
-                                                    <option t-att-value="crop.id" t-att-selected="'selected' if (values.get('crop_id') if values else (campaign.crop_id.id if campaign else None)) == crop.id else None" t-out="crop.name"/>
-                                                </t>
-                                            </select>
-                                        </td>
-                                        <td class="o_td_label"><label for="state">État</label></td>
-                                        <td>
-                                            <select name="state" class="form-select">
-                                                <option value="draft">Brouillon</option>
-                                                <option value="active">En cours</option>
-                                                <option value="done">Terminée</option>
-                                                <option value="cancelled">Annulée</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="o_td_label"><label for="variety_id">Variété</label></td>
-                                        <td>
-                                            <select name="variety_id" class="form-select">
-                                                <option value="">--</option>
-                                            </select>
-                                        </td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </table>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Code</label>
+                                        <input type="text" name="code" class="form-control" readonly="readonly" t-att-value="values.get('code') if values else (campaign.code if campaign else '')"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Date de début</label>
+                                        <input type="date" name="start_date" class="form-control" t-att-value="values.get('start_date') if values else (campaign.start_date if campaign else '')"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Exploitation</label>
+                                        <select name="farm_id" class="form-select">
+                                            <t t-foreach="farms" t-as="farm" t-key="farm.id">
+                                                <option t-att-value="farm.id" t-att-selected="'selected' if (values.get('farm_id') if values else (campaign.farm_id.id if campaign else None)) == farm.id else None" t-out="farm.name"/>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Date de fin</label>
+                                        <input type="date" name="end_date" class="form-control" t-att-value="values.get('end_date') if values else (campaign.end_date if campaign else '')"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Culture</label>
+                                        <select name="crop_id" class="form-select">
+                                            <t t-foreach="crops" t-as="crop" t-key="crop.id">
+                                                <option t-att-value="crop.id" t-att-selected="'selected' if (values.get('crop_id') if values else (campaign.crop_id.id if campaign else None)) == crop.id else None" t-out="crop.name"/>
+                                            </t>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">État</label>
+                                        <select name="state" class="form-select">
+                                            <option value="draft">Brouillon</option>
+                                            <option value="active">En cours</option>
+                                            <option value="done">Terminée</option>
+                                            <option value="cancelled">Annulée</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Variété</label>
+                                        <select name="variety_id" class="form-select">
+                                            <option value="">--</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             <div class="o_notebook">
                                 <ul class="nav nav-tabs" role="tablist">
@@ -120,8 +114,6 @@
                         </div>
                     </div>
                 </form>
-            </div>
-            </div>
             </div>
         </t>
     </template>

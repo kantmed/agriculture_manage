@@ -44,28 +44,27 @@
 
     <template id="activity_form" name="Formulaire activité">
         <t t-call="portal.portal_layout">
-            <div class="card"><div class="card-body"><div class="o_form_view">
+            <div class="o_form_view">
                 <form method="post" t-att-action="'/my/agriculture/activities/%s/update' % activity.id if activity else '/my/agriculture/activities/create'">
-                    <div class="o_form_sheet_bg">
                         <div class="o_form_sheet">
                             <div class="oe_title">
                                 <h1><input type="text" name="name" class="form-control" placeholder="Nom" t-att-value="values.get('name') if values else (activity.name if activity else '')"/></h1>
                             </div>
                             <div class="o_group">
-                                <table class="o_group_table">
-                                    <tr>
-                                        <td class="o_td_label"><label>Code</label></td>
-                                        <td><input type="text" name="code" class="form-control" t-att-value="values.get('code') if values else (activity.code if activity else '')"/></td>
-                                        <td class="o_td_label"><label>Ordre</label></td>
-                                        <td><input type="number" name="sequence" class="form-control" t-att-value="values.get('sequence') if values else (activity.sequence if activity else 10)"/></td>
-                                    </tr>
-                                    <tr>
-                                        <td class="o_td_label"><label>Actif</label></td>
-                                        <td><input type="checkbox" name="active" t-att-checked="'checked' if (activity.active if activity else True) else None"/></td>
-                                        <td></td>
-                                        <td></td>
-                                    </tr>
-                                </table>
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label class="form-label">Code</label>
+                                        <input type="text" name="code" class="form-control" t-att-value="values.get('code') if values else (activity.code if activity else '')"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Ordre</label>
+                                        <input type="number" name="sequence" class="form-control" t-att-value="values.get('sequence') if values else (activity.sequence if activity else 10)"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label class="form-label">Actif</label>
+                                        <input type="checkbox" name="active" t-att-checked="'checked' if (activity.active if activity else True) else None"/>
+                                    </div>
+                                </div>
                             </div>
                             <div class="o_notebook">
                                 <ul class="nav nav-tabs" role="tablist">
@@ -82,9 +81,8 @@
                                 <a href="/my/agriculture/activities" class="btn btn-secondary">Annuler</a>
                             </div>
                         </div>
-                    </div>
                 </form>
-            </div></div></div>
+                </div>
         </t>
     </template>
 
