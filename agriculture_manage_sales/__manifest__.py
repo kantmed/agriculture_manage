@@ -11,6 +11,7 @@
         "agriculture_manage_crop",
         "agriculture_manage_stock",
         "agriculture_manage_account",
+        "agriculture_manage_livestock",
         "sale_stock",
     ],
     "data": [
