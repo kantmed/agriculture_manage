@@ -47,3 +47,8 @@ Les tests Odoo n'ont pas pu être lancés dans cet environnement, car le paquet 
 2. Vérifier les règles d'accès avec les trois profils agricoles et en multi-société.
 3. Tester les créations, modifications, archivages et changements de rattachement exploitation/site/parcelle.
 4. Compléter ensuite les vues et actions selon les usages métier réels, puis valider les liens avec les modules cultures, stock, élevage et maintenance.
+
+
+## Troisième amélioration — indicateurs par site
+
+Ajout d'une superficie cumulée des parcelles par site, ainsi que d'un calcul explicite des nombres de parcelles et d'infrastructures actives. Les dépendances incluent désormais les changements d'état actif/archivé et les modifications de superficie. Les indicateurs sont visibles dans la liste et la fiche du site. Un test couvre l'archivage puis la réactivation d'une parcelle.

@@ -11,6 +11,7 @@
                 <field name="site_type"/>
                 <field name="city"/>
                 <field name="plot_count"/>
+                <field name="plot_area" sum="Superficie (ha)"/>
                 <field name="infrastructure_count"/>
             </list>
         </field>
@@ -32,6 +33,9 @@
                             <field name="code"/>
                             <field name="farm_id"/>
                             <field name="site_type"/>
+                            <field name="plot_count" readonly="1"/>
+                            <field name="plot_area" readonly="1"/>
+                            <field name="infrastructure_count" readonly="1"/>
                             <field name="company_id" groups="base.group_multi_company"/>
                         </group>
                         <group>

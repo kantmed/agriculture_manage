@@ -85,12 +85,23 @@ class AgricultureFarmSite(models.Model):
         string="Nombre d'infrastructures",
         compute="_compute_counts",
     )
+    plot_area = fields.Float(
+        string="Superficie des parcelles (ha)",
+        compute="_compute_counts",
+        digits=(16, 2),
+    )
 
-    @api.depends("plot_ids", "infrastructure_ids")
+    @api.depends(
+        "plot_ids", "plot_ids.active", "plot_ids.area_ha",
+        "infrastructure_ids", "infrastructure_ids.active",
+    )
     def _compute_counts(self):
         for site in self:
-            site.plot_count = len(site.plot_ids)
-            site.infrastructure_count = len(site.infrastructure_ids)
+            active_plots = site.plot_ids.filtered("active")
+            active_infrastructures = site.infrastructure_ids.filtered("active")
+            site.plot_count = len(active_plots)
+            site.infrastructure_count = len(active_infrastructures)
+            site.plot_area = sum(active_plots.mapped("area_ha"))
 
     @api.depends(
         "has_coordinates",

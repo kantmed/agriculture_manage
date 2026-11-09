@@ -79,6 +79,36 @@ class TestAgricultureFarm(TransactionCase):
         farm.invalidate_recordset(["allocated_area"])
         self.assertAlmostEqual(farm.allocated_area, 0.75)
 
+
+    def test_site_area_and_counts_follow_active_plots(self):
+        farm = self.env["agriculture.farm"].create(
+            {"name": "Exploitation statistiques site", "total_area": 3}
+        )
+        site = self.env["agriculture.farm.site"].create(
+            {"name": "Site statistiques", "farm_id": farm.id}
+        )
+        plot = self.env["agriculture.farm.plot"].create(
+            {
+                "name": "Parcelle statistiques",
+                "farm_id": farm.id,
+                "site_id": site.id,
+                "area": 125,
+                "area_unit": "are",
+            }
+        )
+        self.assertEqual(site.plot_count, 1)
+        self.assertAlmostEqual(site.plot_area, 1.25)
+
+        plot.write({"active": False})
+        site.invalidate_recordset(["plot_count", "plot_area"])
+        self.assertEqual(site.plot_count, 0)
+        self.assertAlmostEqual(site.plot_area, 0.0)
+
+        plot.write({"active": True})
+        site.invalidate_recordset(["plot_count", "plot_area"])
+        self.assertEqual(site.plot_count, 1)
+        self.assertAlmostEqual(site.plot_area, 1.25)
+
     def test_global_area_cannot_be_reduced_below_plot_total(self):
         farm = self.env["agriculture.farm"].create(
             {"name": "Exploitation superficie", "total_area": 1}
