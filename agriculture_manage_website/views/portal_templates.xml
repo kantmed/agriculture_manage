@@ -63,6 +63,7 @@
                                 <p>Consulter les équipements agricoles et l'historique des interventions.</p>
                                 <a href="/my/agriculture/maintenance/equipment" class="btn btn-primary">Consulter les équipements</a>
                                 <a href="/my/agriculture/maintenance/requests" class="btn btn-outline-primary mt-2">Interventions</a>
+                                <a href="/my/agriculture/maintenance/requests/new" class="btn btn-outline-secondary mt-2">Déclarer une intervention</a>
                             </div>
                         </div>
                     </div>

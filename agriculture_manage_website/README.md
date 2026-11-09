@@ -1,21 +1,29 @@
 # Agriculture Management Website
 
-## Version 20.0.1.3.0
+## Version 20.0.1.5.0
 
-Cette version ajoute la gestion des infrastructures agricoles depuis le portail utilisateur.
+Cette version ajoute la déclaration d'une demande de maintenance depuis le portail.
+
+### Maintenance du portail
+- Consultation des équipements agricoles et de leurs interventions.
+- Déclaration d'une demande corrective ou préventive avec date/heure souhaitée.
+- Affectation initiale à l'équipe de maintenance de l'équipement ou à une équipe active de la société.
+- Enregistrement du demandeur comme créateur de la demande.
+- Sélection limitée aux équipements actifs des exploitations accessibles à l'utilisateur.
+- Contrôle serveur de l'équipement, du type et de la date.
+- Jeton CSRF obligatoire sur le formulaire.
+- La création d'une demande ne permet pas au portail de choisir un technicien, une équipe, un statut ou un coût.
+- L'affectation et la planification opérationnelle restent gérées dans le back-office.
 
 ### Routes du portail
-- `/my/agriculture/infrastructures` : liste et recherche.
-- `/my/agriculture/infrastructures/new` : formulaire de création.
-- `/my/agriculture/infrastructures/<id>` : fiche détaillée.
-- `/my/agriculture/infrastructures/<id>/edit` : modification.
+- `/my/agriculture/maintenance/equipment`
+- `/my/agriculture/maintenance/equipment/<id>`
+- `/my/agriculture/maintenance/requests`
+- `/my/agriculture/maintenance/requests/new`
+- `/my/agriculture/maintenance/requests/<id>`
 
-### Sécurité et validation
-- Les infrastructures sont limitées aux exploitations accessibles à l'utilisateur connecté.
-- Le site sélectionné doit appartenir à l'exploitation choisie.
-- Les surfaces et capacités négatives sont refusées.
-- Les types et états sont validés côté serveur.
-- Les formulaires POST utilisent le jeton CSRF du portail.
+### Sécurité
+Les recherches de données sont limitées aux exploitations associées au partenaire commercial de l'utilisateur ou dont il est responsable, et à ses sociétés autorisées. Les identifiants transmis par le navigateur sont revalidés côté serveur.
 
 ### Mise à niveau
-Mettre à niveau le module `agriculture_manage_website` après sauvegarde de la base de données.
+Sauvegarder la base de données et mettre à niveau `agriculture_manage_website`.
