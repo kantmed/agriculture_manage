@@ -6,6 +6,7 @@ import uuid
 from odoo import fields
 from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
+from dateutil.relativedelta import relativedelta
 
 
 class TestFarmCrop(TransactionCase):
@@ -103,3 +104,128 @@ class TestFarmCropCampaign(TransactionCase):
         first = self._create_campaign("Campagne 2025-2026")
         second = self._create_campaign("Autre campagne 2025-2026")
         self.assertEqual(first.code, second.code)
+
+    def test_campaign_dates_must_be_valid(self):
+        with self.assertRaises(ValidationError):
+            self.env["agriculture.farm.crop.campaign"].create({
+                "name": "Campagne avec date de fin antérieure",
+                "farm_id": self.farm.id,
+                "crop_id": self.crop.id,
+                "start_date": "2026-02-01",
+                "end_date": "2026-01-01",
+            })
+
+    def test_campaign_variety_must_match_crop(self):
+        # create a variety for a different crop
+        other_crop = self.env["agriculture.farm.crop"].create({
+            "name": "Autre culture",
+            "crop_type_id": self.env.ref("agriculture_manage_crop.crop_type_cereal").id,
+            "abbreviation": f"O{uuid.uuid4().hex[:12]}",
+        })
+        other_variety = self.env["agriculture.farm.crop.variety"].create({
+            "name": "Autre variété",
+            "crop_id": other_crop.id,
+        })
+        with self.assertRaises(ValidationError):
+            self.env["agriculture.farm.crop.campaign"].create({
+                "name": "Campagne avec variété invalide",
+                "farm_id": self.farm.id,
+                "crop_id": self.crop.id,
+                "variety_id": other_variety.id,
+            })
+
+
+class TestFarmCropCampaignPlot(TransactionCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.farm = cls.env["agriculture.farm"].create({
+            "name": "Exploitation de test",
+            "total_area": 10,
+        })
+        crop_type = cls.env.ref("agriculture_manage_crop.crop_type_cereal")
+        cls.crop = cls.env["agriculture.farm.crop"].create({
+            "name": "Culture de test",
+            "crop_type_id": crop_type.id,
+            "abbreviation": "TESTCROP",
+        })
+        cls.plot1 = cls.env["agriculture.farm.plot"].create({
+            "name": "Parcelle 1",
+            "farm_id": cls.farm.id,
+            "area": 5,
+            "area_unit": "ha",
+        })
+        cls.plot2 = cls.env["agriculture.farm.plot"].create({
+            "name": "Parcelle 2",
+            "farm_id": cls.farm.id,
+            "area": 5,
+            "area_unit": "ha",
+        })
+        cls.other_farm = cls.env["agriculture.farm"].create({
+            "name": "Autre exploitation",
+            "total_area": 10,
+        })
+        cls.other_plot = cls.env["agriculture.farm.plot"].create({
+            "name": "Parcelle tierce",
+            "farm_id": cls.other_farm.id,
+            "area": 5,
+            "area_unit": "ha",
+        })
+        cls.campaign = cls.env["agriculture.farm.crop.campaign"].create({
+            "name": "Campagne test",
+            "farm_id": cls.farm.id,
+            "crop_id": cls.crop.id,
+        })
+
+    def test_create_plot_in_campaign(self):
+        plot_in_campaign = self.env["agriculture.farm.crop.campaign.plot"].create({
+            "campaign_id": self.campaign.id,
+            "plot_id": self.plot1.id,
+            "planting_date": fields.Date.today(),
+            "expected_harvest_date": fields.Date.today() + relativedelta(months=6),
+        })
+        self.assertEqual(plot_in_campaign.area_ha, 5)
+        self.assertEqual(plot_in_campaign.state, "planned")
+
+    def test_plot_farm_must_match_campaign_farm(self):
+        with self.assertRaises(ValidationError):
+            self.env["agriculture.farm.crop.campaign.plot"].create({
+                "campaign_id": self.campaign.id,
+                "plot_id": self.other_plot.id,
+            })
+
+    def test_planting_date_must_be_before_harvest_date(self):
+        with self.assertRaises(ValidationError):
+            self.env["agriculture.farm.crop.campaign.plot"].create({
+                "campaign_id": self.campaign.id,
+                "plot_id": self.plot1.id,
+                "planting_date": fields.Date.today() + relativedelta(months=6),
+                "expected_harvest_date": fields.Date.today(),
+            })
+
+    def test_state_transitions(self):
+        record = self.env["agriculture.farm.crop.campaign.plot"].create({
+            "campaign_id": self.campaign.id,
+            "plot_id": self.plot1.id,
+        })
+
+        # Planned -> Planted
+        record.write({
+            "planting_date": fields.Date.today(),
+            "state": "planted",
+        })
+        self.assertEqual(record.state, "planted")
+
+        # Planted -> Growing
+        record.write({
+            "expected_harvest_date": fields.Date.today() + relativedelta(months=6),
+            "state": "growing",
+        })
+        self.assertEqual(record.state, "growing")
+
+        # Growing -> Harvested
+        record.write({
+            "state": "harvested",
+        })
+        self.assertEqual(record.state, "harvested")
+

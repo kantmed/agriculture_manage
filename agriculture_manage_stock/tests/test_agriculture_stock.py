@@ -15,6 +15,17 @@ class TestAgricultureStock(TransactionCase):
             "company_id": cls.company.id,
             "total_area": 10,
         })
+        crop_type = cls.env.ref("agriculture_manage_crop.crop_type_cereal")
+        crop = cls.env["agriculture.farm.crop"].create({
+            "name": "Culture stock test",
+            "crop_type_id": crop_type.id,
+            "abbreviation": "STK",
+        })
+        cls.campaign = cls.env["agriculture.farm.crop.campaign"].create({
+            "name": "Campagne stock test",
+            "farm_id": cls.farm.id,
+            "crop_id": crop.id,
+        })
 
     def test_product_agriculture_classification_fields(self):
         template = self.env["product.template"].create({
@@ -27,6 +38,7 @@ class TestAgricultureStock(TransactionCase):
     def test_operation_line_uses_company_currency(self):
         operation = self.env["agriculture.farm.operation"].create({
             "name": "Opération test devise",
+            "campaign_id": self.campaign.id,
         })
         line = self.env["agriculture.farm.operation.line"].create({
             "operation_id": operation.id,
@@ -46,6 +58,7 @@ class TestAgricultureStock(TransactionCase):
         })
         operation = self.env["agriculture.farm.operation"].create({
             "name": "Opération unité test",
+            "campaign_id": self.campaign.id,
         })
         line = self.env["agriculture.farm.operation.line"].create({
             "operation_id": operation.id,
@@ -117,6 +130,7 @@ class TestAgricultureStock(TransactionCase):
     def test_operation_validation_does_not_create_duplicate_stock_picking(self):
         operation = self.env["agriculture.farm.operation"].create({
             "name": "Opération sans consommation stock",
+            "campaign_id": self.campaign.id,
         })
         product = self.env["product.template"].create({
             "name": "Produit prestation test",

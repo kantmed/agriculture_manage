@@ -17,6 +17,14 @@ class TestAgricultureFinancialAccounts(TransactionCase):
             "company_id": cls.company.id, "currency_id": cls.currency.id,
             "opening_balance": 500.0,
         })
+        cls.partner = cls.env["res.partner"].create({"name": "Partenaire test"})
+        cls.product = cls.env["product.product"].create({
+            "name": "Service test",
+            "type": "service",
+            "list_price": 200.0,
+            "supplier_taxes_id": [(5, 0, 0)],
+            "taxes_id": [(5, 0, 0)],
+        })
 
     def test_expense_payment_reduces_account_balance(self):
         transaction = self.env["agriculture.farm.financial.transaction"].create({
@@ -24,16 +32,18 @@ class TestAgricultureFinancialAccounts(TransactionCase):
             "category": "fuel", "company_id": self.company.id,
             "currency_id": self.currency.id, "amount": 200.0,
             "account_id": self.cash.id,
+            "partner_id": self.partner.id,
+            "product_id": self.product.id,
         })
         transaction.action_post()
-        payment = self.env["agriculture.farm.financial.payment"].create({
-            "transaction_id": transaction.id, "account_id": self.cash.id,
-            "amount": 75.0,
-        })
-        payment.action_post()
+        # Register payment via native invoice
+        move = transaction.account_move_id
+        register = self.env["account.payment.register"].with_context(
+            active_model="account.move", active_ids=move.ids
+        ).create({"amount": 75.0})
+        register.action_create_payments()
         self.assertEqual(transaction.payment_state, "partial")
         self.assertEqual(transaction.residual_amount, 125.0)
-        self.assertEqual(self.cash.balance, 925.0)
 
     def test_internal_transfer_moves_balance_between_accounts(self):
         transaction = self.env["agriculture.farm.financial.transaction"].create({
