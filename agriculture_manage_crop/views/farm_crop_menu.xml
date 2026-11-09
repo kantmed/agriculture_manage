@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <menuitem id="menu_farm_crop_root"
-              name="Production"
-              parent="agriculture_manage.menu_farm_root"
+              name="Cultures &amp; campagnes"
+              parent="agriculture_manage.menu_farm_production"
               sequence="30"
               groups="agriculture_manage.group_farm_user"/>
 

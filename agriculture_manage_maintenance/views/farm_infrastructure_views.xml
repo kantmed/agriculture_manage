@@ -18,7 +18,7 @@
         </field>
     </record>
 
-    <menuitem id="menu_agriculture_maintenance_root" name="Maintenance" parent="agriculture_manage.menu_farm_root" sequence="60" groups="agriculture_manage.group_farm_user"/>
+    <menuitem id="menu_agriculture_maintenance_root" name="Maintenance" parent="agriculture_manage.menu_farm_resources" sequence="60" groups="agriculture_manage.group_farm_user"/>
     <menuitem id="menu_agriculture_maintenance_equipment" name="Équipements" parent="menu_agriculture_maintenance_root" action="action_agriculture_maintenance_equipment" sequence="10" groups="agriculture_manage.group_farm_user"/>
     <menuitem id="menu_agriculture_maintenance_requests" name="Interventions" parent="menu_agriculture_maintenance_root" action="action_agriculture_maintenance_request" sequence="20" groups="agriculture_manage.group_farm_user"/>
 </odoo>

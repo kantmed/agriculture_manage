@@ -2,7 +2,7 @@
 <odoo>
     <menuitem id="menu_agriculture_sales_root"
               name="Commercialisation"
-              parent="agriculture_manage.menu_farm_root"
+              parent="agriculture_manage.menu_farm_sales"
               sequence="70"
               groups="agriculture_manage.group_farm_user"/>
     <menuitem id="menu_agriculture_sales_orders"

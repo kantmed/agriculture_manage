@@ -11,18 +11,40 @@
               action="action_open_farm_dashboard"
               sequence="1"/>
 
-    <menuitem id="menu_farm_dashboard"
+    <!-- Navigation principale : menus fonctionnels regroupés pour limiter
+         la longueur de la barre Agriculture. -->
+    <menuitem id="menu_farm_management"
               name="Exploitations"
               parent="menu_farm_root"
-              action="action_farm"
               sequence="10"
               groups="group_farm_user"/>
 
-    <menuitem id="menu_farm_management"
-              name="Gestion des terres"
-              parent="menu_farm_root"
-              sequence="20"
+    <menuitem id="menu_farm_dashboard"
+              name="Toutes les exploitations"
+              parent="menu_farm_management"
+              action="action_farm"
+              sequence="5"
               groups="group_farm_user"/>
+
+    <menuitem id="menu_farm_production"
+              name="Production"
+              parent="menu_farm_root"
+              sequence="20"/>
+
+    <menuitem id="menu_farm_resources"
+              name="Ressources &amp; équipements"
+              parent="menu_farm_root"
+              sequence="30"/>
+
+    <menuitem id="menu_farm_sales"
+              name="Commercialisation"
+              parent="menu_farm_root"
+              sequence="40"/>
+
+    <menuitem id="menu_farm_pilotage"
+              name="Pilotage"
+              parent="menu_farm_root"
+              sequence="50"/>
 
     <menuitem id="menu_farm_site"
               name="Sites"
@@ -45,7 +67,7 @@
     <menuitem id="menu_farm_configuration"
               name="Configuration"
               parent="menu_farm_root"
-              sequence="100"
+              sequence="90"
               groups="group_farm_manager"/>
 
     <menuitem id="menu_farm_activity_type"

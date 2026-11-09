@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <menuitem id="menu_agriculture_stock_root" name="Stocks agricoles"
-              parent="agriculture_manage.menu_farm_root" sequence="40"
+              parent="agriculture_manage.menu_farm_resources" sequence="40"
               groups="stock.group_stock_user"/>
     <menuitem id="menu_agriculture_stock_warehouses" name="Magasins"
               parent="menu_agriculture_stock_root"

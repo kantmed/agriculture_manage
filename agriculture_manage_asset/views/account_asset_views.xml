@@ -39,6 +39,6 @@
         <field name="context">{'default_agriculture_scope': 'farm'}</field>
     </record>
     <menuitem id="menu_agriculture_asset" name="Immobilisations agricoles"
-              parent="agriculture_manage.menu_farm_root" action="action_agriculture_asset"
+              parent="agriculture_manage.menu_farm_resources" action="action_agriculture_asset"
               sequence="45" groups="account.group_account_user"/>
 </odoo>
