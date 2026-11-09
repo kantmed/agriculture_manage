@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <template id="menu_agriculture" inherit_id="website.layout" name="Menu Agriculture">
-    </template>
+    <record id="menu_agriculture_website" model="website.menu">
+        <field name="name">Agriculture</field>
+        <field name="url">/agriculture</field>
+        <field name="parent_id" ref="website.main_menu"/>
+        <field name="sequence">50</field>
+    </record>
 </odoo>
