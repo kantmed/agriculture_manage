@@ -43,7 +43,9 @@
 
     <template id="campaign_form" name="Formulaire campagne">
         <t t-call="portal.portal_layout">
-            <div class="o_form_view">
+            <div class="card">
+                <div class="card-body">
+                    <div class="o_form_view">
                 <form t-att-action="'/my/agriculture/campaigns/%s/update' % campaign.id if campaign else '/my/agriculture/campaigns/create'" method="post">
                     <div class="o_form_sheet_bg">
                         <div class="o_form_sheet">
@@ -118,6 +120,8 @@
                         </div>
                     </div>
                 </form>
+            </div>
+            </div>
             </div>
         </t>
     </template>

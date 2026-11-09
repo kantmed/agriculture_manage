@@ -7,10 +7,10 @@
                     <h2>Équipements agricoles</h2>
                     <a href="/my/agriculture" class="btn btn-secondary">Retour au tableau de bord</a>
                 </div>
-                <form method="get" action="/my/agriculture/maintenance/equipment" class="row g-2 mb-3">
+                <div class="card"><div class="card-body"><div class="card"><div class="card-body"><form method="get" action="/my/agriculture/maintenance/equipment" class="row g-2 mb-3">
                     <div class="col-md-8"><input type="search" name="search" class="form-control" placeholder="Nom ou numéro de série" t-att-value="search"/></div>
                     <div class="col-md-4"><button type="submit" class="btn btn-primary">Rechercher</button></div>
-                </form>
+                </form></div></div></div></div>
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead><tr><th>Équipement</th><th>Exploitation</th><th>Site</th><th>Numéro de série</th><th>Responsable</th></tr></thead>

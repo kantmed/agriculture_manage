@@ -44,7 +44,7 @@
 
     <template id="activity_form" name="Formulaire activité">
         <t t-call="portal.portal_layout">
-            <div class="o_form_view">
+            <div class="card"><div class="card-body"><div class="o_form_view">
                 <form method="post" t-att-action="'/my/agriculture/activities/%s/update' % activity.id if activity else '/my/agriculture/activities/create'">
                     <div class="o_form_sheet_bg">
                         <div class="o_form_sheet">
@@ -84,7 +84,7 @@
                         </div>
                     </div>
                 </form>
-            </div>
+            </div></div></div>
         </t>
     </template>
 

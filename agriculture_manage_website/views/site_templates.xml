@@ -7,13 +7,13 @@
                     <h2>Sites agricoles</h2>
                     <a href="/my/agriculture/sites/new" class="btn btn-primary">Nouveau site</a>
                 </div>
-                <form method="get" action="/my/agriculture/sites" class="mb-3">
+                <div class="card"><div class="card-body"><div class="card"><div class="card-body"><form method="get" action="/my/agriculture/sites" class="mb-3">
                     <div class="input-group">
                         <input type="search" name="search" class="form-control"
                                placeholder="Nom du site ou exploitation" t-att-value="search"/>
                         <button class="btn btn-outline-primary" type="submit">Rechercher</button>
                     </div>
-                </form>
+                </form></div></div></div></div>
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">
                         <thead>

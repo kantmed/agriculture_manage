@@ -7,12 +7,12 @@
                     <h2>Infrastructures agricoles</h2>
                     <a href="/my/agriculture/infrastructures/new" class="btn btn-primary">Nouvelle infrastructure</a>
                 </div>
-                <form method="get" action="/my/agriculture/infrastructures" class="mb-3">
+                <div class="card"><div class="card-body"><div class="card"><div class="card-body"><form method="get" action="/my/agriculture/infrastructures" class="mb-3">
                     <div class="input-group">
                         <input type="search" name="search" class="form-control" placeholder="Rechercher par nom, référence ou exploitation..." t-att-value="search"/>
                         <button class="btn btn-outline-primary" type="submit">Rechercher</button>
                     </div>
-                </form>
+                </form></div></div></div></div>
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">
                         <thead><tr><th>Référence</th><th>Nom</th><th>Exploitation</th><th>Site</th><th>Type</th><th>État</th><th/></tr></thead>
