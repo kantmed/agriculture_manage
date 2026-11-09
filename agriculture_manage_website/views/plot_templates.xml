@@ -44,7 +44,9 @@
             <div class="container my-4">
                 <h2 t-if="not plot">Nouvelle parcelle</h2>
                 <h2 t-if="plot">Modifier la parcelle</h2>
+                <div t-if="error" class="alert alert-danger" role="alert"><t t-out="error"/></div>
                 <form t-att-action="'/my/agriculture/plots/%s/update' % plot.id if plot else '/my/agriculture/plots/create'" method="post">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                     <div class="mb-3">
                         <label>Nom</label>
                         <input type="text" name="name" class="form-control" t-att-value="values.get('name') if values else (plot.name if plot else '')"/>
@@ -53,7 +55,19 @@
                         <label>Exploitation</label>
                         <select name="farm_id" class="form-control">
                             <t t-foreach="farms" t-as="farm" t-key="farm.id">
-                                <option t-att-value="farm.id" t-att-selected="'selected' if (values.get('farm_id') if values else (plot.farm_id.id if plot else None)) == farm.id else None" t-out="farm.name"/>
+                                <option t-att-value="farm.id" t-att-selected="'selected' if str(values.get('farm_id', plot.farm_id.id if plot else '')) == str(farm.id) else None" t-out="farm.name"/>
+                            </t>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label>Site agricole</label>
+                        <select name="site_id" class="form-select">
+                            <option value="">Aucun site associé</option>
+                            <t t-foreach="sites" t-as="site" t-key="site.id">
+                                <option t-att-value="site.id"
+                                        t-att-selected="str(values.get('site_id', plot.site_id.id if plot and plot.site_id else '')) == str(site.id)">
+                                    <t t-out="site.name"/>
+                                </option>
                             </t>
                         </select>
                     </div>
@@ -64,15 +78,18 @@
                     <div class="mb-3">
                         <label>Unité</label>
                         <select name="area_unit" class="form-control">
-                            <option value="ha">ha</option>
-                            <option value="m2">m²</option>
+                            <option value="ha" t-att-selected="(values.get('area_unit') if values else (plot.area_unit if plot else 'ha')) == 'ha'">ha</option>
+                            <option value="are" t-att-selected="(values.get('area_unit') if values else (plot.area_unit if plot else 'ha')) == 'are'">are</option>
+                            <option value="m2" t-att-selected="(values.get('area_unit') if values else (plot.area_unit if plot else 'ha')) == 'm2'">m²</option>
                         </select>
                     </div>
                     <div class="mb-3">
                         <label>État</label>
                         <select name="state" class="form-control">
-                            <option value="available">Disponible</option>
-                            <option value="cultivated">En culture</option>
+                            <option value="available" t-att-selected="(values.get('state') if values else (plot.state if plot else 'available')) == 'available'">Disponible</option>
+                            <option value="cultivated" t-att-selected="(values.get('state') if values else (plot.state if plot else 'available')) == 'cultivated'">En culture</option>
+                            <option value="fallow" t-att-selected="(values.get('state') if values else (plot.state if plot else 'available')) == 'fallow'">En jachère</option>
+                            <option value="inactive" t-att-selected="(values.get('state') if values else (plot.state if plot else 'available')) == 'inactive'">Inactive</option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Enregistrer</button>
@@ -91,6 +108,7 @@
                 <p>État : <span t-out="plot.state"/></p>
                 <a t-att-href="'/my/agriculture/plots/%s/edit' % plot.id" class="btn btn-secondary">Modifier</a>
                 <form t-att-action="'/my/agriculture/plots/%s/delete' % plot.id" method="post" style="display:inline">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                     <button type="submit" class="btn btn-danger">Supprimer</button>
                 </form>
                 <a href="/my/agriculture/plots" class="btn btn-secondary">Retour</a>

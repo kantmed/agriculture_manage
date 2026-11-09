@@ -131,3 +131,8 @@ Limites :
 - le calcul consolidé du coût de revient et de la marge par animal/lot reste à développer dans une version dédiée ;
 - la vente collective est prévue pour les lots suivis par effectif (`batch`) ;
 - les tests d'installation, de livraison complète, de livraison partielle et de droits doivent être exécutés sur une base de test Odoo 20 avant déploiement.
+
+
+## Version 20.0.1.5.1
+
+- Dépendance explicite à `sale_stock` : les vues et champs de vente d'élevage reposent sur `sale.order` et les livraisons natives. Cela garantit que les modèles et vues de vente sont chargés avant le module Élevage.

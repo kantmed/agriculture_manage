@@ -23,6 +23,18 @@
                     <div class="col-md-4">
                         <div class="card shadow-sm">
                             <div class="card-body">
+                                <h5>Sites agricoles</h5>
+                                <p>Gestion des sites de production, stockage, élevage et serres.</p>
+                                <a href="/my/agriculture/sites" class="btn btn-primary">
+                                    Consulter
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
                                 <h5>Parcelles</h5>
                                 <p>Gestion des parcelles agricoles.</p>
                                 <a href="/my/agriculture/plots" class="btn btn-primary">
