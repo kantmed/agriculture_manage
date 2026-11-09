@@ -3,6 +3,8 @@ from . import website
 from . import farm
 from . import plot
 from . import activity
+from . import campaign
+from . import campaign
 from . import site
 from . import infrastructure
 from . import maintenance

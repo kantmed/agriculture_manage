@@ -79,10 +79,18 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5>Campagnes</h5>
+                                <p>Gestion des campagnes culturales.</p>
+                                <a href="/my/agriculture/campaigns" class="btn btn-primary">
+                                    Consulter
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </t>
-    </template>
 
 
     <template id="portal_plots" name="Parcelles">
