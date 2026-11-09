@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="infrastructure_list" name="Infrastructures agricoles">
+        <t t-call="portal.portal_layout">
+            <div class="container my-4">
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                    <h2>Infrastructures agricoles</h2>
+                    <a href="/my/agriculture/infrastructures/new" class="btn btn-primary">Nouvelle infrastructure</a>
+                </div>
+                <form method="get" action="/my/agriculture/infrastructures" class="mb-3">
+                    <div class="input-group">
+                        <input type="search" name="search" class="form-control" placeholder="Rechercher par nom, référence ou exploitation..." t-att-value="search"/>
+                        <button class="btn btn-outline-primary" type="submit">Rechercher</button>
+                    </div>
+                </form>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead><tr><th>Référence</th><th>Nom</th><th>Exploitation</th><th>Site</th><th>Type</th><th>État</th><th/></tr></thead>
+                        <tbody>
+                            <tr t-foreach="infrastructures" t-as="item">
+                                <td t-out="item.code or '-'"/>
+                                <td><a t-att-href="'/my/agriculture/infrastructures/%s' % item.id" t-out="item.name"/></td>
+                                <td t-out="item.farm_id.name"/>
+                                <td t-out="item.site_id.name or '-'"/>
+                                <td t-out="dict(item._fields['infrastructure_type'].selection).get(item.infrastructure_type, item.infrastructure_type)"/>
+                                <td t-out="dict(item._fields['condition'].selection).get(item.condition, item.condition)"/>
+                                <td><a t-att-href="'/my/agriculture/infrastructures/%s' % item.id" class="btn btn-sm btn-outline-primary">Consulter</a></td>
+                            </tr>
+                            <tr t-if="not infrastructures"><td colspan="7" class="text-center">Aucune infrastructure trouvée.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a href="/my/agriculture" class="btn btn-secondary">Retour</a>
+            </div>
+        </t>
+    </template>
+
+    <template id="infrastructure_form" name="Formulaire infrastructure">
+        <t t-call="portal.portal_layout">
+            <div class="container my-4">
+                <h2 t-if="infrastructure">Modifier l'infrastructure</h2>
+                <h2 t-else="">Nouvelle infrastructure</h2>
+                <div t-if="error" class="alert alert-danger" role="alert"><t t-out="error"/></div>
+                <form method="post" t-att-action="('/my/agriculture/infrastructures/%s/update' % infrastructure.id) if infrastructure else '/my/agriculture/infrastructures/create'">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label">Nom *</label>
+                            <input name="name" required="required" class="form-control" t-att-value="values.get('name', infrastructure.name if infrastructure else '')"/>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Exploitation *</label>
+                            <select name="farm_id" required="required" class="form-select">
+                                <option value="">Sélectionner</option>
+                                <option t-foreach="farms" t-as="farm" t-att-value="farm.id" t-att-selected="str(values.get('farm_id', infrastructure.farm_id.id if infrastructure else '')) == str(farm.id)"><t t-out="farm.name"/></option>
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Site (facultatif)</label>
+                            <select name="site_id" class="form-select">
+                                <option value="">Aucun site associé</option>
+                                <option t-foreach="sites" t-as="site" t-att-value="site.id" t-att-selected="str(values.get('site_id', infrastructure.site_id.id if infrastructure and infrastructure.site_id else '')) == str(site.id)"><t t-out="site.name"/></option>
+                            </select>
+                            <small class="text-muted">Le site doit appartenir à l'exploitation sélectionnée.</small>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label">Type *</label>
+                            <select name="infrastructure_type" class="form-select">
+                                <option value="warehouse" t-att-selected="values.get('infrastructure_type', infrastructure.infrastructure_type if infrastructure else 'other') == 'warehouse'">Entrepôt</option>
+                                <option value="greenhouse" t-att-selected="values.get('infrastructure_type', infrastructure.infrastructure_type if infrastructure else 'other') == 'greenhouse'">Serre</option>
+                                <option value="well" t-att-selected="values.get('infrastructure_type', infrastructure.infrastructure_type if infrastructure else 'other') == 'well'">Puits</option>
+                                <option value="reservoir" t-att-selected="values.get('infrastructure_type', infrastructure.infrastructure_type if infrastructure else 'other') == 'reservoir'">Réservoir</option>
+                                <option value="pump_station" t-att-selected="values.get('infrastructure_type', infrastructure.infrastructure_type if infrastructure else 'other') == 'pump_station'">Station de pompage</option>
+                                <option value="livestock_building" t-att-selected="values.get('infrastructure_type', infrastructure.infrastructure_type if infrastructure else 'other') == 'livestock_building'">Bâtiment d'élevage</option>
+                                <option value="workshop" t-att-selected="values.get('infrastructure_type', infrastructure.infrastructure_type if infrastructure else 'other') == 'workshop'">Atelier</option>
+                                <option value="office" t-att-selected="values.get('infrastructure_type', infrastructure.infrastructure_type if infrastructure else 'other') == 'office'">Bureau</option>
+                                <option value="irrigation_network" t-att-selected="values.get('infrastructure_type', infrastructure.infrastructure_type if infrastructure else 'other') == 'irrigation_network'">Réseau d'irrigation</option>
+                                <option value="other" t-att-selected="values.get('infrastructure_type', infrastructure.infrastructure_type if infrastructure else 'other') == 'other'">Autre</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Date de construction</label>
+                            <input type="date" name="construction_date" class="form-control" t-att-value="values.get('construction_date', infrastructure.construction_date if infrastructure and infrastructure.construction_date else '')"/>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Surface (m²)</label>
+                            <input type="number" min="0" step="0.01" name="area" class="form-control" t-att-value="values.get('area', infrastructure.area if infrastructure else 0)"/>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">État</label>
+                            <select name="condition" class="form-select">
+                                <option value="excellent" t-att-selected="values.get('condition', infrastructure.condition if infrastructure else 'good') == 'excellent'">Excellent</option>
+                                <option value="good" t-att-selected="values.get('condition', infrastructure.condition if infrastructure else 'good') == 'good'">Bon</option>
+                                <option value="average" t-att-selected="values.get('condition', infrastructure.condition if infrastructure else 'good') == 'average'">Moyen</option>
+                                <option value="poor" t-att-selected="values.get('condition', infrastructure.condition if infrastructure else 'good') == 'poor'">Mauvais</option>
+                                <option value="out_of_service" t-att-selected="values.get('condition', infrastructure.condition if infrastructure else 'good') == 'out_of_service'">Hors service</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Capacité</label>
+                            <input type="number" min="0" step="0.01" name="capacity" class="form-control" t-att-value="values.get('capacity', infrastructure.capacity if infrastructure else 0)"/>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Unité de capacité</label>
+                            <input name="capacity_unit" class="form-control" placeholder="m³, tonnes, têtes..." t-att-value="values.get('capacity_unit', infrastructure.capacity_unit if infrastructure else '')"/>
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label">Description</label>
+                            <textarea name="description" rows="4" class="form-control"><t t-out="values.get('description', infrastructure.description if infrastructure else '')"/></textarea>
+                        </div>
+                        <div class="col-12" t-if="infrastructure">
+                            <div class="form-check"><input type="checkbox" name="active" value="1" class="form-check-input" t-att-checked="'checked' if infrastructure.active else None"/><label class="form-check-label">Infrastructure active</label></div>
+                        </div>
+                    </div>
+                    <div class="mt-4"><button type="submit" class="btn btn-primary">Enregistrer</button> <a href="/my/agriculture/infrastructures" class="btn btn-secondary">Annuler</a></div>
+                </form>
+            </div>
+        </t>
+    </template>
+
+    <template id="infrastructure_detail" name="Détail infrastructure">
+        <t t-call="portal.portal_layout">
+            <div class="container my-4">
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+                    <h2 t-out="infrastructure.name"/>
+                    <div><a t-att-href="'/my/agriculture/infrastructures/%s/edit' % infrastructure.id" class="btn btn-primary">Modifier</a> <a href="/my/agriculture/infrastructures" class="btn btn-secondary">Retour</a></div>
+                </div>
+                <div class="card shadow-sm mb-3"><div class="card-body"><div class="row g-3">
+                    <div class="col-md-6"><strong>Référence :</strong> <t t-out="infrastructure.code or '-'"/></div>
+                    <div class="col-md-6"><strong>Exploitation :</strong> <t t-out="infrastructure.farm_id.name"/></div>
+                    <div class="col-md-6"><strong>Site :</strong> <t t-out="infrastructure.site_id.name or '-'"/></div>
+                    <div class="col-md-6"><strong>Type :</strong> <t t-out="dict(infrastructure._fields['infrastructure_type'].selection).get(infrastructure.infrastructure_type, infrastructure.infrastructure_type)"/></div>
+                    <div class="col-md-6"><strong>Date de construction :</strong> <t t-out="infrastructure.construction_date or '-'"/></div>
+                    <div class="col-md-6"><strong>Surface :</strong> <t t-out="infrastructure.area"/> m²</div>
+                    <div class="col-md-6"><strong>Capacité :</strong> <t t-out="infrastructure.capacity"/> <t t-out="infrastructure.capacity_unit or ''"/></div>
+                    <div class="col-md-6"><strong>État :</strong> <t t-out="dict(infrastructure._fields['condition'].selection).get(infrastructure.condition, infrastructure.condition)"/></div>
+                    <div class="col-md-6"><strong>Statut :</strong> <t t-if="infrastructure.active">Actif</t><t t-else="">Archivé</t></div>
+                    <div class="col-12"><strong>Description :</strong><div t-field="infrastructure.description"/></div>
+                </div></div></div>
+                <form t-att-action="'/my/agriculture/infrastructures/%s/delete' % infrastructure.id" method="post">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <button type="submit" class="btn btn-outline-danger" onclick="return confirm('Confirmer la suppression de cette infrastructure ?')">Supprimer</button>
+                </form>
+            </div>
+        </t>
+    </template>
+</odoo>

@@ -1,25 +1,21 @@
-# Agriculture Management Website — 20.0.1.2.0
+# Agriculture Management Website
 
-## Fonctionnalités
+## Version 20.0.1.3.0
 
-- Espace portail `/my/agriculture`.
-- CRUD des exploitations agricoles : `/my/agriculture/farms`.
-- CRUD des sites agricoles : `/my/agriculture/sites`.
-- CRUD des parcelles : `/my/agriculture/plots`.
-- Association facultative d'une parcelle à un site de la même exploitation.
-- Filtrage des exploitations accessibles selon la société, le partenaire propriétaire et le responsable.
+Cette version ajoute la gestion des infrastructures agricoles depuis le portail utilisateur.
 
-## Sécurité
+### Routes du portail
+- `/my/agriculture/infrastructures` : liste et recherche.
+- `/my/agriculture/infrastructures/new` : formulaire de création.
+- `/my/agriculture/infrastructures/<id>` : fiche détaillée.
+- `/my/agriculture/infrastructures/<id>/edit` : modification.
 
-Les routes de gestion des exploitations, sites et parcelles sont réservées aux utilisateurs connectés. Les recherches et modifications utilisent un périmètre basé sur les exploitations auxquelles l'utilisateur est rattaché. Les formulaires POST incluent le jeton CSRF d'Odoo.
+### Sécurité et validation
+- Les infrastructures sont limitées aux exploitations accessibles à l'utilisateur connecté.
+- Le site sélectionné doit appartenir à l'exploitation choisie.
+- Les surfaces et capacités négatives sont refusées.
+- Les types et états sont validés côté serveur.
+- Les formulaires POST utilisent le jeton CSRF du portail.
 
-## Routes principales
-
-- `/my/agriculture`
-- `/my/agriculture/farms`
-- `/my/agriculture/sites`
-- `/my/agriculture/plots`
-
-## Déploiement
-
-Mettre à jour le module `agriculture_manage_website` après sauvegarde de la base. Les contrôles statiques Python/XML ont été exécutés sur cette archive ; l'installation et les tests HTTP réels doivent encore être effectués sur l'instance Odoo 20 cible.
+### Mise à niveau
+Mettre à niveau le module `agriculture_manage_website` après sauvegarde de la base de données.

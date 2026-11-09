@@ -4,3 +4,4 @@ from . import farm
 from . import plot
 from . import activity
 from . import site
+from . import infrastructure

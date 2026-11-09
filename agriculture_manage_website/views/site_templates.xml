@@ -149,6 +149,9 @@
                         <div class="col-md-6"><strong>Commune :</strong> <t t-out="site.city or '-'"/></div>
                         <div class="col-12"><strong>Adresse :</strong> <t t-out="site.address or '-'"/></div>
                         <div class="col-12"><strong>Parcelles :</strong> <t t-out="site.plot_count"/></div>
+                        <div class="col-12"><strong>Infrastructures :</strong> <t t-out="site.infrastructure_count"/>
+                            <a t-att-href="'/my/agriculture/infrastructures?search=' + site.name" class="ms-2">Consulter les infrastructures</a>
+                        </div>
                         <div class="col-12" t-if="site.has_coordinates">
                             <strong>GPS :</strong> <t t-out="site.latitude"/> , <t t-out="site.longitude"/>
                             <a t-att-href="site.osm_url" target="_blank" rel="noopener">Voir sur OpenStreetMap</a>

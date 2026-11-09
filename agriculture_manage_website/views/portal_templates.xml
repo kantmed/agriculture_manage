@@ -47,6 +47,18 @@
                     <div class="col-md-4">
                         <div class="card shadow-sm">
                             <div class="card-body">
+                                <h5>Infrastructures</h5>
+                                <p>Gestion des bâtiments, entrepôts, puits, réservoirs et équipements fixes.</p>
+                                <a href="/my/agriculture/infrastructures" class="btn btn-primary">
+                                    Consulter
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
                                 <h5>Activités</h5>
                                 <p>Suivi des activités agricoles.</p>
                                 <a href="/my/agriculture/activities" class="btn btn-primary">
