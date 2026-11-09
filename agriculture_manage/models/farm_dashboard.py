@@ -9,6 +9,10 @@ class AgricultureFarmDashboard(models.TransientModel):
         string="Société",
         compute="_compute_kpis",
     )
+    farm_count = fields.Integer(
+        string="Exploitations actives",
+        compute="_compute_kpis",
+    )
     site_count = fields.Integer(
         string="Sites actifs",
         compute="_compute_kpis",
@@ -19,6 +23,16 @@ class AgricultureFarmDashboard(models.TransientModel):
     )
     total_area = fields.Float(
         string="Superficie totale (ha)",
+        digits=(16, 2),
+        compute="_compute_kpis",
+    )
+    allocated_area = fields.Float(
+        string="Superficie affectée (ha)",
+        digits=(16, 2),
+        compute="_compute_kpis",
+    )
+    unallocated_area = fields.Float(
+        string="Superficie non affectée (ha)",
         digits=(16, 2),
         compute="_compute_kpis",
     )
@@ -40,6 +54,10 @@ class AgricultureFarmDashboard(models.TransientModel):
     @api.depends_context("company")
     def _compute_kpis(self):
         company = self.env.company
+        farm_domain = [
+            ("company_id", "=", company.id),
+            ("active", "=", True),
+        ]
         site_domain = [
             ("company_id", "=", company.id),
             ("farm_id.active", "=", True),
@@ -55,6 +73,13 @@ class AgricultureFarmDashboard(models.TransientModel):
             ("farm_id.active", "=", True),
             ("active", "=", True),
         ]
+        # La superficie totale provient des exploitations, pas des parcelles.
+        # La superficie affectée reprend le cumul stocké sur chaque exploitation,
+        # qui tient compte de toutes les parcelles, même archivées.
+        farms = self.env["agriculture.farm"].search(farm_domain)
+        total_farm_area = sum(farms.mapped("total_area"))
+        allocated_farm_area = sum(farms.mapped("allocated_area"))
+
         plot_groups = self.env["agriculture.farm.plot"]._read_group(
             plot_domain,
             ["state"],
@@ -67,14 +92,17 @@ class AgricultureFarmDashboard(models.TransientModel):
 
         for dashboard in self:
             dashboard.company_name = company.display_name
+            dashboard.farm_count = len(farms)
+            dashboard.total_area = total_farm_area
+            dashboard.allocated_area = allocated_farm_area
+            dashboard.unallocated_area = max(
+                total_farm_area - allocated_farm_area, 0.0
+            )
             dashboard.site_count = self.env[
                 "agriculture.farm.site"
             ].search_count(site_domain)
             dashboard.plot_count = sum(
                 count for count, _area in areas_by_state.values()
-            )
-            dashboard.total_area = sum(
-                area for _count, area in areas_by_state.values()
             )
             dashboard.cultivated_area = areas_by_state.get(
                 "cultivated", (0, 0.0)

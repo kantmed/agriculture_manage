@@ -106,9 +106,12 @@ class TestAgricultureFarmDashboard(TransactionCase):
         kpis = dashboard.read(
             [
                 "company_name",
+                "farm_count",
                 "site_count",
                 "plot_count",
                 "total_area",
+                "allocated_area",
+                "unallocated_area",
                 "cultivated_area",
                 "available_area",
                 "infrastructure_count",
@@ -116,9 +119,12 @@ class TestAgricultureFarmDashboard(TransactionCase):
         )[0]
 
         self.assertEqual(kpis["company_name"], company.display_name)
+        self.assertEqual(kpis["farm_count"], 1)
         self.assertEqual(kpis["site_count"], 1)
         self.assertEqual(kpis["plot_count"], 2)
-        self.assertEqual(kpis["total_area"], 3.02)
+        self.assertEqual(kpis["total_area"], 4.0)
+        self.assertEqual(kpis["allocated_area"], 3.02)
+        self.assertAlmostEqual(kpis["unallocated_area"], 0.98)
         self.assertEqual(kpis["cultivated_area"], 3.0)
         self.assertEqual(kpis["available_area"], 0.02)
         self.assertEqual(kpis["infrastructure_count"], 1)

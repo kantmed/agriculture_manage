@@ -65,10 +65,10 @@
                                 </div>
                             </button>
                             <button name="action_open_farms" type="object"
-                                    class="oe_stat_button" icon="fa-area-chart">
+                                    class="oe_stat_button" icon="fa-tractor">
                                 <div class="o_stat_info">
-                                    <field name="total_area" class="o_stat_value"/>
-                                    <span class="o_stat_text">Superficie totale (ha)</span>
+                                    <field name="farm_count" class="o_stat_value"/>
+                                    <span class="o_stat_text">Exploitations actives</span>
                                 </div>
                             </button>
                             <button name="action_open_cultivated_plots" type="object"
@@ -93,6 +93,13 @@
                                 </div>
                             </button>
                         </div>
+                        <group string="Répartition des superficies">
+                            <group>
+                                <field name="total_area" readonly="1"/>
+                                <field name="allocated_area" readonly="1"/>
+                                <field name="unallocated_area" readonly="1"/>
+                            </group>
+                        </group>
                         <separator string="Analyses"/>
                         <div class="d-flex gap-2">
                             <button name="%(action_farm_dashboard_farm_area)d"
