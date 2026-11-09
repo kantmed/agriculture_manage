@@ -9,3 +9,5 @@ from . import livestock_reproduction
 from . import livestock_health
 from . import livestock_feeding
 from . import livestock_production
+
+from . import livestock_sale

@@ -106,3 +106,28 @@ Vérifications réalisées sur l'archive :
 - syntaxe Python, XML et structure CSV ;
 - présence de tous les fichiers déclarés dans le manifeste.
 L'installation, les règles d'accès et les scénarios fonctionnels doivent être testés sur une base de test Odoo 20 avant déploiement.
+
+
+## Version 20.0.1.5.0 — Commercialisation des animaux et des lots
+
+Ajouts :
+- liaison d'une commande client native Odoo (`sale.order`) à un animal individuel ou à un lot collectif ;
+- contrôle de l'exploitation, de la société, de l'espèce, de l'état actif et de l'effectif disponible ;
+- obligation d'avoir au moins une ligne de produit stockable livrable ;
+- génération d'un mouvement de cheptel de type « Vente » uniquement après livraison complète de la commande dans Odoo Stock ;
+- passage de l'animal à l'état « Vendu » ou diminution de l'effectif du lot après la livraison complète ;
+- lien entre la commande client et le mouvement de cheptel généré ;
+- prévention de la génération de plusieurs mouvements pour une même commande ;
+- utilisation du flux natif Odoo pour les livraisons, factures et paiements.
+
+Garanties :
+- aucune facture ni écriture comptable parallèle n'est créée par ce module ;
+- la confirmation de commande ne marque pas immédiatement l'animal vendu ;
+- une livraison partielle ne déclenche pas le mouvement de vente ;
+- les mouvements appliqués ne sont pas annulés directement : les retours et corrections doivent être traités par un flux correctif de cheptel et les retours de stock natifs.
+
+Limites :
+- cette version couvre la vente d'animaux individuels et de lots ; elle ne réalise pas encore le stock d'entrée automatique des productions de lait, œufs, laine, miel et viande ;
+- le calcul consolidé du coût de revient et de la marge par animal/lot reste à développer dans une version dédiée ;
+- la vente collective est prévue pour les lots suivis par effectif (`batch`) ;
+- les tests d'installation, de livraison complète, de livraison partielle et de droits doivent être exécutés sur une base de test Odoo 20 avant déploiement.
