@@ -70,7 +70,8 @@
         <t t-call="portal.portal_layout">
             <div class="container my-4">
                 <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
-                    <h2>Interventions de maintenance</h2>
+                    <h2>Mes demandes de maintenance</h2>
+                    <p class="text-muted mb-0">Cette liste affiche uniquement les demandes que vous avez personnellement déclarées.</p>
                     <div class="d-flex gap-2 flex-wrap">
                         <a href="/my/agriculture/maintenance/requests/new" class="btn btn-primary">Déclarer une intervention</a>
                         <a href="/my/agriculture" class="btn btn-secondary">Retour au tableau de bord</a>
@@ -170,7 +171,7 @@
                     <div class="col-md-6"><strong>Site :</strong> <t t-out="maintenance_request.agriculture_site_id.name or '-'"/></div>
                     <div class="col-md-6"><strong>Infrastructure :</strong> <t t-out="maintenance_request.agriculture_infrastructure_id.name or '-'"/></div>
                     <div class="col-md-6"><strong>Type :</strong> <t t-out="dict(maintenance_request._fields['maintenance_type'].selection).get(maintenance_request.maintenance_type, maintenance_request.maintenance_type)"/></div>
-                    <div class="col-md-6"><strong>Demande créée le :</strong> <t t-out="maintenance_request.schedule_date or '-'"/></div>
+                    <div class="col-md-6"><strong>Demande créée le :</strong> <t t-field="maintenance_request.create_date"/></div>
                     <div class="col-md-6"><strong>Date prévue :</strong> <t t-out="maintenance_request.schedule_date or '-'"/></div>
                     <div class="col-md-6"><strong>Date de clôture :</strong> <t t-out="maintenance_request.close_date or '-'"/></div>
                     <div class="col-md-6"><strong>Technicien :</strong> <t t-out="maintenance_request.user_id.name or '-'"/></div>

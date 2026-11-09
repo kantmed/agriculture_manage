@@ -30,7 +30,12 @@ class AgricultureMaintenancePortal(http.Controller):
         return [("agriculture_farm_id", "in", self._farm_ids())]
 
     def _request_domain(self):
-        return [("agriculture_farm_id", "in", self._farm_ids())]
+        # A portal user may only consult requests that they personally submitted.
+        # Farm access alone is not sufficient: several portal users can share a farm.
+        return [
+            ("agriculture_farm_id", "in", self._farm_ids()),
+            ("owner_user_id", "=", request.env.uid),
+        ]
 
     def _get_equipment(self, equipment_id, active_only=False):
         domain = [("id", "=", equipment_id)] + self._equipment_domain()
