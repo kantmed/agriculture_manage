@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_maintenance_equipment" name="Équipements agricoles - portail">
+        <t t-call="portal.portal_layout">
+            <div class="container my-4">
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                    <h2>Équipements agricoles</h2>
+                    <a href="/my/agriculture" class="btn btn-secondary">Retour au tableau de bord</a>
+                </div>
+                <form method="get" action="/my/agriculture/maintenance/equipment" class="row g-2 mb-3">
+                    <div class="col-md-8"><input type="search" name="search" class="form-control" placeholder="Nom ou numéro de série" t-att-value="search"/></div>
+                    <div class="col-md-4"><button type="submit" class="btn btn-primary">Rechercher</button></div>
+                </form>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead><tr><th>Équipement</th><th>Exploitation</th><th>Site</th><th>Numéro de série</th><th>Responsable</th></tr></thead>
+                        <tbody>
+                            <tr t-foreach="equipment_records" t-as="equipment">
+                                <td><a t-att-href="'/my/agriculture/maintenance/equipment/%s' % equipment.id"><t t-out="equipment.name"/></a></td>
+                                <td t-out="equipment.agriculture_farm_id.name or '-'"/>
+                                <td t-out="equipment.agriculture_site_id.name or '-'"/>
+                                <td t-out="equipment.serial_no or '-'"/>
+                                <td t-out="equipment.technician_user_id.name or '-'"/>
+                            </tr>
+                            <tr t-if="not equipment_records"><td colspan="5" class="text-center text-muted">Aucun équipement agricole trouvé.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <template id="portal_maintenance_equipment_detail" name="Détail équipement - portail">
+        <t t-call="portal.portal_layout">
+            <div class="container my-4">
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                    <h2 t-out="equipment.name"/>
+                    <a href="/my/agriculture/maintenance/equipment" class="btn btn-secondary">Retour aux équipements</a>
+                </div>
+                <div class="card mb-4"><div class="card-body"><div class="row g-3">
+                    <div class="col-md-6"><strong>Exploitation :</strong> <t t-out="equipment.agriculture_farm_id.name or '-'"/></div>
+                    <div class="col-md-6"><strong>Site :</strong> <t t-out="equipment.agriculture_site_id.name or '-'"/></div>
+                    <div class="col-md-6"><strong>Infrastructure :</strong> <t t-out="equipment.agriculture_infrastructure_id.name or '-'"/></div>
+                    <div class="col-md-6"><strong>Numéro de série :</strong> <t t-out="equipment.serial_no or '-'"/></div>
+                    <div class="col-md-6"><strong>Catégorie :</strong> <t t-out="equipment.category_id.name or '-'"/></div>
+                    <div class="col-md-6"><strong>Technicien :</strong> <t t-out="equipment.technician_user_id.name or '-'"/></div>
+                    <div class="col-md-6"><strong>Emplacement :</strong> <t t-out="equipment.location or '-'"/></div>
+                </div></div></div>
+                <h3>Historique des interventions</h3>
+                <div class="table-responsive"><table class="table table-hover">
+                    <thead><tr><th>Demande</th><th>Type</th><th>Date</th><th>Statut</th></tr></thead>
+                    <tbody>
+                        <tr t-foreach="maintenance_requests" t-as="maintenance_request">
+                            <td><a t-att-href="'/my/agriculture/maintenance/requests/%s' % maintenance_request.id"><t t-out="maintenance_request.name"/></a></td>
+                            <td t-out="dict(maintenance_request._fields['maintenance_type'].selection).get(maintenance_request.maintenance_type, maintenance_request.maintenance_type)"/>
+                            <td t-out="maintenance_request.schedule_date or '-'"/>
+                            <td t-out="maintenance_request.stage_id.name or '-'"/>
+                        </tr>
+                        <tr t-if="not maintenance_requests"><td colspan="4" class="text-center text-muted">Aucune intervention enregistrée.</td></tr>
+                    </tbody>
+                </table></div>
+            </div>
+        </t>
+    </template>
+
+    <template id="portal_maintenance_requests" name="Interventions de maintenance - portail">
+        <t t-call="portal.portal_layout">
+            <div class="container my-4">
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                    <h2>Interventions de maintenance</h2>
+                    <a href="/my/agriculture" class="btn btn-secondary">Retour au tableau de bord</a>
+                </div>
+                <form method="get" action="/my/agriculture/maintenance/requests" class="row g-2 mb-3">
+                    <div class="col-md-8"><input type="search" name="search" class="form-control" placeholder="Référence ou équipement" t-att-value="search"/></div>
+                    <div class="col-md-4"><button type="submit" class="btn btn-primary">Rechercher</button></div>
+                </form>
+                <div class="table-responsive"><table class="table table-hover">
+                    <thead><tr><th>Demande</th><th>Équipement</th><th>Exploitation</th><th>Type</th><th>Date prévue</th><th>Statut</th></tr></thead>
+                    <tbody>
+                        <tr t-foreach="maintenance_requests" t-as="maintenance_request">
+                            <td><a t-att-href="'/my/agriculture/maintenance/requests/%s' % maintenance_request.id"><t t-out="maintenance_request.name"/></a></td>
+                            <td t-out="maintenance_request.equipment_id.name or '-'"/>
+                            <td t-out="maintenance_request.agriculture_farm_id.name or '-'"/>
+                            <td t-out="dict(maintenance_request._fields['maintenance_type'].selection).get(maintenance_request.maintenance_type, maintenance_request.maintenance_type)"/>
+                            <td t-out="maintenance_request.schedule_date or '-'"/>
+                            <td t-out="maintenance_request.stage_id.name or '-'"/>
+                        </tr>
+                        <tr t-if="not maintenance_requests"><td colspan="6" class="text-center text-muted">Aucune intervention trouvée.</td></tr>
+                    </tbody>
+                </table></div>
+            </div>
+        </t>
+    </template>
+
+    <template id="portal_maintenance_request_detail" name="Détail intervention - portail">
+        <t t-call="portal.portal_layout">
+            <div class="container my-4">
+                <div class="d-flex flex-wrap justify-content-between align-items-center mb-3">
+                    <h2 t-out="maintenance_request.name"/>
+                    <a href="/my/agriculture/maintenance/requests" class="btn btn-secondary">Retour aux interventions</a>
+                </div>
+                <div class="card"><div class="card-body"><div class="row g-3">
+                    <div class="col-md-6"><strong>Équipement :</strong> <t t-out="maintenance_request.equipment_id.name or '-'"/></div>
+                    <div class="col-md-6"><strong>Exploitation :</strong> <t t-out="maintenance_request.agriculture_farm_id.name or '-'"/></div>
+                    <div class="col-md-6"><strong>Site :</strong> <t t-out="maintenance_request.agriculture_site_id.name or '-'"/></div>
+                    <div class="col-md-6"><strong>Infrastructure :</strong> <t t-out="maintenance_request.agriculture_infrastructure_id.name or '-'"/></div>
+                    <div class="col-md-6"><strong>Type :</strong> <t t-out="dict(maintenance_request._fields['maintenance_type'].selection).get(maintenance_request.maintenance_type, maintenance_request.maintenance_type)"/></div>
+                    <div class="col-md-6"><strong>Demande créée le :</strong> <t t-out="maintenance_request.schedule_date or '-'"/></div>
+                    <div class="col-md-6"><strong>Date prévue :</strong> <t t-out="maintenance_request.schedule_date or '-'"/></div>
+                    <div class="col-md-6"><strong>Date de clôture :</strong> <t t-out="maintenance_request.close_date or '-'"/></div>
+                    <div class="col-md-6"><strong>Technicien :</strong> <t t-out="maintenance_request.user_id.name or '-'"/></div>
+                    <div class="col-md-6"><strong>Statut :</strong> <t t-out="maintenance_request.stage_id.name or '-'"/></div>
+                    <div class="col-md-6"><strong>Coût :</strong> <t t-out="maintenance_request.agriculture_intervention_cost"/> <t t-out="maintenance_request.agriculture_currency_id.symbol or ''"/></div>
+                    <div class="col-12"><strong>Description :</strong><div t-field="maintenance_request.description"/></div>
+                </div></div></div>
+            </div>
+        </t>
+    </template>
+</odoo>
