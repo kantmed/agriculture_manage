@@ -59,6 +59,17 @@
                     <div class="col-md-4">
                         <div class="card shadow-sm">
                             <div class="card-body">
+                                <h5>Maintenance</h5>
+                                <p>Consulter les équipements agricoles et l'historique des interventions.</p>
+                                <a href="/my/agriculture/maintenance/equipment" class="btn btn-primary">Consulter les équipements</a>
+                                <a href="/my/agriculture/maintenance/requests" class="btn btn-outline-primary mt-2">Interventions</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
                                 <h5>Activités</h5>
                                 <p>Suivi des activités agricoles.</p>
                                 <a href="/my/agriculture/activities" class="btn btn-primary">
