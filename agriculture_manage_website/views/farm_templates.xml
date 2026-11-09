@@ -77,110 +77,61 @@
     <!-- Formulaire création / modification -->
     <template id="farm_form" name="Formulaire exploitation">
         <t t-call="portal.portal_layout">
-            <div class="container py-4">
-                <h2 t-if="farm">Modifier l'exploitation</h2>
-                <h2 t-else="">Nouvelle exploitation</h2>
-
-                <div t-if="error" class="alert alert-danger"
-                     role="alert">
-                    <t t-out="error"/>
-                </div>
-
-                <form method="post"
-                      t-att-action="('/my/agriculture/farms/%s/update' % farm.id) if farm else '/my/agriculture/farms/create'">
-
-                    <input type="hidden" name="csrf_token"
-                           t-att-value="request.csrf_token()"/>
-
-                    <div class="row g-3">
-
-                        <div class="col-md-8">
-                            <label class="form-label">
-                                Nom de l'exploitation *
-                            </label>
-                            <input type="text" name="name"
-                                   required="required"
-                                   class="form-control"
-                                   t-att-value="values.get('name', farm.name if farm else '')"/>
+            <div class="o_form_view">
+                <form method="post" t-att-action="('/my/agriculture/farms/%s/update' % farm.id) if farm else '/my/agriculture/farms/create'">
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <div class="o_form_sheet_bg">
+                        <div class="o_form_sheet">
+                            <div class="oe_title">
+                                <h1><input type="text" name="name" class="form-control" placeholder="Nom de l'exploitation" required="required" t-att-value="values.get('name', farm.name if farm else '')"/></h1>
+                            </div>
+                            <div class="o_group">
+                                <table class="o_group_table">
+                                    <tr>
+                                        <td class="o_td_label"><label>Référence</label></td>
+                                        <td><input type="text" name="code" class="form-control" t-att-value="values.get('code', farm.code if farm else '')"/></td>
+                                        <td class="o_td_label"><label>Superficie totale (ha)</label></td>
+                                        <td><input type="number" name="total_area" min="0" step="0.01" class="form-control" t-att-value="values.get('total_area', farm.total_area if farm else 0)"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="o_td_label"><label>Téléphone</label></td>
+                                        <td><input type="text" name="phone" class="form-control" t-att-value="values.get('phone', farm.phone if farm else '')"/></td>
+                                        <td class="o_td_label"><label>E-mail</label></td>
+                                        <td><input type="email" name="email" class="form-control" t-att-value="values.get('email', farm.email if farm else '')"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="o_td_label"><label>Adresse</label></td>
+                                        <td colspan="3"><input type="text" name="street" class="form-control" t-att-value="values.get('street', farm.street if farm else '')"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="o_td_label"><label>Ville / Commune</label></td>
+                                        <td><input type="text" name="city" class="form-control" t-att-value="values.get('city', farm.city if farm else '')"/></td>
+                                        <td class="o_td_label"><label>Pays</label></td>
+                                        <td>
+                                            <select name="country_id" class="form-select">
+                                                <option value="">Sélectionner</option>
+                                                <option t-foreach="countries" t-as="country" t-att-value="country.id" t-att-selected="str(values.get('country_id', farm.country_id.id if farm else '')) == str(country.id)" t-out="country.name"/>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="o_td_label"><label>Wilaya</label></td>
+                                        <td>
+                                            <select name="state_id" class="form-select">
+                                                <option value="">Sélectionner</option>
+                                                <option t-foreach="states" t-as="state" t-att-value="state.id" t-att-selected="str(values.get('state_id', farm.state_id.id if farm else '')) == str(state.id)" t-out="state.name"/>
+                                            </select>
+                                        </td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="o_form_buttons mt-3">
+                                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                <a href="/my/agriculture/farms" class="btn btn-secondary">Annuler</a>
+                            </div>
                         </div>
-
-                        <div class="col-md-4">
-                            <label class="form-label">Référence</label>
-                            <input type="text" name="code"
-                                   class="form-control"
-                                   t-att-value="values.get('code', farm.code if farm else '')"/>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label">Téléphone</label>
-                            <input type="text" name="phone"
-                                   class="form-control"
-                                   t-att-value="values.get('phone', farm.phone if farm else '')"/>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label">E-mail</label>
-                            <input type="email" name="email"
-                                   class="form-control"
-                                   t-att-value="values.get('email', farm.email if farm else '')"/>
-                        </div>
-
-                        <div class="col-md-12">
-                            <label class="form-label">Adresse</label>
-                            <input type="text" name="street"
-                                   class="form-control"
-                                   t-att-value="values.get('street', farm.street if farm else '')"/>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label">Ville / Commune</label>
-                            <input type="text" name="city"
-                                   class="form-control"
-                                   t-att-value="values.get('city', farm.city if farm else '')"/>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label">Superficie totale (ha)</label>
-                            <input type="number" name="total_area"
-                                   min="0" step="0.01"
-                                   class="form-control"
-                                   t-att-value="values.get('total_area', farm.total_area if farm else 0)"/>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label">Pays</label>
-                            <select name="country_id" class="form-select">
-                                <option value="">Sélectionner</option>
-                                <option t-foreach="countries" t-as="country"
-                                        t-att-value="country.id"
-                                        t-att-selected="str(values.get('country_id', farm.country_id.id if farm else '')) == str(country.id)">
-                                    <t t-out="country.name"/>
-                                </option>
-                            </select>
-                        </div>
-
-                        <div class="col-md-6">
-                            <label class="form-label">Wilaya</label>
-                            <select name="state_id" class="form-select">
-                                <option value="">Sélectionner</option>
-                                <option t-foreach="states" t-as="state"
-                                        t-att-value="state.id"
-                                        t-att-selected="str(values.get('state_id', farm.state_id.id if farm else '')) == str(state.id)">
-                                    <t t-out="state.name"/>
-                                </option>
-                            </select>
-                        </div>
-
-                    </div>
-
-                    <div class="mt-4">
-                        <button type="submit" class="btn btn-primary">
-                            Enregistrer
-                        </button>
-                        <a href="/my/agriculture/farms"
-                           class="btn btn-secondary">
-                            Annuler
-                        </a>
                     </div>
                 </form>
             </div>

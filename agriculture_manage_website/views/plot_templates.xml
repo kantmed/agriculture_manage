@@ -41,59 +41,51 @@
 
     <template id="plot_form" name="Formulaire parcelle">
         <t t-call="portal.portal_layout">
-            <div class="container my-4">
-                <h2 t-if="not plot">Nouvelle parcelle</h2>
-                <h2 t-if="plot">Modifier la parcelle</h2>
-                <div t-if="error" class="alert alert-danger" role="alert"><t t-out="error"/></div>
-                <form t-att-action="'/my/agriculture/plots/%s/update' % plot.id if plot else '/my/agriculture/plots/create'" method="post">
-                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                    <div class="mb-3">
-                        <label>Nom</label>
-                        <input type="text" name="name" class="form-control" t-att-value="values.get('name') if values else (plot.name if plot else '')"/>
+            <div class="o_form_view">
+                <form method="post" t-att-action="'/my/agriculture/plots/%s/update' % plot.id if plot else '/my/agriculture/plots/create'">
+                    <div class="o_form_sheet_bg">
+                        <div class="o_form_sheet">
+                            <div class="oe_title">
+                                <h1><input type="text" name="name" class="form-control" placeholder="Nom de la parcelle" required="required" t-att-value="values.get('name') if values else (plot.name if plot else '')"/></h1>
+                            </div>
+                            <div class="o_group">
+                                <table class="o_group_table">
+                                    <tr>
+                                        <td class="o_td_label"><label>Exploitation</label></td>
+                                        <td>
+                                            <select name="farm_id" class="form-select">
+                                                <t t-foreach="farms" t-as="farm" t-key="farm.id">
+                                                    <option t-att-value="farm.id" t-att-selected="'selected' if (values.get('farm_id') if values else (plot.farm_id.id if plot else None)) == farm.id else None" t-out="farm.name"/>
+                                                </t>
+                                            </select>
+                                        </td>
+                                        <td class="o_td_label"><label>Superficie</label></td>
+                                        <td><input type="number" step="0.01" name="area" class="form-control" t-att-value="values.get('area') if values else (plot.area if plot else 0)"/></td>
+                                    </tr>
+                                    <tr>
+                                        <td class="o_td_label"><label>Unité</label></td>
+                                        <td>
+                                            <select name="area_unit" class="form-select">
+                                                <option value="ha">ha</option>
+                                                <option value="m2">m²</option>
+                                            </select>
+                                        </td>
+                                        <td class="o_td_label"><label>État</label></td>
+                                        <td>
+                                            <select name="state" class="form-select">
+                                                <option value="available">Disponible</option>
+                                                <option value="cultivated">En culture</option>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="o_form_buttons mt-3">
+                                <button type="submit" class="btn btn-primary">Enregistrer</button>
+                                <a href="/my/agriculture/plots" class="btn btn-secondary">Annuler</a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="mb-3">
-                        <label>Exploitation</label>
-                        <select name="farm_id" class="form-control">
-                            <t t-foreach="farms" t-as="farm" t-key="farm.id">
-                                <option t-att-value="farm.id" t-att-selected="'selected' if str(values.get('farm_id', plot.farm_id.id if plot else '')) == str(farm.id) else None" t-out="farm.name"/>
-                            </t>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label>Site agricole</label>
-                        <select name="site_id" class="form-select">
-                            <option value="">Aucun site associé</option>
-                            <t t-foreach="sites" t-as="site" t-key="site.id">
-                                <option t-att-value="site.id"
-                                        t-att-selected="str(values.get('site_id', plot.site_id.id if plot and plot.site_id else '')) == str(site.id)">
-                                    <t t-out="site.name"/>
-                                </option>
-                            </t>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label>Superficie</label>
-                        <input type="number" step="0.01" name="area" class="form-control" t-att-value="values.get('area') if values else (plot.area if plot else 0)"/>
-                    </div>
-                    <div class="mb-3">
-                        <label>Unité</label>
-                        <select name="area_unit" class="form-control">
-                            <option value="ha" t-att-selected="(values.get('area_unit') if values else (plot.area_unit if plot else 'ha')) == 'ha'">ha</option>
-                            <option value="are" t-att-selected="(values.get('area_unit') if values else (plot.area_unit if plot else 'ha')) == 'are'">are</option>
-                            <option value="m2" t-att-selected="(values.get('area_unit') if values else (plot.area_unit if plot else 'ha')) == 'm2'">m²</option>
-                        </select>
-                    </div>
-                    <div class="mb-3">
-                        <label>État</label>
-                        <select name="state" class="form-control">
-                            <option value="available" t-att-selected="(values.get('state') if values else (plot.state if plot else 'available')) == 'available'">Disponible</option>
-                            <option value="cultivated" t-att-selected="(values.get('state') if values else (plot.state if plot else 'available')) == 'cultivated'">En culture</option>
-                            <option value="fallow" t-att-selected="(values.get('state') if values else (plot.state if plot else 'available')) == 'fallow'">En jachère</option>
-                            <option value="inactive" t-att-selected="(values.get('state') if values else (plot.state if plot else 'available')) == 'inactive'">Inactive</option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Enregistrer</button>
-                    <a href="/my/agriculture/plots" class="btn btn-secondary">Annuler</a>
                 </form>
             </div>
         </t>
