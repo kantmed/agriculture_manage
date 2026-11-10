@@ -135,8 +135,23 @@ class TestConfiguration(TransactionCase):
 
     def test_code_modification_with_conflict(self):
         """Teste que la modification du code lève une erreur en cas de conflit."""
-        self.env["gest_agri.soil.type"].create({"name": "Sable", "code": "SAB", "company_id": self.company.id})
+        SoilType = self.env["gest_agri.soil.type"]
+        SoilType.create(
+            {"name": "Sable", "code": "SAB", "company_id": self.company.id}
+        )
+        other = SoilType.create(
+            {"name": "Argile", "code": "ARG", "company_id": self.company.id}
+        )
+        # Le changement de code vers un code déjà utilisé doit être refusé.
         with self.assertRaises(ValidationError):
-            self.env["gest_agri.soil.type"].search([("code", "=", "SAB")]).write(
-                {"name": "Sable modifié", "code": "SAB"}
-            )
+            other.write({"name": "Sable modifié", "code": "SAB"})
+
+    def test_code_unchanged_is_not_a_conflict(self):
+        """Réécrire le même code sur le même enregistrement n'est pas un conflit."""
+        SoilType = self.env["gest_agri.soil.type"]
+        record = SoilType.create(
+            {"name": "Sable", "code": "SABLE", "company_id": self.company.id}
+        )
+        record.write({"name": "Sable renommé", "code": "SABLE"})
+        self.assertEqual(record.code, "SABLE")
+

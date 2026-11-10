@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import AccessError, ValidationError
 
 from ._common import check_same_company
 
@@ -119,11 +119,17 @@ class GestAgriFarm(models.Model):
 
     @api.depends("plot_ids", "plot_ids.area", "plot_ids.active")
     def _compute_allocated_area(self):
+        # Agrégation en base : la somme des surfaces actives est calculée par
+        # SQL, sans charger l'intégralité des parcelles de l'exploitation en
+        # mémoire (l'ancienne implementation parcourait farm.plot_ids).
+        groups = self.env["gest_agri.plot"]._read_group(
+            [("farm_id", "in", self.ids), ("active", "=", True)],
+            ["farm_id"],
+            ["area:sum"],
+        )
+        totals = {group[0].id: group[1] for group in groups}
         for farm in self:
-            # Ne somme que les parcelles actives (non archivées)
-            farm.allocated_area = sum(
-                plot.area for plot in farm.plot_ids.filtered('active')
-            )
+            farm.allocated_area = totals.get(farm.id, 0.0)
 
     @api.depends(
         "site_ids",
@@ -135,14 +141,27 @@ class GestAgriFarm(models.Model):
         "access_ids",
     )
     def _compute_counts(self):
+        # Comptage en base : chaque compteur est obtenu par un COUNT
+        # groupé, sans charger les enregistrements enfants.
+        counts = {}
+        for model_name, field_name in (
+            ("gest_agri.site", "site_count"),
+            ("gest_agri.plot", "plot_count"),
+            ("gest_agri.building", "building_count"),
+            ("gest_agri.infrastructure", "infrastructure_count"),
+            ("gest_agri.water.source", "water_source_count"),
+            ("gest_agri.irrigation.network", "irrigation_network_count"),
+            ("gest_agri.farm.access", "access_count"),
+        ):
+            groups = self.env[model_name]._read_group(
+                [("farm_id", "in", self.ids)],
+                ["farm_id"],
+                ["__count"],
+            )
+            counts[field_name] = {group[0].id: group[1] for group in groups}
         for farm in self:
-            farm.site_count = len(farm.site_ids)
-            farm.plot_count = len(farm.plot_ids)
-            farm.building_count = len(farm.building_ids)
-            farm.infrastructure_count = len(farm.infrastructure_ids)
-            farm.water_source_count = len(farm.water_source_ids)
-            farm.irrigation_network_count = len(farm.irrigation_network_ids)
-            farm.access_count = len(farm.access_ids)
+            for field_name, per_farm in counts.items():
+                farm[field_name] = per_farm.get(farm.id, 0)
 
     @api.constrains("code", "company_id", "active")
     def _check_code_unique(self):
@@ -156,7 +175,9 @@ class GestAgriFarm(models.Model):
                 ("company_id", "=", farm.company_id.id),
             ]
             normalized = farm.code.strip().casefold()
-            for other in self.sudo().search(domain):
+            # search_fetch ne charge que la colonne utile au lieu de
+            # l'intégralité des enregistrements du périmètre.
+            for other in self.sudo().search_fetch(domain, ["code"]):
                 if other.code and other.code.strip().casefold() == normalized:
                     raise ValidationError(
                         self.env._(
@@ -193,11 +214,29 @@ class GestAgriFarm(models.Model):
         check_same_company(self, ["analytic_account_id", "farm_type_id"])
 
     def _invalidate_farm_access_cache(self):
-        # Ciblage cible : on ne fait pas invalidate_all
-        # On cible seulement les caches d acce
-        self.env.transaction.invalidate_access_cache()
-        self.env.transaction.invalidate_ormcache("stable")
+        """Invalide les caches de sécurité dépendant des droits d'accès.
+
+        Trois caches sont concernés :
+
+        * le cache de valeurs des deux champs calculés de ``res.users``
+          (``gest_agri_farm_ids`` / ``gest_agri_managed_farm_ids``), qui
+          portent les périmètres d'accès ;
+        * le cache ormcache « default », qui contient le domaine d'accès
+          ``BaseModel._access_domain``. Ce domaine est évalué à partir de
+          ``user.gest_agri_farm_ids`` : sans invalidation, un droit d'accès
+          créé ou modifié ne serait pris en compte qu'à la fin de la
+          transaction, et l'utilisateur ne verrait pas ses exploitations ;
+        * le cache d'accès Odoo (décisions de lecture par enregistrement).
+
+        L'ancien ``env.invalidate_all()`` vidait l'intégralité du cache ORM
+        (donc celui de tous les modules) : il est remplacé par une invalidation
+        ciblée, tout en conservant l'invalidation ormcache indispensable.
+        """
+        self.env["res.users"].invalidate_model(
+            ["gest_agri_farm_ids", "gest_agri_managed_farm_ids"]
+        )
         self.env.transaction.invalidate_ormcache("default")
+        self.env.transaction.invalidate_access_cache()
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -209,29 +248,9 @@ class GestAgriFarm(models.Model):
         return farms
 
     def write(self, vals):
-        if "farm_id" in vals:
-            for record in self.filtered(
-                lambda r: not r.env.user.has_group(
-                    "gestion_agricole.group_gest_agri_admin"
-                )
-            ):
-                target_farm_id = vals["farm_id"]
-                target_farm = record.env["gest_agri.farm"].browse(target_farm_id)
-                # Vérifier que la cible appartient à la même société
-                if target_farm.company_id != record.company_id:
-                    raise AccessError(
-                        "Vous ne pouvez pas déplacer cet exploit vers une "
-                        "exploitation d'une autre société."
-                    )
-                # Vérifier que le responsable a le droit sur la cible
-                user = record.env.user
-                if not user.has_group(
-                    "gestion_agricole.group_gest_agri_manager"
-                ) and user.id != target_farm.manager_id.id:
-                    raise AccessError(
-                        "Vous ne pouvez pas modifier l'exploitation vers une "
-                        "exploitation que vous ne gérez pas."
-                    )
+        # Note : gest_agri.farm ne possède pas de champ farm_id. Le contrôle de
+        # déplacement d'exploitation vers une autre exploitation était un code
+        # mort (copié de gest_agri.farm.access) : il a été supprimé.
         result = super().write(vals)
         if {"manager_id", "company_id", "active"} & set(vals):
             self._invalidate_farm_access_cache()
@@ -239,10 +258,7 @@ class GestAgriFarm(models.Model):
 
     def unlink(self):
         result = super().unlink()
-        self.env.invalidate_all()
-        self.env.transaction.invalidate_access_cache()
-        self.env.transaction.invalidate_ormcache("default")
-        self.env.transaction.invalidate_ormcache("stable")
+        self._invalidate_farm_access_cache()
         return result
 
     def action_view_sites(self):

@@ -2,6 +2,20 @@
 <odoo>
 
     <!-- Exploitations agricoles -->
+    <record id="action_gest_agri_farm" model="ir.actions.act_window">
+        <field name="name">Exploitations</field>
+        <field name="res_model">gest_agri.farm</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Créez votre première exploitation agricole.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_gest_agri_farm" name="Exploitations"
+              parent="menu_gestion_agricole_exploitations"
+              action="action_gest_agri_farm" sequence="10"
+              groups="gestion_agricole.group_gest_agri_user"/>
+
     <record id="action_gest_agri_farm_access" model="ir.actions.act_window">
         <field name="name">Droits d'accès</field>
         <field name="res_model">gest_agri.farm.access</field>
@@ -185,6 +199,68 @@
                     </notebook>
                 </sheet>
                 <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_farm_search" model="ir.ui.view">
+        <field name="name">gest_agri.farm.search</field>
+        <field name="model">gest_agri.farm</field>
+        <field name="arch" type="xml">
+            <search string="Exploitations">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="farm_type_id"/>
+                <field name="manager_id"/>
+                <field name="partner_id"/>
+                <filter name="active" string="Actives" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Archivées" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_farm_type" string="Type d'exploitation" context="{'group_by': 'farm_type_id'}"/>
+                    <filter name="group_manager" string="Responsable" context="{'group_by': 'manager_id'}"/>
+                    <filter name="group_company" string="Société" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_farm_access_list" model="ir.ui.view">
+        <field name="name">gest_agri.farm.access.list</field>
+        <field name="model">gest_agri.farm.access</field>
+        <field name="arch" type="xml">
+            <list string="Droits d'accès">
+                <field name="farm_id"/>
+                <field name="user_id"/>
+                <field name="role"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_farm_access_form" model="ir.ui.view">
+        <field name="name">gest_agri.farm.access.form</field>
+        <field name="model">gest_agri.farm.access</field>
+        <field name="arch" type="xml">
+            <form string="Droit d'accès">
+                <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="user_id" string="Utilisateur"/>
+                        <h1><field name="user_id" placeholder="Utilisateur beneficiary"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="farm_id"/>
+                            <field name="role"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Description ou notes internes..."/>
+                </sheet>
             </form>
         </field>
     </record>

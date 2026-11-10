@@ -18,7 +18,9 @@ def check_unique_code(records, scope_field=None):
             domain.append((scope_field, "=", scope.id if scope else False))
 
         normalized = record.code.strip().casefold()
-        for other in records.sudo().search(domain):
+        # search_fetch ne charge que la colonne utile au lieu de l'intégralité
+        # des enregistrements du périmètre.
+        for other in records.sudo().search_fetch(domain, ["code"]):
             if other.code and other.code.strip().casefold() == normalized:
                 raise ValidationError(
                     records.env._(
@@ -44,3 +46,4 @@ def check_same_company(records, field_names):
                         field=field_name,
                     )
                 )
+

@@ -73,8 +73,11 @@ class GestAgriIrrigationSector(models.Model):
     @api.constrains("farm_id", "plot_ids")
     def _check_plot_farm(self):
         for sector in self:
-            # Sens 1 : toutes les parcelles doivent appartenir à l'exploitation du secteur
-            wrong = sector.plot_ids.filtered(lambda plot: plot.farm_id != sector.farm_id)
+            # Sens 1 : toutes les parcelles doivent appartenir à
+            # l'exploitation du secteur.
+            wrong = sector.plot_ids.filtered(
+                lambda plot: plot.farm_id != sector.farm_id
+            )
             if wrong:
                 raise ValidationError(
                     self.env._(
@@ -84,24 +87,11 @@ class GestAgriIrrigationSector(models.Model):
                         farm=sector.farm_id.display_name,
                     )
                 )
-            # Sens 2 : vérification inverse - si une parcelle change d'exploitation,
-            # elle ne doit pas rester dans des secteurs de l'ancienne exploitation
-            for plot in sector.plot_ids:
-                # Vérifier que plot.farm_id est bien sector.farm_id
-                if plot.farm_id != sector.farm_id:
-                    # La parcelle a été déplacée hors de l'exploitation du secteur
-                    # On vérifie s'il y a des secteurs hérités de l'ancienne ferme
-                    old_sectors = self.env['gest_agri.irrigation.sector'].search([
-                        ('farm_id', '=', plot.farm_id.id),
-                        ('active', '=', True),
-                    ])
-                    # Si la parcelle était dans un secteur existant et qu'on change
-                    # son exploitation, c'est une incohérence
-                    if plot.id in sector.plot_ids and plot.farm_id != sector.farm_id:
-                        raise ValidationError(
-                            self.env._(
-                                "Une parcelle ne peut pas changer d'exploitation sans "
-                                "mise à jour des secteurs qui lui sont rattachés. "
-                                "Contactez un administrateur."
-                            )
-                        )
+            # Sens 2 : le contrôle inverse (parcelle déplacée hors de
+            # l'exploitation alors qu'elle reste rattachée à un secteur) est
+            # déjà couvert par le sens 1 : la contrainte ci-dessus porte sur
+            # ("farm_id", "plot_ids") et est donc rejouée à chaque
+            # modification de parcelle. La logique de contrôle inverse
+            # introduite précédemment était inatteignable (le secteur avait
+            # déjà été invalidé) et effectuait une recherche ORM inutile
+            # dans une boucle.

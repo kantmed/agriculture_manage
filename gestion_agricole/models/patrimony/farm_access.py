@@ -53,11 +53,29 @@ class GestAgriFarmAccess(models.Model):
     )
 
     def _invalidate_farm_access_cache(self):
-        """Invalide les caches de sécurité dépendant des droits d'accès."""
-        self.env.invalidate_all()
-        self.env.transaction.invalidate_access_cache()
+        """Invalide les caches de sécurité dépendant des droits d'accès.
+
+        Trois caches sont concernés :
+
+        * le cache de valeurs des deux champs calculés de ``res.users``
+          (``gest_agri_farm_ids`` / ``gest_agri_managed_farm_ids``), qui
+          portent les périmètres d'accès ;
+        * le cache ormcache « default », qui contient le domaine d'accès
+          ``BaseModel._access_domain``. Ce domaine est évalué à partir de
+          ``user.gest_agri_farm_ids`` : sans invalidation, un droit d'accès
+          créé ou modifié ne serait pris en compte qu'à la fin de la
+          transaction, et l'utilisateur ne verrait pas ses exploitations ;
+        * le cache d'accès Odoo (décisions de lecture par enregistrement).
+
+        L'ancien ``env.invalidate_all()`` vidait l'intégralité du cache ORM
+        (donc celui de tous les modules) : il est remplacé par une invalidation
+        ciblée, tout en conservant l'invalidation ormcache indispensable.
+        """
+        self.env["res.users"].invalidate_model(
+            ["gest_agri_farm_ids", "gest_agri_managed_farm_ids"]
+        )
         self.env.transaction.invalidate_ormcache("default")
-        self.env.transaction.invalidate_ormcache("stable")
+        self.env.transaction.invalidate_access_cache()
 
     def _check_self_management(self):
         """Interdit à un non-administrateur de modifier ses propres droits."""

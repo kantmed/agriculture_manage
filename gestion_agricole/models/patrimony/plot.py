@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models
-from odoo.exceptions import ValidationError
+from odoo.exceptions import AccessError, ValidationError
 
 from ._common import check_same_company, check_unique_code
 
@@ -149,27 +149,34 @@ class GestAgriPlot(models.Model):
     def _check_company_relations(self):
         check_same_company(self, ["soil_type_id", "irrigation_type_id"])
 
-    @api.model
     def write(self, vals):
-        if 'farm_id' in vals and not self.env.user.has_group(
-            'gestion_agricole.group_gest_agri_admin'
+        # Note : write() est une méthode « record » (elle agit sur les
+        # enregistrements de self) et ne doit pas être décorée avec @api.model.
+        # Dans call_kw (odoo/service/model.py), une méthode marquée @api.model
+        # est appelée sans les identifiants d'enregistrement : l'appel RPC de
+        # write() depuis l'interface web devenait impossible.
+        if "farm_id" in vals and not self.env.user.has_group(
+            "gestion_agricole.group_gest_agri_admin"
         ):
-            for record in self.filtered(lambda r: not r.env.user.has_group(
-                'gestion_agricole.group_gest_agri_admin'
-            )):
-                target_farm_id = vals['farm_id']
-                target_farm = record.env['gest_agri.farm'].browse(target_farm_id)
+            for record in self:
+                target_farm = record.env["gest_agri.farm"].browse(vals["farm_id"])
+                # Vérifier que la cible appartient à la même société
                 if target_farm.company_id != record.company_id:
                     raise AccessError(
-                        "Vous ne pouvez pas déplacer cette parcelle vers une "
-                        "exploitation d'une autre société."
+                        self.env._(
+                            "Vous ne pouvez pas déplacer cette parcelle vers une "
+                            "exploitation d'une autre société."
+                        )
                     )
+                # Vérifier que le responsable a le droit sur la cible
                 user = record.env.user
                 if not user.has_group(
-                    'gestion_agricole.group_gest_agri_manager'
+                    "gestion_agricole.group_gest_agri_manager"
                 ) and user.id != target_farm.manager_id.id:
                     raise AccessError(
-                        "Vous ne pouvez pas déplacer cette parcelle vers une "
-                        "exploitation que vous ne gérez pas."
+                        self.env._(
+                            "Vous ne pouvez pas déplacer cette parcelle vers une "
+                            "exploitation que vous ne gérez pas."
+                        )
                     )
-        return super(Plot, self).write(vals)
+        return super().write(vals)
