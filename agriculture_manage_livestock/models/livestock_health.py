@@ -57,6 +57,7 @@ class AgricultureLivestockHealth(models.Model):
     dosage = fields.Char(string="Posologie")
     cost = fields.Monetary(string="Coût", currency_field="currency_id", tracking=True)
     currency_id = fields.Many2one("res.currency", related="company_id.currency_id", store=True, readonly=True)
+    stock_move_id = fields.Many2one("stock.move", string="Mouvement de stock", readonly=True, copy=False)
 
     meat_withdrawal_days = fields.Integer(string="Délai d'attente viande (jours)", default=0)
     milk_withdrawal_days = fields.Integer(string="Délai d'attente lait (jours)", default=0)
@@ -78,6 +79,32 @@ class AgricultureLivestockHealth(models.Model):
             if vals.get("name", "Nouveau") == "Nouveau":
                 vals["name"] = self.env["ir.sequence"].next_by_code("agriculture.livestock.health") or "Nouveau"
         return super().create(vals_list)
+
+    def action_create_stock_move(self):
+        self.ensure_one()
+        if not self.product_id or not self.quantity:
+            raise UserError(_("Sélectionnez un médicament et une quantité."))
+        if self.stock_move_id:
+            return
+        company = self.company_id or self.env.company
+        source_location = self.env.ref("stock.stock_location_stock", raise_if_not_found=False)
+        dest_location = self.env.ref("stock.location_production", raise_if_not_found=False) or source_location
+        if not source_location:
+            raise UserError(_("Emplacement de stock introuvable."))
+        move = self.env["stock.move"].with_company(company).create({
+            "name": self.name or "Santé animale",
+            "product_id": self.product_id.id,
+            "uom_id": self.product_id.uom_id.id,
+            "product_uom_qty": self.quantity,
+            "location_id": source_location.id,
+            "location_dest_id": dest_location.id if dest_location else source_location.id,
+            "company_id": company.id,
+        })
+        move._action_confirm()
+        move._action_assign()
+        move._action_done()
+        self.stock_move_id = move
+        return True
 
     @api.constrains(
         "animal_id", "herd_id", "date", "done_date", "next_date",
