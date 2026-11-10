@@ -126,6 +126,17 @@
                     <div class="col-md-4">
                         <div class="card shadow-sm">
                             <div class="card-body">
+                                <h5>Santé animale</h5>
+                                <p>Événements sanitaires.</p>
+                                <a href="/my/agriculture/health" class="btn btn-primary">
+                                    Consulter
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
                                 <h5>Finance</h5>
                                 <p>Comptes financiers agricoles.</p>
                                 <a href="/my/agriculture/finance" class="btn btn-primary">

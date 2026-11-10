@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="health_list" name="Santé élevage">
+        <t t-call="portal.portal_layout">
+            <div class="container my-4">
+                <div class="d-flex justify-content-between mb-3">
+                    <h2>Événements sanitaires</h2>
+                    <a href="/my/agriculture/health/new" class="btn btn-primary">Nouvel événement</a>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Référence</th>
+                                <th>Type</th>
+                                <th>Animal/Lot</th>
+                                <th>Date</th>
+                                <th>État</th>
+                                <th>Coût</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="records" t-as="rec" t-key="rec.id">
+                                <td><a t-att-href="'/my/agriculture/health/%s' % rec.id" t-out="rec.name"/></td>
+                                <td t-out="rec.event_type"/>
+                                <td t-out="rec.animal_id.name or rec.herd_id.name"/>
+                                <td t-out="rec.date"/>
+                                <td t-out="rec.state"/>
+                                <td t-out="rec.cost"/>
+                                <td>
+                                    <a t-att-href="'/my/agriculture/health/%s' % rec.id" class="btn btn-sm btn-outline-primary">Consulter</a>
+                                </td>
+                            </tr>
+                            <tr t-if="not records">
+                                <td colspan="7" class="text-center">Aucun événement trouvé.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a href="/my/agriculture" class="btn btn-secondary">Retour</a>
+            </div>
+        </t>
+    </template>
+
+    <template id="health_form" name="Formulaire santé">
+        <t t-call="portal.portal_layout">
+            <div class="container my-4">
+                <h2>Nouvel événement sanitaire</h2>
+                <form method="post" action="/my/agriculture/health/create">
+                    <div class="card"><div class="card-body">
+                        <div class="mb-3">
+                            <label>Type</label>
+                            <select name="event_type" class="form-select">
+                                <option value="vaccination">Vaccination</option>
+                                <option value="treatment">Traitement</option>
+                                <option value="disease">Maladie</option>
+                                <option value="deworming">Déparasitage</option>
+                                <option value="vet_visit">Visite vétérinaire</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label>Animal</label>
+                            <select name="animal_id" class="form-select">
+                                <option value="">--</option>
+                                <t t-foreach="animals" t-as="a" t-key="a.id">
+                                    <option t-att-value="a.id" t-out="a.name"/>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label>Lot</label>
+                            <select name="herd_id" class="form-select">
+                                <option value="">--</option>
+                                <t t-foreach="herds" t-as="h" t-key="h.id">
+                                    <option t-att-value="h.id" t-out="h.name"/>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label>Date</label>
+                            <input type="date" name="date" class="form-control"/>
+                        </div>
+                        <div class="mb-3">
+                            <label>Vétérinaire</label>
+                            <input type="text" name="veterinarian" class="form-control"/>
+                        </div>
+                        <div class="mb-3">
+                            <label>Diagnostic</label>
+                            <textarea name="diagnosis" class="form-control"/>
+                        </div>
+                        <div class="mb-3">
+                            <label>Traitement</label>
+                            <textarea name="treatment" class="form-control"/>
+                        </div>
+                        <div class="mb-3">
+                            <label>Coût</label>
+                            <input type="number" step="0.01" name="cost" class="form-control"/>
+                        </div>
+                        <div class="mb-3">
+                            <label>Notes</label>
+                            <textarea name="notes" class="form-control"/>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        <a href="/my/agriculture/health" class="btn btn-secondary">Annuler</a>
+                    </div></div>
+                </form>
+            </div>
+        </t>
+    </template>
+
+    <template id="health_detail" name="Détail événement sanitaire">
+        <t t-call="portal.portal_layout">
+            <div class="container my-4">
+                <h2 t-out="record.name"/>
+                <p>Type : <span t-out="record.event_type"/></p>
+                <p>Animal : <span t-out="record.animal_id.name"/></p>
+                <p>Lot : <span t-out="record.herd_id.name"/></p>
+                <p>Date : <span t-out="record.date"/></p>
+                <p>Vétérinaire : <span t-out="record.veterinarian"/></p>
+                <p>Diagnostic : <span t-out="record.diagnosis"/></p>
+                <p>Traitement : <span t-out="record.treatment"/></p>
+                <p>Coût : <span t-out="record.cost"/></p>
+                <form t-att-action="'/my/agriculture/health/%s/delete' % record.id" method="post" style="display:inline">
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                </form>
+                <a href="/my/agriculture/health" class="btn btn-secondary">Retour</a>
+            </div>
+        </t>
+    </template>
+</odoo>
