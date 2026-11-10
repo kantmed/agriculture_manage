@@ -33,6 +33,31 @@ class AgricultureLivestockAnimal(models.Model):
     active = fields.Boolean(default=True)
     notes = fields.Text()
 
+    currency_id = fields.Many2one(
+        "res.currency", related="company_id.currency_id", store=True, readonly=True,
+    )
+
+    total_health_cost = fields.Monetary(
+        string="Coût sanitaire total", compute="_compute_total_health_cost",
+        currency_field="currency_id",
+    )
+    total_cost = fields.Monetary(
+        string="Coût total", compute="_compute_total_cost",
+        currency_field="currency_id",
+    )
+
+    @api.depends("health_event_ids.cost", "health_event_ids.state")
+    def _compute_total_health_cost(self):
+        for animal in self:
+            animal.total_health_cost = sum(
+                animal.health_event_ids.filtered(lambda e: e.state == "done").mapped("cost")
+            )
+
+    @api.depends("total_health_cost")
+    def _compute_total_cost(self):
+        for animal in self:
+            animal.total_cost = animal.total_health_cost
+
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
