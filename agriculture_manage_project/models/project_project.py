@@ -36,7 +36,7 @@ class ProjectProject(models.Model):
         tracking=True,
     )
     agriculture_currency_id = fields.Many2one(
-        "res.currency", related="company_id.currency_id", readonly=True,
+        "res.currency", string="Devise agricole", related="company_id.currency_id", readonly=True,
     )
     agriculture_investment_estimate = fields.Monetary(
         string="Investissement prévisionnel",

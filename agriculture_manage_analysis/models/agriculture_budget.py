@@ -76,9 +76,10 @@ class AgricultureFarmCropBudget(models.Model):
         string="Dépassement", compute="_compute_totals", store=True,
     )
 
-    _sql_constraints = [
-        ("campaign_budget_unique", "unique(campaign_id)", "Un budget existe déjà pour cette campagne."),
-    ]
+    _campaign_budget_unique = models.Constraint(
+        "UNIQUE(campaign_id)",
+        "Un budget existe déjà pour cette campagne.",
+    )
 
     @api.model_create_multi
     def create(self, vals_list):

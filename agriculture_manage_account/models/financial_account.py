@@ -47,9 +47,10 @@ class AgricultureFinancialAccount(models.Model):
         string="Solde", currency_field="currency_id", compute="_compute_balance",
     )
 
-    _sql_constraints = [
-        ("company_code_unique", "unique(company_id, code)", "Cette référence existe déjà pour cette société."),
-    ]
+    _company_code_unique = models.Constraint(
+        "UNIQUE(company_id, code)",
+        "Cette référence existe déjà pour cette société.",
+    )
 
     @api.depends(
         "opening_balance", "payment_ids.amount", "payment_ids.state", "payment_ids.transaction_id.transaction_type",

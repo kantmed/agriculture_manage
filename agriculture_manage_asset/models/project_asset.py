@@ -6,11 +6,11 @@ class ProjectProject(models.Model):
     _inherit = "project.project"
 
     agriculture_asset_ids = fields.One2many(
-        "account.asset.asset", "agriculture_project_id", string="Immobilisation issue du projet"
+        "account.asset.asset", "agriculture_project_id", string="Immobilisations issues du projet"
     )
     agriculture_asset_id = fields.Many2one(
         "account.asset.asset", compute="_compute_agriculture_asset_id",
-        string="Immobilisation issue du projet",
+        string="Immobilisation issue du projet (unitaire)",
     )
     agriculture_investment_state = fields.Selection(
         [("in_progress", "En cours"), ("completed", "Achevé")],
