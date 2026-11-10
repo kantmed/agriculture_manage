@@ -72,10 +72,18 @@ class AgricultureFarmOperation(models.Model):
         copy=False,
     )
     company_id = fields.Many2one(
-        related="campaign_id.company_id",
-        store=True,
-        readonly=True,
+        "res.company", string="Société", compute="_compute_company_id", store=True, readonly=True,
     )
+
+    @api.depends("campaign_id")
+    def _compute_company_id(self):
+        for operation in self:
+            if operation.campaign_id:
+                operation.company_id = operation.campaign_id.company_id
+            elif "project_id" in operation._fields and operation.project_id:
+                operation.company_id = operation.project_id.company_id
+            else:
+                operation.company_id = False
     line_ids = fields.One2many(
         "agriculture.farm.operation.line",
         "operation_id",

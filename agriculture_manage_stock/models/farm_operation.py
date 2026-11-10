@@ -145,8 +145,18 @@ class FarmOperation(models.Model):
     _inherit = "agriculture.farm.operation"
 
     farm_id = fields.Many2one(
-        related="campaign_id.farm_id", string="Exploitation", store=True, readonly=True,
+        "agriculture.farm", string="Exploitation", compute="_compute_farm_id", store=True, readonly=True,
     )
+
+    @api.depends("campaign_id")
+    def _compute_farm_id(self):
+        for operation in self:
+            if operation.campaign_id:
+                operation.farm_id = operation.campaign_id.farm_id
+            elif "project_id" in operation._fields and operation.project_id:
+                operation.farm_id = operation.project_id.agriculture_farm_id
+            else:
+                operation.farm_id = False
     stock_picking_ids = fields.One2many(
         "stock.picking", "agriculture_operation_id", string="Sorties de stock",
     )
