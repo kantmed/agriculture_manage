@@ -185,6 +185,8 @@ class AgricultureFinancialTransaction(models.Model):
                 raise ValidationError(_("Un budget de dépenses ne peut être associé qu'à un mouvement de type dépense."))
             if rec.budget_id and rec.budget_id.company_id != rec.company_id:
                 raise ValidationError(_("Le budget doit appartenir à la société du mouvement."))
+            if rec.budget_id and rec.budget_id.block_over_budget and rec.transaction_type == "expense":
+                rec.budget_id.check_budget_available(rec.amount)
 
     def _prepare_account_move_vals(self):
         self.ensure_one()

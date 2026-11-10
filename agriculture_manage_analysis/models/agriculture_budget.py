@@ -75,6 +75,10 @@ class AgricultureFarmCropBudget(models.Model):
     is_over_budget = fields.Boolean(
         string="Dépassement", compute="_compute_totals", store=True,
     )
+    block_over_budget = fields.Boolean(
+        string="Bloquer si dépassement", default=False,
+        help="Empêche l'enregistrement de dépenses si le budget est dépassé.",
+    )
 
     _campaign_budget_unique = models.Constraint(
         "UNIQUE(campaign_id)",
@@ -93,6 +97,14 @@ class AgricultureFarmCropBudget(models.Model):
         for budget in self:
             if budget.date_start and budget.date_end and budget.date_end < budget.date_start:
                 raise ValidationError(_("La date de fin doit être postérieure ou égale à la date de début."))
+
+    def check_budget_available(self, amount):
+        self.ensure_one()
+        if not self.block_over_budget:
+            return True
+        if self.remaining_total - amount < 0:
+            raise ValidationError(_("Le budget '%s' est dépassé : dépense de %s dépasserait le montant prévu.") % (self.name, amount))
+        return True
 
     @api.depends(
         "line_ids.planned_amount", "line_ids.actual_amount",
