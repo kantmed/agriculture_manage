@@ -36,6 +36,13 @@ class AgricultureFarmCropCampaign(models.Model):
     )
     start_date = fields.Date(string="Date de début")
     end_date = fields.Date(string="Date de fin")
+    season = fields.Selection([
+        ("spring", "Printemps"),
+        ("summer", "Été"),
+        ("autumn", "Automne"),
+        ("winter", "Hiver"),
+    ], string="Saison")
+    planned_yield = fields.Float(string="Rendement prévu (t/ha)", digits=(16, 2))
     state = fields.Selection(
         [
             ("draft", "Brouillon"),
