@@ -9,6 +9,7 @@ from . import harvest
 from . import livestock
 from . import finance
 from . import budget
+from . import crop
 from . import campaign
 from . import site
 from . import infrastructure
