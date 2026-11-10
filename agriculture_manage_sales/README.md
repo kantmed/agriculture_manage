@@ -7,7 +7,7 @@ Extension des ventes Odoo pour relier la commercialisation aux campagnes et réc
 - Lie chaque commande à une campagne, une récolte validée et, facultativement, une parcelle.
 - Conserve le workflow natif Odoo : confirmation, livraison via `sale_stock`, facturation et paiement via `account`.
 - Ajoute un accès aux clients et commandes agricoles sous Agriculture > Commercialisation.
-- Permet de créer manuellement une recette dans `agriculture_manage_account`, liée à la commande. Cette recette reste en brouillon et son règlement doit être enregistré dans la gestion financière ; aucune écriture financière n'est créée automatiquement afin d'éviter les doublons avec la comptabilité native.
+- Les recettes et dépenses sont gérées via les factures natives Odoo (Phase 4) ; aucune transaction financière manuelle n'est créée automatiquement.
 - Ajoute un accès aux commandes liées depuis la fiche de récolte.
 
 ## Dépendances
