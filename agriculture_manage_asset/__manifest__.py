@@ -19,7 +19,7 @@
         "views/agriculture_asset_views.xml",
         "views/agriculture_farm_views.xml",
         "views/account_asset_views.xml",
-        "views/project_asset_views.xml",
+        "views/project_asset_views.xml", "views/agriculture_company_group_views.xml",
         "views/account_move_views.xml",
     ],
     "application": False,

@@ -1,3 +1,5 @@
 id,name,model_id,group_id/id,operation,domain
 access_agriculture_asset_allocation_account_user,agriculture.asset.allocation account user,agriculture.asset.allocation,account.group_account_user,crud,
 access_agriculture_asset_allocation_account_manager,agriculture.asset.allocation account manager,agriculture.asset.allocation,account.group_account_manager,crud,
+access_agri_company_group_user,agriculture.company.group user,agriculture.company.group,account.group_account_user,crud,
+access_agri_company_group_manager,agriculture.company.group manager,agriculture.company.group,account.group_account_manager,crud,

@@ -12,6 +12,7 @@ class AccountAssetAsset(models.Model):
         [
             ("none", "Non affectée"),
             ("company", "Groupe / société"),
+            ("group", "Groupe de sociétés"),
             ("farm", "Exploitation"),
             ("site", "Site"),
         ],
@@ -28,6 +29,9 @@ class AccountAssetAsset(models.Model):
     agriculture_site_id = fields.Many2one(
         "agriculture.farm.site", string="Site", ondelete="restrict", tracking=True,
         domain="[('farm_id', '=', agriculture_farm_id)]",
+    )
+    agriculture_company_group_id = fields.Many2one(
+        "agriculture.company.group", string="Groupe de sociétés", ondelete="restrict", tracking=True,
     )
     agriculture_project_id = fields.Many2one(
         "project.project", string="Projet agricole", ondelete="restrict",
@@ -74,8 +78,15 @@ class AccountAssetAsset(models.Model):
         if self.agriculture_scope == "company":
             self.agriculture_farm_id = False
             self.agriculture_site_id = False
+            self.agriculture_company_group_id = False
+        elif self.agriculture_scope == "group":
+            self.agriculture_farm_id = False
+            self.agriculture_site_id = False
         elif self.agriculture_scope == "farm":
             self.agriculture_site_id = False
+            self.agriculture_company_group_id = False
+        elif self.agriculture_scope == "site":
+            self.agriculture_company_group_id = False
 
     @api.constrains("agriculture_scope", "agriculture_farm_id", "agriculture_site_id", "company_id", "agriculture_allocation_ids", "agriculture_project_id", "agriculture_origin")
     def _check_agriculture_assignment(self):
@@ -91,11 +102,13 @@ class AccountAssetAsset(models.Model):
             if asset.agriculture_scope == "none":
                 if farm or site or asset.agriculture_allocation_ids:
                     raise ValidationError(_("Une immobilisation non affectée ne doit pas avoir de rattachement agricole."))
-            elif asset.agriculture_scope == "company":
+            elif asset.agriculture_scope == "group":
+                if not asset.agriculture_company_group_id:
+                    raise ValidationError(_("Une immobilisation de groupe de sociétés doit avoir un groupe de sociétés."))
                 if farm or site:
                     raise ValidationError(_("Une immobilisation de groupe ne doit pas être rattachée directement à une exploitation ou à un site."))
                 if asset.agriculture_allocation_ids:
-                    total = sum(asset.agriculture_allocation_ids.mapped("percentage"))
+                    raise ValidationError(_("Les répartitions multi-exploitations sont réservées aux immobilisations de groupe (société unique)."))
                     if total > 100.0001:
                         raise ValidationError(_("La répartition entre exploitations ne peut pas dépasser 100 % (actuellement : %.2f %%).") % total)
                     if asset.state != "draft" and abs(total - 100.0) > 0.0001:
