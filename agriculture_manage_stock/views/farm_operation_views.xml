@@ -9,6 +9,9 @@
                 <button name="action_prepare_stock_issue" type="object"
                         string="Préparer la sortie de stock" class="btn-secondary"
                         invisible="state != 'draft' or not line_ids" groups="stock.group_stock_user"/>
+                <button name="action_recalculate_stock_valuation" type="object"
+                        string="Recalculer la valorisation" class="btn-secondary"
+                        invisible="state != 'done'" groups="stock.group_stock_user"/>
             </xpath>
             <xpath expr="//field[@name='line_ids']/list/field[@name='product_id']" position="after">
                 <field name="consume_stock" optional="show" groups="stock.group_stock_user"/>

@@ -283,6 +283,13 @@ class FarmOperation(models.Model):
         # longer creates an outgoing picking, so no duplicate stock issue occurs.
         return super().action_validate()
 
+    def action_recalculate_stock_valuation(self):
+        done_operations = self.filtered(lambda op: op.state == "done")
+        for operation in done_operations:
+            for line in operation.line_ids.filtered("consume_stock"):
+                line._agriculture_sync_stock_valuation()
+        return True
+
     def action_cancel(self):
         for operation in self:
             if operation.stock_picking_ids.filtered(lambda picking: picking.state == "done"):
