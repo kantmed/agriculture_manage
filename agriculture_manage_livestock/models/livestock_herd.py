@@ -23,16 +23,21 @@ class AgricultureLivestockHerd(models.Model):
     quantity = fields.Float(string="Effectif collectif", default=0.0)
     animal_ids = fields.One2many("agriculture.livestock.animal", "herd_id")
     health_event_ids = fields.One2many("agriculture.livestock.health", "herd_id", string="Suivi sanitaire")
-    individual_count = fields.Integer(compute="_compute_counts")
-    headcount = fields.Float(compute="_compute_counts", store=True)
+    individual_count = fields.Integer(compute="_compute_individual_count")
+    headcount = fields.Float(compute="_compute_headcount", store=True)
     active = fields.Boolean(default=True)
     notes = fields.Text()
 
     @api.depends("tracking_mode", "quantity", "animal_ids", "animal_ids.state")
-    def _compute_counts(self):
+    def _compute_individual_count(self):
         for rec in self:
             alive = rec.animal_ids.filtered(lambda a: a.state == "active")
             rec.individual_count = len(alive)
+
+    @api.depends("tracking_mode", "quantity", "animal_ids", "animal_ids.state")
+    def _compute_headcount(self):
+        for rec in self:
+            alive = rec.animal_ids.filtered(lambda a: a.state == "active")
             rec.headcount = float(len(alive)) if rec.tracking_mode == "individual" else rec.quantity
 
     @api.model_create_multi

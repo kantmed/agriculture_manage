@@ -5,7 +5,7 @@
         <field name="model">agriculture.farm.infrastructure</field>
         <field name="inherit_id" ref="agriculture_manage.view_farm_infrastructure_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//sheet/div[@class='oe_title']" position="before">
+            <xpath expr="//sheet/div[hasclass('oe_title')]" position="before">
                 <div class="oe_button_box" name="button_box">
                     <button name="action_view_maintenance_equipment" type="object" class="oe_stat_button" icon="fa-cogs">
                         <field name="maintenance_equipment_count" widget="statinfo" string="Équipements"/>
