@@ -92,7 +92,7 @@ class FarmOperationLine(models.Model):
                     # move exposes its value but no SVL relation is available.
                     has_valuation = True
                     move_quantity = abs(move.quantity)
-                    quantity_in_line_uom = move.product_uom._compute_quantity(
+                    quantity_in_line_uom = move.uom_id._compute_quantity(
                         move_quantity, line.uom_id, round=False,
                     ) if line.uom_id else move_quantity
                     direction = -1.0 if (
@@ -202,9 +202,8 @@ class FarmOperation(models.Model):
                 move_commands = []
                 for line in warehouse_lines:
                     move_commands.append(Command.create({
-                        "name": line.name or line.product_id.display_name,
                         "product_id": line.product_id.id,
-                        "product_uom": line.uom_id.id,
+                        "uom_id": line.uom_id.id,
                         "product_uom_qty": line.quantity,
                         "location_id": warehouse.lot_stock_id.id,
                         "location_dest_id": production_location.id,
@@ -261,7 +260,7 @@ class FarmOperation(models.Model):
             for line in stock_lines:
                 done_moves = line.stock_move_ids.filtered(lambda move: move.state == "done")
                 done_quantity = sum(
-                    move.product_uom._compute_quantity(move.quantity, line.uom_id, round=False)
+                    move.uom_id._compute_quantity(move.quantity, line.uom_id, round=False)
                     for move in done_moves
                 )
                 if float_compare(done_quantity, line.quantity, precision_rounding=line.uom_id.rounding) < 0:

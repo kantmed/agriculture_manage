@@ -1,7 +1,7 @@
 import re
 
 from odoo import api, fields, models, _
-
+from odoo.exceptions import ValidationError
 
 class AgricultureFarmCropCampaign(models.Model):
     _name = "agriculture.farm.crop.campaign"
@@ -72,7 +72,7 @@ class AgricultureFarmCropCampaign(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
-            if vals.get("code") in (False, "Nouveau"):
+            if vals.get("code") in (False, None, "Nouveau"):
                 years = re.findall(r"(?<!\d)\d{4}(?!\d)", vals.get("name") or "")
                 if len(years) == 2:
                     start_year, end_year = years
@@ -81,3 +81,26 @@ class AgricultureFarmCropCampaign(models.Model):
                     start_year = end_year = current_year
                 vals["code"] = f"CAM-{start_year}-{end_year}"
         return super().create(vals_list)
+    
+    @api.constrains("start_date", "end_date")
+    def _check_campaign_dates(self):
+        for campaign in self:
+            if (
+                campaign.start_date
+                and campaign.end_date
+                and campaign.end_date < campaign.start_date
+            ):
+                raise ValidationError(
+                    _("La date de fin doit être postérieure ou égale à la date de début.")
+                )
+
+    @api.constrains("crop_id", "variety_id")
+    def _check_variety_crop(self):
+        for campaign in self:
+            if (
+                campaign.variety_id
+                and campaign.variety_id.crop_id != campaign.crop_id
+            ):
+                raise ValidationError(
+                    _("La variété sélectionnée doit appartenir à la culture de la campagne.")
+                )
