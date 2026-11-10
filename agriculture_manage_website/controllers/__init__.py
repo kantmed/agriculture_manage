@@ -4,6 +4,7 @@ from . import farm
 from . import plot
 from . import activity
 from . import campaign
+from . import operation
 from . import campaign
 from . import site
 from . import infrastructure
