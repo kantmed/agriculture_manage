@@ -57,6 +57,13 @@ class AgricultureLivestockProduction(models.Model):
         string="Produit / variété", tracking=True,
         help="Précisez le produit si le type est « Autre production ».",
     )
+    product_id = fields.Many2one(
+        "product.product", string="Produit de stock", ondelete="restrict",
+        help="Produit à mettre en stock lors de la validation.",
+    )
+    stock_move_id = fields.Many2one(
+        "stock.move", string="Mouvement de stock", readonly=True, copy=False,
+    )
     quantity = fields.Float(
         string="Quantité produite", required=True, default=0.0,
         digits="Product Unit of Measure", tracking=True,
@@ -152,6 +159,32 @@ class AgricultureLivestockProduction(models.Model):
                 raise ValidationError(_("Une unité de mesure est obligatoire."))
             if rec.production_type == "other" and not rec.product_description:
                 raise ValidationError(_("Précisez le produit pour une autre production."))
+
+    def action_create_stock_entry(self):
+        self.ensure_one()
+        if not self.product_id:
+            raise UserError(_("Sélectionnez un produit de stock."))
+        if self.stock_move_id:
+            return
+        company = self.company_id or self.env.company
+        production_location = self.env.ref("stock.stock_location_production", raise_if_not_found=False)
+        stock_location = self.env.ref("stock.stock_location_stock", raise_if_not_found=False)
+        if not production_location or not stock_location:
+            raise UserError(_("Les emplacements de production/stock sont introuvables."))
+        move = self.env["stock.move"].with_company(company).create({
+            "name": self.name or "Production",
+            "product_id": self.product_id.id,
+            "product_uom_qty": self.quantity,
+            "uom_id": self.uom_id.id,
+            "location_id": production_location.id,
+            "location_dest_id": stock_location.id,
+            "company_id": company.id,
+        })
+        move._action_confirm()
+        move._action_assign()
+        move._action_done()
+        self.stock_move_id = move
+        return True
 
     def action_mark_done(self):
         for rec in self:
