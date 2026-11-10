@@ -7,6 +7,7 @@ from . import campaign
 from . import operation
 from . import harvest
 from . import livestock
+from . import finance
 from . import campaign
 from . import site
 from . import infrastructure

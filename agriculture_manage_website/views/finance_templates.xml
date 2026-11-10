@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="finance_list" name="Finance">
+        <t t-call="portal.portal_layout">
+            <div class="container my-4">
+                <h2>Comptes financiers agricoles</h2>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Référence</th>
+                                <th>Nom</th>
+                                <th>Type</th>
+                                <th>Devise</th>
+                                <th>Solde</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="accounts" t-as="account" t-key="account.id">
+                                <td><a t-att-href="'/my/agriculture/finance/%s' % account.id" t-out="account.code"/></td>
+                                <td t-out="account.name"/>
+                                <td t-out="account.account_type"/>
+                                <td t-out="account.currency_id.name"/>
+                                <td t-out="account.balance"/>
+                                <td>
+                                    <a t-att-href="'/my/agriculture/finance/%s' % account.id" class="btn btn-sm btn-outline-primary">Consulter</a>
+                                </td>
+                            </tr>
+                            <tr t-if="not accounts">
+                                <td colspan="6" class="text-center">Aucun compte trouvé.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a href="/my/agriculture" class="btn btn-secondary">Retour</a>
+            </div>
+        </t>
+    </template>
+
+    <template id="finance_detail" name="Détail compte financier">
+        <t t-call="portal.portal_layout">
+            <div class="container my-4">
+                <h2 t-out="account.name"/>
+                <p>Référence : <span t-out="account.code"/></p>
+                <p>Type : <span t-out="account.account_type"/></p>
+                <p>Devise : <span t-out="account.currency_id.name"/></p>
+                <p>Solde : <span t-out="account.balance"/></p>
+                <a href="/my/agriculture/finance" class="btn btn-secondary">Retour</a>
+            </div>
+        </t>
+    </template>
+</odoo>
