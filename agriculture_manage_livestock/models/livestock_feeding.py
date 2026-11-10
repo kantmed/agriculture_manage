@@ -31,6 +31,18 @@ class AgricultureLivestockRation(models.Model):
         "agriculture.livestock.ration.line", "ration_id",
         string="Composition de la ration", copy=True,
     )
+    total_energy_per_head = fields.Float(
+        string="Énergie totale par tête (kcal)", compute="_compute_totals", store=True,
+    )
+    total_protein_per_head = fields.Float(
+        string="Protéines totales par tête (g)", compute="_compute_totals", store=True,
+    )
+
+    @api.depends("line_ids.energy_per_head", "line_ids.protein_per_head")
+    def _compute_totals(self):
+        for ration in self:
+            ration.total_energy_per_head = sum(ration.line_ids.mapped("energy_per_head"))
+            ration.total_protein_per_head = sum(ration.line_ids.mapped("protein_per_head"))
     notes = fields.Text(string="Observations")
 
     @api.constrains("farm_id", "species_id", "line_ids")
@@ -66,7 +78,19 @@ class AgricultureLivestockRationLine(models.Model):
     )
     note = fields.Char(string="Remarque")
 
-    @api.constrains("product_id", "quantity_per_head", "uom_id")
+    energy_per_head = fields.Float(
+        string="Énergie par tête (kcal)", compute="_compute_nutrition", store=True,
+    )
+    protein_per_head = fields.Float(
+        string="Protéines par tête (g)", compute="_compute_nutrition", store=True,
+    )
+
+    @api.depends("quantity_per_head", "product_id.nutrition_energy_kcal", "product_id.nutrition_protein", "uom_id")
+    def _compute_nutrition(self):
+        for line in self:
+            qty = line.quantity_per_head or 0.0
+            line.energy_per_head = qty * (line.product_id.nutrition_energy_kcal or 0.0)
+            line.protein_per_head = qty * (line.product_id.nutrition_protein or 0.0)
     def _check_ration_line(self):
         for line in self:
             if line.quantity_per_head <= 0:

@@ -26,6 +26,24 @@ class ProductTemplate(models.Model):
         store=True,
     )
 
+    # Nutrition (pour les aliments)
+    nutrition_energy_kcal = fields.Float(
+        string="Énergie (kcal/kg)",
+        help="Apport énergétique par kg d'aliment.",
+    )
+    nutrition_protein = fields.Float(
+        string="Protéines (%)",
+        help="Teneur en protéines.",
+    )
+    nutrition_fat = fields.Float(
+        string="Matières grasses (%)",
+        help="Teneur en matières grasses.",
+    )
+    nutrition_fiber = fields.Float(
+        string="Fibres (%)",
+        help="Teneur en fibres.",
+    )
+
     @api.depends("agriculture_category")
     def _compute_agriculture_is_input(self):
         for product in self:
