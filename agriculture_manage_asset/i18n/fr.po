@@ -1,0 +1,643 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* agriculture_manage_asset
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-10 07:28+0000\n"
+"PO-Revision-Date: 2026-11-10 07:28+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: fr_FR\n"
+"Plural-Forms: \n"
+
+#. module: agriculture_manage_asset
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_asset.view_project_form_agriculture_assets
+msgid "Achever le projet et créer l'immobilisation"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields.selection,name:agriculture_manage_asset.selection__project_project__agriculture_investment_state__completed
+msgid "Achevé"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields.selection,name:agriculture_manage_asset.selection__account_asset_asset__agriculture_origin__direct
+#: model:ir.model.fields.selection,name:agriculture_manage_asset.selection__project_project__agriculture_asset_origin__direct
+msgid "Acquisition directe"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_agriculture_company_group__active
+msgid "Active"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_asset.view_account_asset_agriculture_form
+msgid "Affectation agricole"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_account_move_line__agriculture_asset_scope
+msgid "Affectation agricole de l'immobilisation"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.module.module,shortdesc:base.module_agriculture_manage_asset
+msgid "Agriculture Management - Assets"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model,name:agriculture_manage_asset.model_account_asset_depreciation_line
+msgid "Asset depreciation line"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model,name:agriculture_manage_asset.model_account_asset_asset
+msgid "Asset/Revenue Recognition"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/account_move_line.py:0
+msgid ""
+"Aucune exploitation ni aucun site ne doit être sélectionné pour cette "
+"affectation."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/account_asset.py:0
+msgid ""
+"Avant confirmation, la répartition entre exploitations doit totaliser 100 % "
+"(actuellement : %.2f %%)."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/project_asset.py:0
+msgid ""
+"Ce projet est déjà achevé, mais aucune immobilisation n'est liée. Contactez "
+"votre administrateur."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_agriculture_asset_allocation__company_id
+msgid "Company"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_agriculture_farm__analytic_account_id
+msgid "Compte analytique"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,help:agriculture_manage_asset.field_agriculture_farm__analytic_account_id
+msgid ""
+"Compte analytique utilisé pour imputer les amortissements des "
+"immobilisations agricoles à cette exploitation."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_project_project__agriculture_investment_actual_cost
+msgid "Coût final immobilisable"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_project_project__agriculture_project_operation_total
+msgid "Coûts saisis sur les opérations"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_agriculture_asset_allocation__create_uid
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_agriculture_company_group__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_agriculture_asset_allocation__create_date
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_agriculture_company_group__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_account_asset_asset__display_name
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_account_asset_depreciation_line__display_name
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_account_move_line__display_name
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_agriculture_asset_allocation__display_name
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_agriculture_company_group__display_name
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_agriculture_farm__display_name
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_project_project__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/project_asset.py:0
+msgid "Définissez une société sur le projet avant de créer l'immobilisation."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields.selection,name:agriculture_manage_asset.selection__project_project__agriculture_investment_state__in_progress
+msgid "En cours"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_account_asset_asset__agriculture_farm_id
+#: model:ir.model.fields.selection,name:agriculture_manage_asset.selection__account_asset_asset__agriculture_scope__farm
+#: model:ir.model.fields.selection,name:agriculture_manage_asset.selection__account_move_line__agriculture_asset_scope__farm
+msgid "Exploitation"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model,name:agriculture_manage_asset.model_agriculture_farm
+msgid "Exploitation agricole"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_account_move_line__agriculture_farm_id
+msgid "Exploitation de l'immobilisation"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_agriculture_asset_allocation__farm_id
+msgid "Exploitation utilisatrice"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_account_asset_asset__agriculture_allocation_ids
+msgid "Exploitations utilisatrices"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_project_project__agriculture_project_invoice_total
+msgid "Factures fournisseurs comptabilisées"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.module.module,summary:base.module_agriculture_manage_asset
+msgid ""
+"Gestion facultative des immobilisations agricoles et de leur affectation"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields.selection,name:agriculture_manage_asset.selection__account_asset_asset__agriculture_scope__company
+#: model:ir.model.fields.selection,name:agriculture_manage_asset.selection__account_move_line__agriculture_asset_scope__company
+msgid "Groupe / société"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_account_asset_asset__agriculture_company_group_id
+#: model:ir.model.fields.selection,name:agriculture_manage_asset.selection__account_asset_asset__agriculture_scope__group
+msgid "Groupe de sociétés"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model,name:agriculture_manage_asset.model_agriculture_company_group
+msgid "Groupe de sociétés agricoles"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.actions.act_window,name:agriculture_manage_asset.action_agriculture_company_group
+msgid "Groupes de sociétés"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_account_asset_asset__id
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_account_asset_depreciation_line__id
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_account_move_line__id
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_agriculture_asset_allocation__id
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_agriculture_company_group__id
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_agriculture_farm__id
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_project_project__id
+msgid "ID"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_agriculture_asset_allocation__asset_id
+msgid "Immobilisation"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/project_asset.py:0
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_account_move_line__agriculture_asset_id
+msgid "Immobilisation créée"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/project_asset.py:0
+msgid ""
+"Immobilisation créée à partir du projet « %s ». Vérifiez la fiche puis "
+"validez-la pour démarrer les amortissements."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/project_asset.py:0
+msgid "Immobilisation du projet"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_asset.view_project_form_agriculture_assets
+msgid "Immobilisation issue du projet"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_project_project__agriculture_asset_id
+msgid "Immobilisation issue du projet (unitaire)"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.actions.act_window,name:agriculture_manage_asset.action_agriculture_asset
+#: model:ir.ui.menu,name:agriculture_manage_asset.menu_agriculture_asset
+msgid "Immobilisations agricoles"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_project_project__agriculture_asset_ids
+msgid "Immobilisations issues du projet"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,help:agriculture_manage_asset.field_account_asset_asset__agriculture_origin
+msgid ""
+"Indique comment l'immobilisation a été obtenue. Les réalisations sous-"
+"traitées ou internes doivent être rattachées à un projet."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model,name:agriculture_manage_asset.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/account_move_line.py:0
+msgid ""
+"L'exploitation de l'immobilisation doit appartenir à la société de la "
+"facture."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/account_asset.py:0
+msgid "L'exploitation doit appartenir à la même société que l'immobilisation."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/account_asset_allocation.py:0
+msgid ""
+"L'exploitation utilisatrice doit appartenir à la société de "
+"l'immobilisation."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/account_asset.py:0
+msgid ""
+"La répartition entre exploitations doit totaliser 100 % avant confirmation "
+"(actuellement : %.2f %%)."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/account_asset.py:0
+msgid ""
+"La répartition entre exploitations ne peut pas dépasser 100 % (actuellement "
+": %.2f %%)."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,help:agriculture_manage_asset.field_account_asset_asset__agriculture_scope
+msgid ""
+"Laisser Non affectée pour une immobilisation qui ne nécessite pas de suivi "
+"agricole."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_agriculture_asset_allocation__write_uid
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_agriculture_company_group__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_agriculture_asset_allocation__write_date
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_agriculture_company_group__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/project_asset.py:0
+msgid "Le modèle d'immobilisation appartient à une autre société."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/project_asset.py:0
+msgid "Le modèle d'immobilisation doit appartenir à la société du projet."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/project_asset.py:0
+msgid ""
+"Le modèle d'immobilisation doit définir les comptes et le journal requis "
+"avant la création. Champs manquants : %s"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/account_asset_allocation.py:0
+msgid "Le pourcentage doit être compris entre 0 et 100."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.constraint,message:agriculture_manage_asset.constraint_agriculture_asset_allocation_percentage_positive
+msgid "Le pourcentage doit être supérieur à 0 et inférieur ou égal à 100."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/account_move_line.py:0
+msgid "Le projet doit appartenir à la société de la facture."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/account_asset.py:0
+msgid "Le projet et l'immobilisation doivent appartenir à la même société."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/account_move_line.py:0
+msgid "Le site doit appartenir à l'exploitation sélectionnée."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/account_asset_allocation.py:0
+msgid ""
+"Les exploitations utilisatrices ne sont autorisées que pour une "
+"immobilisation affectée au groupe / à la société."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/account_asset.py:0
+msgid ""
+"Les répartitions multi-exploitations sont réservées aux immobilisations de "
+"groupe (société unique)."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/account_asset.py:0
+msgid ""
+"Les répartitions multi-exploitations sont réservées aux immobilisations de "
+"groupe."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_asset.view_project_form_agriculture_assets
+msgid ""
+"Les totaux des factures et des opérations sont des indicateurs séparés. Le "
+"coût final immobilisable doit être validé après rapprochement afin d'éviter "
+"tout double comptage."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_account_asset_asset__agriculture_invoice_line_id
+msgid "Ligne de facture source"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_project_project__agriculture_project_invoice_line_ids
+msgid "Lignes de factures du projet"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_account_asset_asset__agriculture_origin
+msgid "Mode d'obtention"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_project_project__agriculture_asset_origin
+msgid "Mode de réalisation"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_project_project__agriculture_asset_category_id
+msgid "Modèle d'immobilisation"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,help:agriculture_manage_asset.field_project_project__agriculture_investment_actual_cost
+msgid ""
+"Montant final validé à immobiliser, après rapprochement des achats, "
+"prestations et coûts de réalisation. Ne pas saisir ici les dépenses non "
+"immobilisables."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_agriculture_company_group__name
+msgid "Name"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_account_asset_asset__agriculture_scope
+msgid "Niveau d'affectation agricole"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields.selection,name:agriculture_manage_asset.selection__account_asset_asset__agriculture_scope__none
+#: model:ir.model.fields.selection,name:agriculture_manage_asset.selection__account_move_line__agriculture_asset_scope__none
+msgid "Non affectée"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_agriculture_asset_allocation__percentage
+msgid "Part des coûts (%)"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_asset.view_account_asset_agriculture_form
+msgid ""
+"Pour une immobilisation partagée, la somme des parts doit être de 100 %. Les"
+" comptes analytiques des exploitations servent à ventiler les "
+"amortissements."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model,name:agriculture_manage_asset.model_project_project
+msgid "Project"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/project_asset.py:0
+msgid "Projet achevé. L'immobilisation « %s » a été créée en brouillon."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_account_asset_asset__agriculture_project_id
+msgid "Projet agricole"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_account_move_line__agriculture_project_id
+msgid "Projet agricole de l'immobilisation"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields.selection,name:agriculture_manage_asset.selection__account_asset_asset__agriculture_origin__internal
+#: model:ir.model.fields.selection,name:agriculture_manage_asset.selection__project_project__agriculture_asset_origin__internal
+msgid "Réalisation par la société"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields.selection,name:agriculture_manage_asset.selection__account_asset_asset__agriculture_origin__subcontracted
+#: model:ir.model.fields.selection,name:agriculture_manage_asset.selection__project_project__agriculture_asset_origin__subcontracted
+msgid "Réalisation sous-traitée"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model,name:agriculture_manage_asset.model_agriculture_asset_allocation
+msgid "Répartition d'une immobilisation entre exploitations"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/project_asset.py:0
+msgid "Saisissez un coût final immobilisable strictement positif."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_account_asset_asset__agriculture_site_id
+#: model:ir.model.fields.selection,name:agriculture_manage_asset.selection__account_asset_asset__agriculture_scope__site
+#: model:ir.model.fields.selection,name:agriculture_manage_asset.selection__account_move_line__agriculture_asset_scope__site
+msgid "Site"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_account_move_line__agriculture_site_id
+msgid "Site de l'immobilisation"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_agriculture_company_group__company_ids
+msgid "Sociétés"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/project_asset.py:0
+msgid "Sélectionnez un modèle d'immobilisation."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/account_move_line.py:0
+msgid "Sélectionnez une exploitation et aucun site pour cette affectation."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_account_asset_asset__agriculture_allocation_total
+msgid "Total de répartition (%)"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/account_asset.py:0
+msgid ""
+"Un compte analytique doit être configuré sur chaque exploitation "
+"utilisatrice avant confirmation : %s"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.constraint,message:agriculture_manage_asset.constraint_account_asset_asset_agriculture_project_asset_unique
+msgid ""
+"Un projet d'investissement ne peut générer qu'une seule immobilisation."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.constraint,message:agriculture_manage_asset.constraint_agriculture_asset_allocation_asset_farm_unique
+msgid ""
+"Une exploitation ne peut apparaître qu'une fois pour une immobilisation."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/account_asset.py:0
+msgid ""
+"Une immobilisation affectée à un site doit avoir le site et son exploitation"
+" correspondante."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/account_asset.py:0
+msgid ""
+"Une immobilisation affectée à un site ne peut pas avoir de répartition "
+"multi-exploitations."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/account_asset.py:0
+msgid ""
+"Une immobilisation affectée à une exploitation doit avoir une exploitation "
+"et aucun site."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/account_asset.py:0
+msgid ""
+"Une immobilisation de groupe de sociétés doit avoir un groupe de sociétés."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/account_asset.py:0
+msgid ""
+"Une immobilisation de groupe ne doit pas être rattachée directement à une "
+"exploitation ou à un site."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/account_asset.py:0
+msgid ""
+"Une immobilisation non affectée ne doit pas avoir de rattachement agricole."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#. odoo-python
+#: code:addons/agriculture_manage_asset/models/account_asset.py:0
+msgid ""
+"Une immobilisation réalisée en sous-traitance ou par la société doit être "
+"rattachée à un projet."
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.model.fields,field_description:agriculture_manage_asset.field_project_project__agriculture_investment_state
+msgid "État de l'investissement"
+msgstr ""
+
+#. module: agriculture_manage_asset
+#: model:ir.module.module,description:base.module_agriculture_manage_asset
+msgid ""
+"Étend le module d'immobilisations de base_accounting_kit avec les "
+"rattachements groupe, exploitation et site, ainsi que la ventilation "
+"analytique des amortissements."
+msgstr ""

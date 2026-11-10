@@ -1,18 +1,86 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* mes_comptes
+#
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo 19 - mes_comptes\n"
+"Project-Id-Version: Odoo Server 20.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-03 22:29+0000\n"
-"PO-Revision-Date: 2026-11-03 22:00+0100\n"
-"Last-Translator: mes_comptes\n"
-"Language-Team: French\n"
-"Language: fr_FR\n"
+"POT-Creation-Date: 2026-11-10 07:28+0000\n"
+"PO-Revision-Date: 2026-11-10 07:28+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"Language: fr_FR\n"
+"Plural-Forms: \n"
 
 #. module: mes_comptes
+#: model:ir.module.module,description:base.module_mes_comptes
+msgid ""
+"# Mes Comptes — Odoo 19 — Version 1.4\n"
+"\n"
+"Module de gestion financière personnelle pour Odoo 19 Community.\n"
+"\n"
+"## Fonctionnalités\n"
+"- Comptes personnels en devises différentes (devise activée dans Odoo).\n"
+"- **Partage de comptes** : un compte peut être attribué à plusieurs utilisateurs (champ *Utilisateurs partagés*). Les opérations, virements et dettes liées à ces comptes sont visibles par tous les utilisateurs partagés.\n"
+"- Recettes et dépenses dans la devise du compte.\n"
+"- Virements entre comptes, y compris entre devises, avec taux de change historique Odoo à la date du virement et possibilité de saisie manuelle.\n"
+"- Dettes / créances et règlements générant une opération financière dans la même devise.\n"
+"- Budgets par catégorie, période et devise.\n"
+"- Tableau de bord OWL avec soldes, activité du mois comparée au mois précédent, évolution sur 12 mois et comparaison annuelle, sans additionner des devises différentes.\n"
+"- Rapport financier PDF par période, avec synthèse par devise, détail des opérations, virements et règlements de dettes.\n"
+"- Exports Excel des opérations, comptes, budgets, virements, dettes et règlements : ouvrez la liste correspondante, sélectionnez les lignes puis utilisez **Imprimer**.\n"
+"- Historique des taux de change Odoo consultable par devise, société et date.\n"
+"- Sécurité par utilisateur pour les données financières ; les catégories sont des référentiels partagés.\n"
+"\n"
+"## Interface français / arabe\n"
+"Le module fournit des catalogues de traduction `i18n/fr.po` et `i18n/ar.po`. L'interface standard (menus, formulaires, champs et libellés du tableau de bord OWL) suit la langue choisie pour l'utilisateur dans ses préférences Odoo. Pour utiliser l'arabe, installez/activez la langue arabe dans les paramètres de langues d'Odoo, puis choisissez-la dans les préférences de l'utilisateur. Odoo applique la direction droite-à-gauche (RTL) pour les langues configurées en RTL ; le tableau de bord inclut également des ajustements d'alignement.\n"
+"\n"
+"Après remplacement du module, mettez-le à jour (`-u mes_comptes`) et assurez-vous que la langue arabe est installée dans la base. Les traductions couvrent les libellés principaux de l'application ; les libellés ajoutés ultérieurement devront être traduits dans les catalogues PO.\n"
+"\n"
+"## Multi-devises\n"
+"Activez les devises nécessaires dans Comptabilité > Configuration > Devises (les intitulés peuvent varier selon la configuration Odoo). Choisissez ensuite la devise de chaque compte.\n"
+"Les taux historiques utilisent les cours configurés dans Odoo (`res.currency.rate`) et le cours le plus récent à la date du virement. Le menu **Historique des taux** affiche les cours disponibles. Sur un virement entre devises, le taux est proposé automatiquement ; activez **Taux manuel** pour le remplacer par le taux réellement convenu. Exemple : 1 EUR = 145 DZD, le taux manuel à saisir est 145.\n"
+"Le module ne convertit jamais automatiquement tous les soldes vers une devise unique : les soldes sont présentés séparément afin d'éviter une addition financière incorrecte.\n"
+"\n"
+"## Partage de comptes\n"
+"Chaque compte possède un propriétaire (`Utilisateur`) et une liste d'utilisateurs partagés (`Utilisateurs partagés`). Les règles de sécurité Odoo (ir.rule) permettent d'accéder à :\n"
+"- Les comptes dont on est le propriétaire ou qui sont dans la liste de partage.\n"
+"- Les opérations, virements, dettes et budgets liés à ces comptes.\n"
+"\n"
+"## Installation sur Odoo 19 Community\n"
+"1. Décompresser l'archive.\n"
+"2. Copier le dossier `mes_comptes` dans un répertoire d'addons personnalisé.\n"
+"3. Ajouter ce répertoire à `addons_path` et rendre l'addon OCA `report_xlsx` disponible.\n"
+"4. Redémarrer Odoo 19.\n"
+"5. Mettre à jour la liste des applications et installer **Mes Comptes** (Odoo installe `report_xlsx` comme dépendance).\n"
+"6. Attribuer le groupe **Mes Comptes / Utilisateur** à l'utilisateur concerné.\n"
+"\n"
+"Commande possible :\n"
+"```bash\n"
+"./odoo-bin -d ma_base -u mes_comptes --stop-after-init\n"
+"```\n"
+"\n"
+"## Limites et tests avant production\n"
+"Les taux historiques doivent être renseignés dans Odoo ; aucune synchronisation bancaire ni récupération automatique depuis un fournisseur externe n'est incluse. Avant production, tester les règles multi-utilisateurs, les partages de comptes, les annulations, les transferts avec taux automatique ou manuel, les arrondis monétaires, l'impression PDF et les exports Excel sur une base Odoo 19 de test.\n"
+msgstr ""
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
+msgid "<strong>Période :</strong>"
+msgstr ""
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_budget_search
+msgid "Actifs"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__active
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__active
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_category__active
@@ -22,8 +90,8 @@ msgstr ""
 #. module: mes_comptes
 #. odoo-javascript
 #: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
-msgid "Activité du mois par devise"
-msgstr "Activité du mois par devise"
+msgid "Activité du mois"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt_payment__amount
@@ -32,10 +100,11 @@ msgid "Amount"
 msgstr ""
 
 #. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_financial_report_wizard
 #: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_transaction_form
 #: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_transfer_form
 msgid "Annuler"
-msgstr "Annuler"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_debt_payment__state__cancel
@@ -50,21 +119,76 @@ msgid "Annulée"
 msgstr ""
 
 #. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_debt_search
+msgid "Annulées"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Année précédente"
+msgstr ""
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_financial_report_wizard
+msgid "Aperçu HTML"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.actions.report,name:mes_comptes.action_report_mes_financial_html
+msgid "Aperçu rapport financier"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model,name:mes_comptes.model_mes_comptes_report_wizard
+msgid "Assistant de rapport financier"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__date_end
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_report_wizard__date_end
 msgid "Au"
-msgstr "Au"
+msgstr ""
 
 #. module: mes_comptes
 #. odoo-javascript
 #: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
 msgid "Aucun compte enregistré."
-msgstr "Aucun compte enregistré."
+msgstr ""
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
+msgid "Aucun règlement sur cette période."
+msgstr ""
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
+msgid "Aucun virement sur cette période."
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Aucune donnée annuelle disponible."
+msgstr ""
 
 #. module: mes_comptes
 #. odoo-javascript
 #: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
 msgid "Aucune opération ce mois-ci."
-msgstr "Aucune opération ce mois-ci."
+msgstr ""
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_transactions
+msgid "Aucune opération sélectionnée."
+msgstr ""
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
+msgid "Aucune opération validée sur cette période."
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_account__account_type__other
@@ -82,7 +206,19 @@ msgstr ""
 #. module: mes_comptes
 #: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_budget_form
 msgid "Budget"
-msgstr "Budget"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__is_overdraft
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_reminder__reminder_type__budget_overdraft
+msgid "Budget dépassé"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/models/reminder.py:0
+msgid "Budget dépassé : %s (%.0f%%)"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model,name:mes_comptes.model_mes_comptes_budget
@@ -90,11 +226,18 @@ msgid "Budget par catégorie"
 msgstr ""
 
 #. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.actions.act_window,name:mes_comptes.action_mes_budgets
 #: model:ir.ui.menu,name:mes_comptes.menu_mes_budgets
 #: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_budget_list
 msgid "Budgets"
-msgstr "Budgets"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.actions.act_window,name:mes_comptes.action_mes_export_budgets
+msgid "Budgets à exporter"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_transaction__payment_method__card
@@ -102,11 +245,14 @@ msgid "Carte"
 msgstr ""
 
 #. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__category_id
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__category_id
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
 #: model_terms:ir.ui.view,arch_db:mes_comptes.report_transactions
 msgid "Catégorie"
-msgstr "Catégorie"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model,name:mes_comptes.model_mes_comptes_category
@@ -118,25 +264,40 @@ msgstr ""
 #: model:ir.ui.menu,name:mes_comptes.menu_mes_categories
 #: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_category_list
 msgid "Catégories"
-msgstr "Catégories"
+msgstr ""
 
 #. module: mes_comptes
 #. odoo-javascript
 #: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
-msgid "Chargement du tableau de bord…"
-msgstr "Chargement du tableau de bord…"
+msgid "Cette année"
+msgstr ""
 
 #. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Chargement…"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Comparatif annuel"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__account_id
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
 #: model_terms:ir.ui.view,arch_db:mes_comptes.report_transactions
 #: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_account_form
 msgid "Compte"
-msgstr "Compte"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__account_id
 msgid "Compte associé"
-msgstr "Compte associé"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_account__account_type__bank
@@ -144,9 +305,12 @@ msgid "Compte bancaire"
 msgstr ""
 
 #. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__destination_account_id
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
 msgid "Compte destinataire"
-msgstr "Compte destinataire"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model,name:mes_comptes.model_mes_comptes_account
@@ -154,24 +318,42 @@ msgid "Compte personnel"
 msgstr ""
 
 #. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__source_account_id
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
 msgid "Compte source"
-msgstr "Compte source"
+msgstr ""
 
 #. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt_payment__account_id
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
 msgid "Compte utilisé"
-msgstr "Compte utilisé"
+msgstr ""
 
 #. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.ui.menu,name:mes_comptes.menu_mes_accounts
 msgid "Comptes"
-msgstr "Comptes"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_accounts_group
+msgid "Comptes et virements"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.actions.act_window,name:mes_comptes.action_mes_export_accounts
+msgid "Comptes à exporter"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_category__color
 msgid "Couleur"
-msgstr "Couleur"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__create_uid
@@ -179,6 +361,8 @@ msgstr "Couleur"
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_category__create_uid
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__create_uid
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt_payment__create_uid
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_reminder__create_uid
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_report_wizard__create_uid
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__create_uid
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__create_uid
 msgid "Created by"
@@ -190,6 +374,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_category__create_date
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__create_date
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt_payment__create_date
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_reminder__create_date
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_report_wizard__create_date
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__create_date
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__create_date
 msgid "Created on"
@@ -199,7 +385,7 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
 msgid "Créez un compte pour commencer."
-msgstr "Créez un compte pour commencer."
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__currency_id
@@ -208,14 +394,18 @@ msgstr ""
 
 #. module: mes_comptes
 #. odoo-javascript
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__date
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt_payment__date
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_reminder__date
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__date
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__date
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
 #: model_terms:ir.ui.view,arch_db:mes_comptes.report_transactions
 msgid "Date"
-msgstr "Date"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__due_date
@@ -231,12 +421,15 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
 msgid "Dernières opérations du mois"
-msgstr "Dernières opérations du mois"
+msgstr ""
 
 #. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
 #: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_debt_form
 msgid "Dette / créance"
-msgstr "Dette / créance"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model,name:mes_comptes.model_mes_comptes_debt
@@ -244,21 +437,65 @@ msgid "Dette ou créance"
 msgstr ""
 
 #. module: mes_comptes
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_reminder__reminder_type__debt_due
+msgid "Dette à échéance"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/models/reminder.py:0
+msgid "Dette à échéance : %s"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_debts_group
+msgid "Dettes et budgets"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.actions.act_window,name:mes_comptes.action_mes_debts
 #: model:ir.ui.menu,name:mes_comptes.menu_mes_debts
 #: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_debt_list
 msgid "Dettes et créances"
-msgstr "Dettes et créances"
+msgstr ""
 
 #. module: mes_comptes
+#: model:ir.actions.act_window,name:mes_comptes.action_mes_export_debts
+msgid "Dettes à exporter"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/models/debt.py:0
+msgid "Dettes à échéance"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__currency_id
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__currency_id
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt_payment__currency_id
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__currency_id
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__currency_id
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__destination_currency_id
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
 msgid "Devise"
-msgstr "Devise"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
+msgid "Devise destinataire"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
+msgid "Devise source"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__display_name
@@ -267,15 +504,27 @@ msgstr "Devise"
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_dashboard__display_name
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__display_name
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt_payment__display_name
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_reminder__display_name
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_report_wizard__display_name
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__display_name
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__display_name
+#: model:ir.model.fields,field_description:mes_comptes.field_report_mes_comptes_accounts_xlsx__display_name
+#: model:ir.model.fields,field_description:mes_comptes.field_report_mes_comptes_budgets_xlsx__display_name
+#: model:ir.model.fields,field_description:mes_comptes.field_report_mes_comptes_debt_payments_xlsx__display_name
+#: model:ir.model.fields,field_description:mes_comptes.field_report_mes_comptes_debts_xlsx__display_name
+#: model:ir.model.fields,field_description:mes_comptes.field_report_mes_comptes_report_financial__display_name
+#: model:ir.model.fields,field_description:mes_comptes.field_report_mes_comptes_transactions_xlsx__display_name
+#: model:ir.model.fields,field_description:mes_comptes.field_report_mes_comptes_transfers_xlsx__display_name
+#: model:ir.model.fields,field_description:mes_comptes.field_report_mes_comptes_xlsx_common__display_name
 msgid "Display Name"
 msgstr ""
 
 #. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__remaining_amount
 msgid "Disponible"
-msgstr "Disponible"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model,name:mes_comptes.model_mes_comptes_dashboard
@@ -283,32 +532,57 @@ msgid "Données du tableau de bord Mes Comptes"
 msgstr ""
 
 #. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__date_start
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_report_wizard__date_start
 msgid "Du"
-msgstr "Du"
+msgstr ""
 
 #. module: mes_comptes
-#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_category__transaction_type__expense
-#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_transaction__transaction_type__expense
-msgid "Dépense"
-msgstr "Dépense"
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_budget_search
+msgid "Dépassés"
+msgstr ""
 
 #. module: mes_comptes
 #. odoo-javascript
+#: code:addons/mes_comptes/static/src/js/dashboard.js:0
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_category__transaction_type__expense
+#: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_transaction__transaction_type__expense
+msgid "Dépense"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/js/dashboard.js:0
 #: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
 #: model:ir.actions.act_window,name:mes_comptes.action_mes_expense
 #: model:ir.ui.menu,name:mes_comptes.menu_mes_expense
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
 msgid "Dépenses"
-msgstr "Dépenses"
+msgstr ""
 
 #. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__spent_amount
 msgid "Dépensé"
-msgstr "Dépensé"
+msgstr ""
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
+msgid "Détail des opérations"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_debt__state__open
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_debt_search
 msgid "En cours"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_reminder__res_id
+msgid "Enregistrement concerné"
 msgstr ""
 
 #. module: mes_comptes
@@ -323,14 +597,128 @@ msgid "Ex. Compte courant"
 msgstr ""
 
 #. module: mes_comptes
+#: model:ir.actions.report,name:mes_comptes.action_report_mes_budgets_xlsx
+msgid "Export Excel des budgets"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model,name:mes_comptes.model_report_mes_comptes_budgets_xlsx
+msgid "Export Excel des budgets Mes Comptes"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.actions.report,name:mes_comptes.action_report_mes_accounts_xlsx
+msgid "Export Excel des comptes"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model,name:mes_comptes.model_report_mes_comptes_accounts_xlsx
+msgid "Export Excel des comptes Mes Comptes"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.actions.report,name:mes_comptes.action_report_mes_debts_xlsx
+msgid "Export Excel des dettes"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model,name:mes_comptes.model_report_mes_comptes_debts_xlsx
+msgid "Export Excel des dettes Mes Comptes"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.actions.report,name:mes_comptes.action_report_mes_transactions_xlsx
+msgid "Export Excel des opérations"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model,name:mes_comptes.model_report_mes_comptes_transactions_xlsx
+msgid "Export Excel des opérations Mes Comptes"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.actions.report,name:mes_comptes.action_report_mes_debt_payments_xlsx
+msgid "Export Excel des règlements de dettes"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model,name:mes_comptes.model_report_mes_comptes_debt_payments_xlsx
+msgid "Export Excel des règlements de dettes Mes Comptes"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.actions.report,name:mes_comptes.action_report_mes_transfers_xlsx
+msgid "Export Excel des virements"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model,name:mes_comptes.model_report_mes_comptes_transfers_xlsx
+msgid "Export Excel des virements Mes Comptes"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_export_budgets
+msgid "Exporter les budgets"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_export_accounts
+msgid "Exporter les comptes"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_export_debts
+msgid "Exporter les dettes"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_export_transactions
+msgid "Exporter les opérations"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_export_debt_payments
+msgid "Exporter les règlements"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_export_transfers
+msgid "Exporter les virements"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.module.module,summary:base.module_mes_comptes
+msgid ""
+"Gestion financière personnelle : comptes, recettes, dépenses, virements, "
+"dettes et budgets"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.actions.act_window,name:mes_comptes.action_mes_currency_rates
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_currency_rates
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_currency_rate_list
+msgid "Historique des taux"
+msgstr ""
+
+#. module: mes_comptes
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__id
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__id
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_category__id
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_dashboard__id
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__id
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt_payment__id
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_reminder__id
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_report_wizard__id
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__id
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__id
+#: model:ir.model.fields,field_description:mes_comptes.field_report_mes_comptes_accounts_xlsx__id
+#: model:ir.model.fields,field_description:mes_comptes.field_report_mes_comptes_budgets_xlsx__id
+#: model:ir.model.fields,field_description:mes_comptes.field_report_mes_comptes_debt_payments_xlsx__id
+#: model:ir.model.fields,field_description:mes_comptes.field_report_mes_comptes_debts_xlsx__id
+#: model:ir.model.fields,field_description:mes_comptes.field_report_mes_comptes_report_financial__id
+#: model:ir.model.fields,field_description:mes_comptes.field_report_mes_comptes_transactions_xlsx__id
+#: model:ir.model.fields,field_description:mes_comptes.field_report_mes_comptes_transfers_xlsx__id
+#: model:ir.model.fields,field_description:mes_comptes.field_report_mes_comptes_xlsx_common__id
 msgid "ID"
 msgstr ""
 
@@ -338,12 +726,28 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/mes_comptes/static/src/js/dashboard.js:0
 msgid "Impossible de charger les données du tableau de bord."
-msgstr "Impossible de charger les données du tableau de bord."
+msgstr ""
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_financial_report_wizard
+msgid "Imprimer PDF"
+msgstr ""
 
 #. module: mes_comptes
 #. odoo-python
 #: code:addons/mes_comptes/models/transaction.py:0
 msgid "La catégorie doit correspondre à la nature de l'opération."
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,help:mes_comptes.field_mes_comptes_debt__is_due_soon
+msgid "La date d'échéance est dans moins de N jours (N = rappel)."
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/wizard/financial_report.py:0
+msgid "La date de fin doit être postérieure ou égale à la date de début."
 msgstr ""
 
 #. module: mes_comptes
@@ -358,6 +762,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_category__write_uid
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__write_uid
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt_payment__write_uid
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_reminder__write_uid
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_report_wizard__write_uid
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__write_uid
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__write_uid
 msgid "Last Updated by"
@@ -369,6 +775,8 @@ msgstr ""
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_category__write_date
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__write_date
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt_payment__write_date
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_reminder__write_date
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_report_wizard__write_date
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__write_date
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__write_date
 msgid "Last Updated on"
@@ -377,7 +785,8 @@ msgstr ""
 #. module: mes_comptes
 #. odoo-python
 #: code:addons/mes_comptes/models/debt.py:0
-msgid "Le compte de règlement doit utiliser la même devise que la dette ou créance."
+msgid ""
+"Le compte de règlement doit utiliser la même devise que la dette ou créance."
 msgstr ""
 
 #. module: mes_comptes
@@ -386,6 +795,11 @@ msgstr ""
 #: code:addons/mes_comptes/models/transaction.py:0
 #: code:addons/mes_comptes/models/transfer.py:0
 msgid "Le montant doit être strictement positif."
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,help:mes_comptes.field_mes_comptes_budget__is_overdraft
+msgid "Le montant dépensé dépasse le montant prévu."
 msgstr ""
 
 #. module: mes_comptes
@@ -432,12 +846,15 @@ msgstr ""
 
 #. module: mes_comptes
 #. odoo-javascript
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__name
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__name
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
 #: model_terms:ir.ui.view,arch_db:mes_comptes.report_transactions
 msgid "Libellé"
-msgstr "Libellé"
+msgstr ""
 
 #. module: mes_comptes
 #: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_transaction_form
@@ -445,12 +862,28 @@ msgid "Libellé de l'opération"
 msgstr ""
 
 #. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_reminder__read
+msgid "Lu"
+msgstr ""
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_reminder_form
+msgid "Marquer comme lu"
+msgstr ""
+
+#. module: mes_comptes
 #. odoo-javascript
 #: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+#: model:ir.module.module,shortdesc:base.module_mes_comptes
 #: model:ir.ui.menu,name:mes_comptes.menu_mes_comptes_root
 #: model:res.groups.privilege,name:mes_comptes.privilege_mes_comptes
 msgid "Mes Comptes"
-msgstr "Mes Comptes"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.actions.server,name:mes_comptes.ir_cron_mes_comptes_reminders_ir_actions_server
+msgid "Mes Comptes — Génération des rappels"
+msgstr ""
 
 #. module: mes_comptes
 #. odoo-javascript
@@ -458,44 +891,81 @@ msgstr "Mes Comptes"
 #: model:ir.actions.act_window,name:mes_comptes.action_mes_accounts
 #: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_account_list
 msgid "Mes comptes"
-msgstr "Mes comptes"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_reminder__message
+msgid "Message"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__payment_method
 msgid "Mode de paiement"
-msgstr "Mode de paiement"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_reminder__res_model
+msgid "Modèle concerné"
+msgstr ""
 
 #. module: mes_comptes
 #. odoo-javascript
 #: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Mois précédent"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Mois suivant"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-javascript
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
 #: model_terms:ir.ui.view,arch_db:mes_comptes.report_transactions
 msgid "Montant"
-msgstr "Montant"
+msgstr ""
 
 #. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__destination_amount
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
 msgid "Montant crédité"
-msgstr "Montant crédité"
+msgstr ""
 
 #. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__amount
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
 msgid "Montant débité"
-msgstr "Montant débité"
+msgstr ""
 
 #. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__amount
 msgid "Montant initial"
-msgstr "Montant initial"
+msgstr ""
 
 #. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__planned_amount
 msgid "Montant prévu"
-msgstr "Montant prévu"
+msgstr ""
 
 #. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__paid_amount
 msgid "Montant réglé"
-msgstr "Montant réglé"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_category__name
@@ -504,26 +974,59 @@ msgstr ""
 
 #. module: mes_comptes
 #. odoo-javascript
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__transaction_type
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
 #: model_terms:ir.ui.view,arch_db:mes_comptes.report_transactions
 msgid "Nature"
-msgstr "Nature"
+msgstr ""
 
 #. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Navigation mensuelle"
+msgstr ""
+
+#. module: mes_comptes
+#: model:res.groups.privilege,placeholder:mes_comptes.privilege_mes_comptes
+msgid "No"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__name
 msgid "Nom du budget"
-msgstr "Nom du budget"
+msgstr ""
 
 #. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__name
 msgid "Nom du compte"
-msgstr "Nom du compte"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model.fields,help:mes_comptes.field_mes_comptes_transfer__exchange_rate
-msgid "Nombre d'unités de la devise destinataire pour une unité de la devise source."
-msgstr "Nombre d'unités de la devise destinataire pour une unité de la devise source."
+msgid ""
+"Nombre d'unités de la devise destinataire pour une unité de la devise "
+"source."
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,help:mes_comptes.field_mes_comptes_debt__reminder_days
+msgid ""
+"Nombre de jours avant la date d'échéance auquel un rappel est généré. 0 = "
+"pas de rappel."
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
+msgid "Non"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__note
@@ -537,49 +1040,135 @@ msgstr ""
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__note
 #: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_debt_form
 msgid "Notes"
-msgstr "Notes"
+msgstr ""
 
 #. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__name
 msgid "Objet"
-msgstr "Objet"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/models/budget.py:0
+msgid "Opérateur non pris en charge pour « Budget dépassé »."
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/models/debt.py:0
+msgid "Opérateur non pris en charge pour « Échéance approchante »."
+msgstr ""
 
 #. module: mes_comptes
 #: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_transaction_form
 msgid "Opération"
-msgstr "Opération"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt_payment__transaction_id
 msgid "Opération générée"
-msgstr "Opération générée"
+msgstr ""
 
 #. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__transaction_ids
 #: model:ir.ui.menu,name:mes_comptes.menu_mes_operations
 msgid "Opérations"
-msgstr "Opérations"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.actions.act_window,name:mes_comptes.action_mes_export_transactions
+msgid "Opérations à exporter"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
+msgid "Oui"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model,name:mes_comptes.model_report_mes_comptes_xlsx_common
+msgid "Outils communs d'export Excel Mes Comptes"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_settings
+msgid "Paramètres"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
+msgid "Personne"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__partner_name
 msgid "Personne / organisme"
-msgstr "Personne / organisme"
+msgstr ""
 
 #. module: mes_comptes
-#: model_terms:ir.ui.view,arch_db:mes_comptes.report_transactions
-msgid "Rapport d'opération"
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_reminder_form
+msgid "Rappel"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__reminder_days
+msgid "Rappel (jours avant échéance)"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model,name:mes_comptes.model_mes_comptes_reminder
+msgid "Rappel financier Mes Comptes"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.actions.act_window,name:mes_comptes.action_mes_reminders
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_reminders
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_reminder_list
+msgid "Rappels"
 msgstr ""
 
 #. module: mes_comptes
 #: model:ir.actions.report,name:mes_comptes.action_report_mes_transactions
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_transactions
 msgid "Rapport des opérations"
 msgstr ""
 
 #. module: mes_comptes
+#: model:ir.actions.report,name:mes_comptes.action_report_mes_financial
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_financial_report_wizard
+msgid "Rapport financier"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model,name:mes_comptes.model_report_mes_comptes_report_financial
+msgid "Rapport financier Mes Comptes"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.actions.act_window,name:mes_comptes.action_mes_financial_report_wizard
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_financial_report
+msgid "Rapport financier PDF"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.ui.menu,name:mes_comptes.menu_mes_reports
+msgid "Rapports et exports"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/js/dashboard.js:0
 #: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_category__transaction_type__income
 #: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_transaction__transaction_type__income
 msgid "Recette"
-msgstr "Recette"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model,name:mes_comptes.model_mes_comptes_transaction
@@ -588,16 +1177,18 @@ msgstr ""
 
 #. module: mes_comptes
 #. odoo-javascript
+#: code:addons/mes_comptes/static/src/js/dashboard.js:0
 #: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
 #: model:ir.actions.act_window,name:mes_comptes.action_mes_income
 #: model:ir.ui.menu,name:mes_comptes.menu_mes_income
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
 msgid "Recettes"
-msgstr "Recettes"
+msgstr ""
 
 #. module: mes_comptes
 #: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_transaction_list
 msgid "Recettes et dépenses"
-msgstr "Recettes et dépenses"
+msgstr ""
 
 #. module: mes_comptes
 #. odoo-python
@@ -614,7 +1205,7 @@ msgstr ""
 #. module: mes_comptes
 #: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_transaction_form
 msgid "Remettre en brouillon"
-msgstr "Remettre en brouillon"
+msgstr ""
 
 #. module: mes_comptes
 #: model:res.groups,name:mes_comptes.group_mes_comptes_manager
@@ -622,9 +1213,17 @@ msgid "Responsable"
 msgstr ""
 
 #. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__remaining_amount
 msgid "Reste à régler"
-msgstr "Reste à régler"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Revenir au mois courant"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model,name:mes_comptes.model_mes_comptes_debt_payment
@@ -635,29 +1234,57 @@ msgstr ""
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__payment_ids
 #: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_debt_form
 msgid "Règlements"
-msgstr "Règlements"
+msgstr ""
 
 #. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
+msgid "Règlements de dettes"
+msgstr ""
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
+msgid "Règlements de dettes / créances"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.actions.act_window,name:mes_comptes.action_mes_export_debt_payments
+msgid "Règlements à exporter"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__code
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__reference
 msgid "Référence"
-msgstr "Référence"
+msgstr ""
 
 #. module: mes_comptes
 #. odoo-javascript
 #: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
 msgid "Résultat"
-msgstr "Résultat"
+msgstr ""
 
 #. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_currency_rate_search
+msgid "Société"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__current_balance
 msgid "Solde actuel"
-msgstr "Solde actuel"
+msgstr ""
 
 #. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__opening_balance
 msgid "Solde initial"
-msgstr "Solde initial"
+msgstr ""
 
 #. module: mes_comptes
 #. odoo-javascript
@@ -669,11 +1296,16 @@ msgstr ""
 #. odoo-javascript
 #: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
 msgid "Soldes par devise"
-msgstr "Soldes par devise"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_debt__state__paid
 msgid "Soldée"
+msgstr ""
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_debt_search
+msgid "Soldées"
 msgstr ""
 
 #. module: mes_comptes
@@ -693,33 +1325,52 @@ msgid "State"
 msgstr ""
 
 #. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__state
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__state
 #: model_terms:ir.ui.view,arch_db:mes_comptes.report_transactions
 msgid "Statut"
-msgstr "Statut"
+msgstr ""
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
+msgid "Synthèse par devise"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.actions.client,name:mes_comptes.action_mes_dashboard
 #: model:ir.ui.menu,name:mes_comptes.menu_mes_dashboard
 msgid "Tableau de bord"
-msgstr "Tableau de bord"
+msgstr ""
 
 #. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__exchange_rate
 msgid "Taux de change"
-msgstr "Taux de change"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__exchange_rate_manual
+msgid "Taux manuel"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__partner_name
 msgid "Tiers"
-msgstr "Tiers"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.actions.act_window,name:mes_comptes.action_mes_transactions
 #: model:ir.ui.menu,name:mes_comptes.menu_mes_all_transactions
 msgid "Toutes les opérations"
-msgstr "Toutes les opérations"
+msgstr ""
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_currency_rate_search
+msgid "Toutes les sociétés"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_category__transaction_type
@@ -727,10 +1378,13 @@ msgid "Transaction Type"
 msgstr ""
 
 #. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__account_type
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__debt_type
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_reminder__reminder_type
 msgid "Type"
-msgstr "Type"
+msgstr ""
 
 #. module: mes_comptes
 #. odoo-python
@@ -742,6 +1396,7 @@ msgstr ""
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__user_id
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__user_id
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__user_id
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_reminder__user_id
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transaction__user_id
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__user_id
 msgid "User"
@@ -753,16 +1408,23 @@ msgid "Utilisateur"
 msgstr ""
 
 #. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__user_ids
+msgid "Utilisateurs partagés"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_budget__usage_percent
 msgid "Utilisation (%)"
-msgstr "Utilisation (%)"
+msgstr ""
 
 #. module: mes_comptes
 #: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_debt_form
 #: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_transaction_form
 #: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_transfer_form
 msgid "Valider"
-msgstr "Valider"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_debt_payment__state__posted
@@ -781,7 +1443,7 @@ msgstr ""
 #: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_transaction__payment_method__transfer
 #: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_transfer_form
 msgid "Virement"
-msgstr "Virement"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model,name:mes_comptes.model_mes_comptes_transfer
@@ -789,11 +1451,14 @@ msgid "Virement entre comptes"
 msgstr ""
 
 #. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
 #: model:ir.actions.act_window,name:mes_comptes.action_mes_transfers
 #: model:ir.ui.menu,name:mes_comptes.menu_mes_transfers
+#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
 #: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_transfer_list
 msgid "Virements"
-msgstr "Virements"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_account__incoming_transfer_ids
@@ -806,186 +1471,58 @@ msgid "Virements sortants"
 msgstr ""
 
 #. module: mes_comptes
+#: model:ir.actions.act_window,name:mes_comptes.action_mes_export_transfers
+msgid "Virements à exporter"
+msgstr ""
+
+#. module: mes_comptes
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_reminder_form
+msgid "Voir l'objet concerné"
+msgstr ""
+
+#. module: mes_comptes
 #. odoo-javascript
 #: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
 msgid "Voir les opérations"
-msgstr "Voir les opérations"
+msgstr ""
 
 #. module: mes_comptes
 #. odoo-javascript
 #: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
 msgid "Vue d'ensemble de votre situation financière"
-msgstr "Vue d'ensemble de votre situation financière"
-
-#. module: mes_comptes
-#. odoo-javascript
-#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
-msgid "Activité du mois par devise — comparatif avec le mois précédent"
-msgstr "Activité du mois par devise — comparatif avec le mois précédent"
-
-#. module: mes_comptes
-#. odoo-javascript
-#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
-msgid "Comparatif annuel — année en cours et même période précédente"
-msgstr "Comparatif annuel — année en cours et même période précédente"
-
-#. module: mes_comptes
-#. odoo-javascript
-#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
-msgid "Évolution mensuelle — 12 derniers mois"
-msgstr "Évolution mensuelle — 12 derniers mois"
-
-#. module: mes_comptes
-#. odoo-javascript
-#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
-msgid "Cette année"
-msgstr "Cette année"
-
-#. module: mes_comptes
-#. odoo-javascript
-#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
-msgid "Année précédente"
-msgstr "Année précédente"
-
-#. module: mes_comptes
-#. odoo-javascript
-#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
-msgid "Mois précédent"
-msgstr "Mois précédent"
-
-#. module: mes_comptes
-#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_transfer__exchange_rate_manual
-msgid "Taux manuel"
-msgstr "Taux manuel"
-
-#. module: mes_comptes
-#: model:ir.ui.menu,name:mes_comptes.menu_mes_currency_rates
-#: model:ir.actions.act_window,name:mes_comptes.action_mes_currency_rates
-msgid "Historique des taux"
-msgstr "Historique des taux"
-
-#. module: mes_comptes
-#: model:ir.ui.menu,name:mes_comptes.menu_mes_reports
-msgid "Rapports et exports"
-msgstr "Rapports et exports"
-
-#. module: mes_comptes
-#: model:ir.ui.menu,name:mes_comptes.menu_mes_financial_report
-#: model:ir.actions.act_window,name:mes_comptes.action_mes_financial_report_wizard
-msgid "Rapport financier PDF"
-msgstr "Rapport financier PDF"
-
-#. module: mes_comptes
-#: model:ir.actions.report,name:mes_comptes.action_report_mes_financial
-#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_financial_report_wizard
-msgid "Rapport financier"
-msgstr "Rapport financier"
-
-#. module: mes_comptes
-#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_financial_report_wizard
-msgid "Imprimer le rapport"
-msgstr "Imprimer le rapport"
-
-#. module: mes_comptes
-#: model:ir.ui.menu,name:mes_comptes.menu_mes_export_transactions
-msgid "Exporter les opérations"
-msgstr "Exporter les opérations"
-
-#. module: mes_comptes
-#: model:ir.ui.menu,name:mes_comptes.menu_mes_export_accounts
-msgid "Exporter les comptes"
-msgstr "Exporter les comptes"
-
-#. module: mes_comptes
-#: model:ir.ui.menu,name:mes_comptes.menu_mes_export_budgets
-msgid "Exporter les budgets"
-msgstr "Exporter les budgets"
-
-#. module: mes_comptes
-#: model:ir.actions.act_window,name:mes_comptes.action_mes_export_transactions
-msgid "Opérations à exporter"
-msgstr "Opérations à exporter"
-
-#. module: mes_comptes
-#: model:ir.actions.act_window,name:mes_comptes.action_mes_export_accounts
-msgid "Comptes à exporter"
-msgstr "Comptes à exporter"
-
-#. module: mes_comptes
-#: model:ir.actions.act_window,name:mes_comptes.action_mes_export_budgets
-msgid "Budgets à exporter"
-msgstr "Budgets à exporter"
-
-#. module: mes_comptes
-#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
-msgid "Période :"
-msgstr "Période :"
-
-#. module: mes_comptes
-#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
-msgid "Synthèse par devise"
-msgstr "Synthèse par devise"
-
-#. module: mes_comptes
-#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
-msgid "Détail des opérations"
-msgstr "Détail des opérations"
-
-#. module: mes_comptes
-#: model_terms:ir.ui.view,arch_db:mes_comptes.report_financial
-msgid "Aucune opération validée sur cette période."
-msgstr "Aucune opération validée sur cette période."
-
-#. module: mes_comptes
-#: model:ir.actions.report,name:mes_comptes.action_report_mes_transactions_xlsx
-msgid "Export Excel des opérations"
-msgstr "Export Excel des opérations"
-
-#. module: mes_comptes
-#: model:ir.actions.report,name:mes_comptes.action_report_mes_accounts_xlsx
-msgid "Export Excel des comptes"
-msgstr "Export Excel des comptes"
-
-#. module: mes_comptes
-#: model:ir.actions.report,name:mes_comptes.action_report_mes_budgets_xlsx
-msgid "Export Excel des budgets"
-msgstr "Export Excel des budgets"
-
-#. module: mes_comptes
-#: code:addons/mes_comptes/reports/xlsx_reports.py:0
-msgid "Oui"
-msgstr "Oui"
-
-#. module: mes_comptes
-#: code:addons/mes_comptes/reports/xlsx_reports.py:0
-msgid "Non"
-msgstr "Non"
+msgstr ""
 
 #. module: mes_comptes
 #. odoo-python
-#: code:addons/mes_comptes/wizard/financial_report.py:0
-msgid "La date de fin doit être postérieure ou égale à la date de début."
-msgstr "La date de fin doit être postérieure ou égale à la date de début."
+#: code:addons/mes_comptes/models/debt.py:0
+msgid "due_date"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/models/debt.py:0
+msgid "state"
+msgstr ""
+
+#. module: mes_comptes
+#. odoo-python
+#: code:addons/mes_comptes/reports/xlsx_reports.py:0
+msgid "Échéance"
+msgstr ""
+
+#. module: mes_comptes
+#: model:ir.model.fields,field_description:mes_comptes.field_mes_comptes_debt__is_due_soon
+#: model_terms:ir.ui.view,arch_db:mes_comptes.view_mes_debt_search
+msgid "Échéance approchante"
+msgstr ""
 
 #. module: mes_comptes
 #: model:ir.model.fields.selection,name:mes_comptes.selection__mes_comptes_account__account_type__savings
 msgid "Épargne"
 msgstr ""
 
-#~ msgid "Actif"
-#~ msgstr "Actif"
-
-#~ msgid "Date d"
-#~ msgstr "Date d"
-
-#~ msgid "Nom"
-#~ msgstr "Nom"
-
-#~ msgid "Solde total"
-#~ msgstr "Solde total"
-
-#~ msgid "Solde total — "
-#~ msgstr "Solde total — "
-
-#~ msgid "Type de compte"
-#~ msgstr "Type de compte"
+#. module: mes_comptes
+#. odoo-javascript
+#: code:addons/mes_comptes/static/src/xml/dashboard.xml:0
+msgid "Évolution 12 mois"
+msgstr ""

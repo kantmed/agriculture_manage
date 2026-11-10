@@ -1,0 +1,2189 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* agriculture_manage_website
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 20.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-11-10 07:28+0000\n"
+"PO-Revision-Date: 2026-11-10 07:28+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: agriculture_manage_website
+#: model:ir.module.module,description:base.module_agriculture_manage_website
+msgid ""
+"# Agriculture Management Website\n"
+"\n"
+"## Version 20.0.1.5.0\n"
+"\n"
+"Cette version ajoute la déclaration d'une demande de maintenance depuis le portail.\n"
+"\n"
+"### Maintenance du portail\n"
+"- Consultation des équipements agricoles et de leurs interventions.\n"
+"- Déclaration d'une demande corrective ou préventive avec date/heure souhaitée.\n"
+"- Affectation initiale à l'équipe de maintenance de l'équipement ou à une équipe active de la société.\n"
+"- Enregistrement du demandeur comme créateur de la demande.\n"
+"- Sélection limitée aux équipements actifs des exploitations accessibles à l'utilisateur.\n"
+"- Contrôle serveur de l'équipement, du type et de la date.\n"
+"- Jeton CSRF obligatoire sur le formulaire.\n"
+"- La création d'une demande ne permet pas au portail de choisir un technicien, une équipe, un statut ou un coût.\n"
+"- L'affectation et la planification opérationnelle restent gérées dans le back-office.\n"
+"\n"
+"### Routes du portail\n"
+"- `/my/agriculture/maintenance/equipment`\n"
+"- `/my/agriculture/maintenance/equipment/<id>`\n"
+"- `/my/agriculture/maintenance/requests`\n"
+"- `/my/agriculture/maintenance/requests/new`\n"
+"- `/my/agriculture/maintenance/requests/<id>`\n"
+"\n"
+"### Sécurité\n"
+"Les recherches de données sont limitées aux exploitations associées au partenaire commercial de l'utilisateur ou dont il est responsable, et à ses sociétés autorisées. Les identifiants transmis par le navigateur sont revalidés côté serveur.\n"
+"\n"
+"### Mise à niveau\n"
+"Sauvegarder la base de données et mettre à niveau `agriculture_manage_website`.\n"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_detail
+msgid ""
+"-\n"
+"                            Parcelles :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid ""
+"<small class=\"text-muted\">Le site doit appartenir à l'exploitation "
+"sélectionnée.</small>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_detail
+msgid "<strong>Adresse :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_detail
+msgid "<strong>Capacité :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_equipment_detail
+msgid "<strong>Catégorie :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_detail
+msgid "<strong>Commune :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_detail
+msgid "<strong>Coût :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_detail
+msgid "<strong>Date de clôture :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_detail
+msgid "<strong>Date de construction :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_detail
+msgid "<strong>Date prévue :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_detail
+msgid "<strong>Demande créée le :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_detail
+msgid "<strong>Description :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_detail
+msgid "<strong>E-mail :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_equipment_detail
+msgid "<strong>Emplacement :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_equipment_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_detail
+msgid "<strong>Exploitation :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_detail
+msgid "<strong>GPS :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_equipment_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_detail
+msgid "<strong>Infrastructure :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_detail
+msgid "<strong>Infrastructures :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_equipment_detail
+msgid "<strong>Numéro de série :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_detail
+msgid "<strong>Observations :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_detail
+msgid "<strong>Parcelles :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_detail
+msgid "<strong>Pays :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_detail
+msgid "<strong>Référence :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_equipment_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_detail
+msgid "<strong>Site :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_detail
+msgid "<strong>Statut :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_detail
+msgid "<strong>Superficie :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_detail
+msgid "<strong>Surface :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_equipment_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_detail
+msgid "<strong>Technicien :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_detail
+msgid "<strong>Type :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_detail
+msgid "<strong>Téléphone :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_detail
+msgid "<strong>Ville :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_detail
+msgid "<strong>Wilaya :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_detail
+msgid "<strong>Équipement :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_detail
+msgid "<strong>État :</strong>"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.crop_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.crop_list
+msgid "Abréviation"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.crop_detail
+msgid "Abréviation :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model:ir.model,name:agriculture_manage_website.model_agriculture_portal_access
+msgid "Accès portail agricole"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.website_home
+msgid "Accéder à mon espace"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_form
+msgid "Achat"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.activity_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.activity_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_list
+msgid "Actif"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.activity_detail
+msgid "Actif :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.activity_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.crop_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.finance_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.harvest_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.operation_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.transaction_list
+msgid "Action"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_list
+msgid "Active"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Activités"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_form
+msgid "Administration"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_form
+msgid "Adresse"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model:website.menu,name:agriculture_manage_website.menu_agriculture_website
+msgid "Agriculture"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.website_home
+msgid "Agriculture Management"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model:ir.module.module,shortdesc:base.module_agriculture_manage_website
+msgid "Agriculture Management Website"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model:res.groups,name:agriculture_manage_website.group_agriculture_website_user
+msgid "Agriculture Website User"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_detail
+msgid "Ajouter un message"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Alimentation"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_form
+msgid "Animal"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_detail
+msgid "Animal :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_list
+msgid "Animal/Lot"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.activity_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.crop_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_form
+msgid "Annuler"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_form
+msgid "Annulée"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_list
+msgid "Archivé"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_list
+msgid "Archivée"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "Atelier"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_list
+msgid "Aucun animal trouvé."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_list
+msgid "Aucun budget trouvé."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.finance_list
+msgid "Aucun compte trouvé."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.transaction_list
+msgid "Aucun mouvement trouvé."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "Aucun site associé"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_list
+msgid "Aucun site trouvé."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_detail
+msgid "Aucun échange public pour le moment."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_equipment
+msgid "Aucun équipement agricole trouvé."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_list
+msgid "Aucun événement trouvé."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.activity_list
+msgid "Aucune activité trouvée."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_list
+msgid "Aucune campagne trouvée."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.crop_list
+msgid "Aucune culture trouvée."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_list
+msgid "Aucune exploitation trouvée."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_list
+msgid "Aucune infrastructure trouvée."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_equipment_detail
+msgid "Aucune intervention enregistrée."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_requests
+msgid "Aucune intervention trouvée."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.operation_list
+msgid "Aucune opération trouvée."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_list
+msgid "Aucune parcelle trouvée."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_list
+msgid "Aucune production trouvée."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_list
+msgid "Aucune ration trouvée."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.harvest_list
+msgid "Aucune récolte trouvée."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_form
+msgid "Autre"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_form
+msgid "Autres"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Bienvenue dans votre espace agricole."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "Bon"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_form
+msgid "Bonne"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_form
+msgid "Brouillon"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_list
+msgid "Budget total"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_detail
+msgid "Budget total :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Budgets"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_list
+msgid "Budgets agricoles"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Budgets agricoles."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "Bureau"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "Bâtiment d'élevage"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.harvest_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.operation_list
+msgid "Campagne"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.harvest_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.operation_detail
+msgid "Campagne :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Campagnes"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_list
+msgid "Campagnes agricoles"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "Capacité"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_requests
+msgid ""
+"Cette liste affiche uniquement les demandes que vous avez personnellement "
+"déclarées."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_list
+msgid "Cheptel (animaux)"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.activity_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.activity_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_form
+msgid "Code"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.activity_detail
+msgid "Code :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_list
+msgid "Commune"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.transaction_list
+msgid "Compte"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.transaction_detail
+msgid "Compte :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.finance_list
+msgid "Comptes financiers agricoles"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Comptes financiers agricoles."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.activity_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.crop_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.finance_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.harvest_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.operation_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.transaction_list
+msgid "Consulter"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_detail
+msgid "Consulter les infrastructures"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Consulter les équipements"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Consulter les équipements agricoles et l'historique des interventions."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_form
+msgid "Coordonnées GPS renseignées"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_form
+msgid "Corrective — panne ou anomalie"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_list
+msgid "Coût"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_detail
+msgid "Coût :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model:ir.model.fields,field_description:agriculture_manage_website.field_agriculture_portal_access__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model:ir.model.fields,field_description:agriculture_manage_website.field_agriculture_portal_access__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_list
+msgid "Culture"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_detail
+msgid "Culture :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Cultures"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.crop_list
+msgid "Cultures agricoles"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.harvest_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.operation_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_equipment_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.transaction_list
+msgid "Date"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.harvest_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.operation_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.transaction_detail
+msgid "Date :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_form
+msgid "Date d'entrée"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "Date de construction"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_form
+msgid "Date de début"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_form
+msgid "Date de fin"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_form
+msgid "Date de naissance"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_form
+msgid "Date et heure souhaitées"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_requests
+msgid "Date prévue"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_equipment_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_requests
+msgid "Demande"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.activity_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.crop_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "Description"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_form
+msgid "Description du problème / intervention souhaitée"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.finance_list
+msgid "Devise"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.finance_detail
+msgid "Devise :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_form
+msgid "Diagnostic"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_detail
+msgid "Diagnostic :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model:ir.model.fields,field_description:agriculture_manage_website.field_agriculture_portal_access__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_form
+msgid "Disponible"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_form
+msgid "Déclarer une demande de maintenance"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_equipment_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_requests
+msgid "Déclarer une intervention"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_form
+msgid "Décrivez la panne, les symptômes ou l'entretien à réaliser..."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_form
+msgid "Déparasitage"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_list
+msgid "Dépenses réelles"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_detail
+msgid "Dépenses réelles :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_form
+msgid "E-mail"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_form
+msgid "En cours"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_form
+msgid "En culture"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_form
+msgid "Engraissement"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Enregistrement des productions."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.activity_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.crop_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_form
+msgid "Enregistrer"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "Entrepôt"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_form
+msgid "Envoyer la demande"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_detail
+msgid "Envoyer le message"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_list
+msgid "Espèce"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_detail
+msgid "Espèce :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_form
+msgid "Ex. Panne de la pompe d'irrigation"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "Excellent"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_equipment
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_requests
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_list
+msgid "Exploitation"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_form
+msgid "Exploitation *"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_detail
+msgid "Exploitation :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Exploitations"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_form
+msgid "Femelle"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Finance"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid ""
+"Gestion des bâtiments, entrepôts, puits, réservoirs et équipements fixes."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Gestion des campagnes culturales."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Gestion des cultures agricoles."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Gestion des exploitations agricoles."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Gestion des parcelles agricoles."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Gestion des sites de production, stockage, élevage et serres."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_equipment_detail
+msgid "Historique des interventions"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "Hors service"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model:ir.model.fields,field_description:agriculture_manage_website.field_agriculture_portal_access__id
+msgid "ID"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.activity_list
+msgid "Inactif"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_form
+msgid "Inconnu"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "Infrastructure active"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Infrastructures"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.website_home
+msgid "Infrastructures actives"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_list
+msgid "Infrastructures agricoles"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Interventions"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_form
+msgid ""
+"La demande sera transmise à l'équipe de maintenance. Sa planification et son"
+" affectation seront réalisées dans le back-office."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_form
+msgid "Laine"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_form
+msgid "Lait"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model:ir.model.fields,field_description:agriculture_manage_website.field_agriculture_portal_access__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model:ir.model.fields,field_description:agriculture_manage_website.field_agriculture_portal_access__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_form
+msgid "Latitude"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.transaction_list
+msgid "Libellé"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.transaction_detail
+msgid "Libellé :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_form
+msgid "Longitude"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_form
+msgid "Lot"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_detail
+msgid "Lot :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Maintenance"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_form
+msgid "Maladie"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "Mauvais"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_requests
+msgid "Mes demandes de maintenance"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_list
+msgid "Mes exploitations agricoles"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_form
+msgid "Miel"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_form
+msgid "Mixte"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.activity_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.crop_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_detail
+msgid "Modifier"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_form
+msgid "Modifier l'animal"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "Modifier l'infrastructure"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.crop_form
+msgid "Modifier la culture"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_form
+msgid "Modifier le budget"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_form
+msgid "Modifier le site"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.transaction_list
+msgid "Montant"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.transaction_detail
+msgid "Montant :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.transaction_list
+msgid "Mouvements financiers agricoles"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "Moyen"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_form
+msgid "Mâle"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_form
+msgid "Naissance"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model:ir.model.fields,field_description:agriculture_manage_website.field_agriculture_portal_access__name
+msgid "Name"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.activity_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.activity_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.crop_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.crop_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.finance_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_list
+msgid "Nom"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "Nom *"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_form
+msgid "Nom de l'exploitation"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_form
+msgid "Nom de la campagne"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_form
+msgid "Nom de la parcelle"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_form
+msgid "Nom du site *"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_list
+msgid "Nom du site ou exploitation"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_equipment
+msgid "Nom ou numéro de série"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_list
+msgid "Nom ou référence"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_form
+msgid "Non conforme"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_form
+msgid "Notes"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_list
+msgid "Nouveau budget"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_list
+msgid "Nouveau site"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_form
+msgid "Nouveau site agricole"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.activity_list
+msgid "Nouveau type"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_list
+msgid "Nouvel animal"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_list
+msgid "Nouvel événement"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_form
+msgid "Nouvel événement sanitaire"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_list
+msgid "Nouvelle campagne"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.crop_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.crop_list
+msgid "Nouvelle culture"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_list
+msgid "Nouvelle exploitation"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_list
+msgid "Nouvelle infrastructure"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_list
+msgid "Nouvelle parcelle"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_list
+msgid "Nouvelle production"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_list
+msgid "Nouvelle ration"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_equipment
+msgid "Numéro de série"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_list
+msgid "Objectif"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_detail
+msgid "Objectif :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_form
+msgid "Objet de la demande *"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_form
+msgid "Observations"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Opérations"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.operation_list
+msgid "Opérations culturales"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.activity_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.activity_list
+msgid "Ordre"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.activity_detail
+msgid "Ordre :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_form
+msgid "Origine"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.harvest_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.operation_list
+msgid "Parcelle"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.harvest_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.operation_detail
+msgid "Parcelle :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_list
+msgid "Parcelles"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.website_home
+msgid "Parcelles actives"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_plots
+msgid "Parcelles agricoles"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_form
+msgid "Pays"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.website_home
+msgid "Plateforme de gestion agricole."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_form
+msgid "Premium"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_form
+msgid "Production"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Productions"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_list
+msgid "Productions animales"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_form
+msgid "Produit / variété"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_list
+msgid "Protéines (g/tête)"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_detail
+msgid "Protéines totales par tête :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_detail
+msgid "Précisez un détail ou répondez à l'équipe de maintenance..."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_form
+msgid "Préventive — entretien planifié"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "Puits"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_list
+msgid "Période"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_detail
+msgid "Période :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.harvest_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_form
+msgid "Qualité"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.harvest_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_detail
+msgid "Qualité :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.harvest_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_list
+msgid "Quantité"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.harvest_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_detail
+msgid "Quantité :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_list
+msgid "Rations alimentaires"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Rations alimentaires."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_equipment
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_requests
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_list
+msgid "Rechercher"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_list
+msgid "Rechercher par nom, référence ou exploitation..."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_form
+msgid "Reproduction"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_equipment
+msgid "Responsable"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.activity_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.activity_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.crop_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.crop_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.finance_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.finance_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.harvest_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.harvest_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.operation_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.operation_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_activities
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_plots
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.transaction_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.transaction_list
+msgid "Retour"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_equipment
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_requests
+msgid "Retour au tableau de bord"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_form
+msgid "Retour aux interventions"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_equipment_detail
+msgid "Retour aux équipements"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Récoltes"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.harvest_list
+msgid "Récoltes agricoles"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.finance_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.harvest_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.operation_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.transaction_list
+msgid "Référence"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.finance_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.harvest_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.operation_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.transaction_detail
+msgid "Référence :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_requests
+msgid "Référence ou équipement"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "Réseau d'irrigation"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "Réservoir"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_detail
+msgid "Saisissez un message avant de l'envoyer."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Santé animale"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "Serre"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_form
+msgid "Serres"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_detail
+msgid ""
+"Seuls les échanges publics sont affichés. Les notes internes de l'équipe "
+"restent confidentielles."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_list
+msgid "Sexe"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_detail
+msgid "Sexe :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_equipment
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_list
+msgid "Site"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "Site (facultatif)"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_form
+msgid "Site actif"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_detail
+msgid "Sites :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.website_home
+msgid "Sites actifs"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_list
+msgid "Sites agricoles"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_detail
+msgid "Sites et parcelles"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.finance_list
+msgid "Solde"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.finance_detail
+msgid "Solde :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_form
+msgid "Standard"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "Station de pompage"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_equipment_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_requests
+msgid "Statut"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_form
+msgid "Stockage"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Suivi des activités agricoles."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Suivi des opérations culturales."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Suivi des récoltes agricoles."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Suivi du cheptel."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_list
+msgid "Superficie"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_list
+msgid "Superficie (ha)"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_detail
+msgid "Superficie :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.website_home
+msgid "Superficie disponible (ha)"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.website_home
+msgid "Superficie en culture (ha)"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.website_home
+msgid "Superficie totale (ha)"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.activity_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.crop_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_detail
+msgid "Supprimer"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "Surface (m²)"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_form
+msgid "Sélectionner"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_form
+msgid "Sélectionner un équipement"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_form
+msgid "Terminée"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_form
+msgid "Traitement"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_detail
+msgid "Traitement :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_form
+msgid "Transfert"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.crop_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.finance_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.operation_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_equipment_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_requests
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.transaction_list
+msgid "Type"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "Type *"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.crop_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.finance_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.operation_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.transaction_detail
+msgid "Type :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.crop_form
+msgid "Type de culture"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_form
+msgid "Type de maintenance *"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_form
+msgid "Type de site"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.activity_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_activities
+msgid "Types d'activité"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_form
+msgid "Téléphone"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_form
+msgid "Unité"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "Unité de capacité"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model:ir.model.fields,field_description:agriculture_manage_website.field_agriculture_portal_access__user_id
+msgid "User"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_form
+msgid "Vaccination"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_form
+msgid "Variété"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_form
+msgid "Viande"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_list
+msgid "Ville"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_form
+msgid "Ville / Commune"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_form
+msgid "Visite vétérinaire"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_detail
+msgid "Voir sur OpenStreetMap"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_detail
+msgid "Votre demande de maintenance a été enregistrée."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_detail
+msgid "Votre message a été transmis à l'équipe de maintenance."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_detail
+msgid "Votre message dépasse la limite de 4 000 caractères."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_form
+msgid "Vétérinaire"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_detail
+msgid "Vétérinaire :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model:ir.module.module,summary:base.module_agriculture_manage_website
+msgid "Website and Portal for Agriculture Management"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_form
+msgid "Wilaya"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_detail
+msgid "g"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_form
+msgid "ha"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_detail
+msgid "kcal"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_form
+msgid "m²"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+msgid "m³, tonnes, têtes..."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_detail
+msgid "Échanges avec l'équipe de maintenance"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_form
+msgid "Élevage"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_list
+msgid "Énergie (kcal/tête)"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_detail
+msgid "Énergie totale par tête :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_equipment
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_requests
+msgid "Équipement"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_request_form
+msgid "Équipement *"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_maintenance_equipment
+msgid "Équipements agricoles"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.farm_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.harvest_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.infrastructure_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.operation_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.site_list
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.transaction_list
+msgid "État"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.budget_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.campaign_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.harvest_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.livestock_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.operation_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.plot_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_detail
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.transaction_detail
+msgid "État :"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.health_list
+msgid "Événements sanitaires"
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.portal_dashboard
+msgid "Événements sanitaires."
+msgstr ""
+
+#. module: agriculture_manage_website
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.feeding_form
+#: model_terms:ir.ui.view,arch_db:agriculture_manage_website.production_form
+msgid "Œufs"
+msgstr ""
