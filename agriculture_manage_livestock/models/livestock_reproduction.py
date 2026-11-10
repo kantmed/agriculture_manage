@@ -39,12 +39,23 @@ class AgricultureLivestockReproduction(models.Model):
     offspring_count = fields.Integer(string="Nombre de petits nés", default=1)
     offspring_ids = fields.One2many("agriculture.livestock.animal", "reproduction_id", string="Petits enregistrés")
     offspring_total = fields.Integer(string="Petits créés", compute="_compute_offspring_total")
+    gestation_duration = fields.Integer(
+        string="Durée de gestation (jours)", compute="_compute_gestation_duration", store=True,
+    )
     notes = fields.Text(string="Observations")
 
     @api.depends("offspring_ids")
     def _compute_offspring_total(self):
         for rec in self:
             rec.offspring_total = len(rec.offspring_ids)
+
+    @api.depends("service_date", "actual_birth_date")
+    def _compute_gestation_duration(self):
+        for rec in self:
+            if rec.service_date and rec.actual_birth_date:
+                rec.gestation_duration = (rec.actual_birth_date - rec.service_date).days
+            else:
+                rec.gestation_duration = 0
 
     @api.model_create_multi
     def create(self, vals_list):
