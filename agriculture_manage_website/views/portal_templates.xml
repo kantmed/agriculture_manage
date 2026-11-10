@@ -112,6 +112,17 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5>Élevage</h5>
+                                <p>Suivi du cheptel.</p>
+                                <a href="/my/agriculture/livestock" class="btn btn-primary">
+                                    Consulter
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
     <template id="portal_plots" name="Parcelles">

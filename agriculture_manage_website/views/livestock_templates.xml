@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="livestock_list" name="Élevage">
+        <t t-call="portal.portal_layout">
+            <div class="container my-4">
+                <h2>Cheptel (animaux)</h2>
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th>Référence</th>
+                                <th>Nom</th>
+                                <th>Espèce</th>
+                                <th>Sexe</th>
+                                <th>État</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="animals" t-as="animal" t-key="animal.id">
+                                <td><a t-att-href="'/my/agriculture/livestock/%s' % animal.id" t-out="animal.code"/></td>
+                                <td t-out="animal.name"/>
+                                <td t-out="animal.species_id.name"/>
+                                <td t-out="animal.sex"/>
+                                <td t-out="animal.state"/>
+                                <td>
+                                    <a t-att-href="'/my/agriculture/livestock/%s' % animal.id" class="btn btn-sm btn-outline-primary">Consulter</a>
+                                </td>
+                            </tr>
+                            <tr t-if="not animals">
+                                <td colspan="6" class="text-center">Aucun animal trouvé.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a href="/my/agriculture" class="btn btn-secondary">Retour</a>
+            </div>
+        </t>
+    </template>
+
+    <template id="livestock_detail" name="Détail animal">
+        <t t-call="portal.portal_layout">
+            <div class="container my-4">
+                <h2 t-out="animal.name"/>
+                <p>Référence : <span t-out="animal.code"/></p>
+                <p>Espèce : <span t-out="animal.species_id.name"/></p>
+                <p>Sexe : <span t-out="animal.sex"/></p>
+                <p>État : <span t-out="animal.state"/></p>
+                <p>Exploitation : <span t-out="animal.farm_id.name"/></p>
+                <a href="/my/agriculture/livestock" class="btn btn-secondary">Retour</a>
+            </div>
+        </t>
+    </template>
+</odoo>
