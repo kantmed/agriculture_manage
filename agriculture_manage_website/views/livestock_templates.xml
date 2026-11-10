@@ -3,7 +3,10 @@
     <template id="livestock_list" name="Élevage">
         <t t-call="portal.portal_layout">
             <div class="container my-4">
-                <h2>Cheptel (animaux)</h2>
+                <div class="d-flex justify-content-between mb-3">
+                    <h2>Cheptel (animaux)</h2>
+                    <a href="/my/agriculture/livestock/new" class="btn btn-primary">Nouvel animal</a>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">
                         <thead>
@@ -38,6 +41,70 @@
         </t>
     </template>
 
+    <template id="livestock_form" name="Formulaire animal">
+        <t t-call="portal.portal_layout">
+            <div class="container my-4">
+                <h2 t-if="not animal">Nouvel animal</h2>
+                <h2 t-if="animal">Modifier l'animal</h2>
+                <form method="post" t-att-action="'/my/agriculture/livestock/%s/update' % animal.id if animal else '/my/agriculture/livestock/create'">
+                    <div class="card"><div class="card-body">
+                        <div class="mb-3">
+                            <label>Nom</label>
+                            <input type="text" name="name" class="form-control" required="required" t-att-value="values.get('name') if values else (animal.name if animal else '')"/>
+                        </div>
+                        <div class="mb-3">
+                            <label>Exploitation</label>
+                            <select name="farm_id" class="form-select">
+                                <t t-foreach="farms" t-as="farm" t-key="farm.id">
+                                    <option t-att-value="farm.id" t-att-selected="'selected' if (values.get('farm_id') if values else (animal.farm_id.id if animal else None)) == farm.id else None" t-out="farm.name"/>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label>Espèce</label>
+                            <select name="species_id" class="form-select">
+                                <t t-foreach="species" t-as="sp" t-key="sp.id">
+                                    <option t-att-value="sp.id" t-att-selected="'selected' if (values.get('species_id') if values else (animal.species_id.id if animal else None)) == sp.id else None" t-out="sp.name"/>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label>Sexe</label>
+                            <select name="sex" class="form-select">
+                                <option value="male">Mâle</option>
+                                <option value="female">Femelle</option>
+                                <option value="unknown">Inconnu</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label>Origine</label>
+                            <select name="origin" class="form-select">
+                                <option value="purchase">Achat</option>
+                                <option value="birth">Naissance</option>
+                                <option value="transfer">Transfert</option>
+                                <option value="other">Autre</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label>Date de naissance</label>
+                            <input type="date" name="birth_date" class="form-control" t-att-value="values.get('birth_date') if values else (animal.birth_date if animal else '')"/>
+                        </div>
+                        <div class="mb-3">
+                            <label>Date d'entrée</label>
+                            <input type="date" name="entry_date" class="form-control" t-att-value="values.get('entry_date') if values else (animal.entry_date if animal else '')"/>
+                        </div>
+                        <div class="mb-3">
+                            <label>Notes</label>
+                            <textarea name="notes" class="form-control" t-out="values.get('notes') if values else (animal.notes if animal else '')"/>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        <a href="/my/agriculture/livestock" class="btn btn-secondary">Annuler</a>
+                    </div></div>
+                </form>
+            </div>
+        </t>
+    </template>
+
     <template id="livestock_detail" name="Détail animal">
         <t t-call="portal.portal_layout">
             <div class="container my-4">
@@ -47,6 +114,10 @@
                 <p>Sexe : <span t-out="animal.sex"/></p>
                 <p>État : <span t-out="animal.state"/></p>
                 <p>Exploitation : <span t-out="animal.farm_id.name"/></p>
+                <a t-att-href="'/my/agriculture/livestock/%s/edit' % animal.id" class="btn btn-secondary">Modifier</a>
+                <form t-att-action="'/my/agriculture/livestock/%s/delete' % animal.id" method="post" style="display:inline">
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                </form>
                 <a href="/my/agriculture/livestock" class="btn btn-secondary">Retour</a>
             </div>
         </t>
