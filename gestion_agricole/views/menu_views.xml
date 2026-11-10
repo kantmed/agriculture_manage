@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_gestion_agricole_root"
+              name="Gestion Agricole"
+              sequence="10"/>
+
+    <menuitem id="menu_gestion_agricole_exploitations"
+              name="Exploitations"
+              parent="menu_gestion_agricole_root"
+              sequence="10"/>
+
+    <menuitem id="menu_gestion_agricole_production_vegetale"
+              name="Production végétale"
+              parent="menu_gestion_agricole_root"
+              sequence="20"/>
+
+    <menuitem id="menu_gestion_agricole_elevage"
+              name="Élevage"
+              parent="menu_gestion_agricole_root"
+              sequence="30"/>
+
+    <menuitem id="menu_gestion_agricole_irrigation"
+              name="Irrigation"
+              parent="menu_gestion_agricole_root"
+              sequence="40"/>
+
+    <menuitem id="menu_gestion_agricole_materiel"
+              name="Matériel"
+              parent="menu_gestion_agricole_root"
+              sequence="50"/>
+
+    <menuitem id="menu_gestion_agricole_personnel"
+              name="Personnel"
+              parent="menu_gestion_agricole_root"
+              sequence="60"/>
+
+    <menuitem id="menu_gestion_agricole_economie"
+              name="Économie"
+              parent="menu_gestion_agricole_root"
+              sequence="70"/>
+
+    <menuitem id="menu_gestion_agricole_configuration"
+              name="Configuration"
+              parent="menu_gestion_agricole_root"
+              sequence="80"/>
+</odoo>
+
