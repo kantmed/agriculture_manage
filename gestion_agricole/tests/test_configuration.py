@@ -85,6 +85,12 @@ class TestConfiguration(TransactionCase):
             )
 
     def test_global_code_conflicts_with_company_code(self):
+        """Teste que la règle globale/société est respectée.
+
+        Scénario : création d'un code dans une société, puis tentative de création
+        du même code en global doit être refusée, et inversement.
+        """
+        # Cas 1 : code société créé en premier, création globale ensuite refusée
         self.env["gest_agri.soil.type"].create(
             {"name": "Sableux", "code": "SAB", "company_id": self.company.id}
         )
@@ -92,6 +98,22 @@ class TestConfiguration(TransactionCase):
             self.env["gest_agri.soil.type"].create(
                 {"name": "Sable global", "code": "SAB", "company_id": False}
             )
+
+        # Cas 2 : code global créé en premier, création société ensuite refusée
+        # On réinitialise et on teste l'inverse
+        SoilType = self.env["gest_agri.soil.type"]
+        # On supprime les entrées de test pour partir sur un état propre
+        SoilType.search([("code", "=", "SAB")]).unlink()
+        SoilType.search([("code", "=", "SAB_global")]).unlink()
+
+        # Création globale d'abord
+        global_type = SoilType.create({"name": "Sable global", "code": "SAB", "company_id": False})
+        # Puis tentative de création dans une société doit échouer
+        with self.assertRaises(ValidationError):
+            SoilType.create({"name": "Sable société", "code": "SAB", "company_id": self.company.id})
+
+        # Nettoyage
+        global_type.unlink()
 
     def test_same_code_in_other_company(self):
         other_company = self.env["res.company"].create({"name": "Autre société"})
@@ -102,3 +124,19 @@ class TestConfiguration(TransactionCase):
             {"name": "Calcaire autre société", "code": "CAL", "company_id": other_company.id}
         )
         self.assertEqual(other_type.company_id, other_company)
+
+    def test_same_code_in_lot_creation(self):
+        """Teste que deux références identiques dans une création en lot sont refusées."""
+        with self.assertRaises(ValidationError):
+            self.env["gest_agri.soil.type"].create([
+                {"name": "Sable 1", "code": "SAB", "company_id": self.company.id},
+                {"name": "Sable 2", "code": "SAB", "company_id": self.company.id},
+            ])
+
+    def test_code_modification_with_conflict(self):
+        """Teste que la modification du code lève une erreur en cas de conflit."""
+        self.env["gest_agri.soil.type"].create({"name": "Sable", "code": "SAB", "company_id": self.company.id})
+        with self.assertRaises(ValidationError):
+            self.env["gest_agri.soil.type"].search([("code", "=", "SAB")]).write(
+                {"name": "Sable modifié", "code": "SAB"}
+            )
