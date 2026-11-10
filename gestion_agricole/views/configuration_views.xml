@@ -1,0 +1,928 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Sous-menus de configuration -->
+    <menuitem id="menu_gest_agri_config_farms" name="Exploitations" parent="menu_gestion_agricole_configuration" sequence="10"/>
+    <menuitem id="menu_gest_agri_config_crops" name="Cultures" parent="menu_gestion_agricole_configuration" sequence="20"/>
+    <menuitem id="menu_gest_agri_config_livestock" name="Élevage" parent="menu_gestion_agricole_configuration" sequence="30"/>
+    <menuitem id="menu_gest_agri_config_operations" name="Interventions" parent="menu_gestion_agricole_configuration" sequence="40"/>
+    <menuitem id="menu_gest_agri_config_equipment" name="Matériel" parent="menu_gestion_agricole_configuration" sequence="50"/>
+    <menuitem id="menu_gest_agri_config_irrigation" name="Irrigation" parent="menu_gestion_agricole_configuration" sequence="60"/>
+
+    <!-- Types d'exploitation -->
+    <record id="view_gest_agri_farm_type_list" model="ir.ui.view">
+        <field name="name">gest_agri.farm.type.list</field>
+        <field name="model">gest_agri.farm.type</field>
+        <field name="arch" type="xml">
+            <list string="Types d'exploitation">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="sequence" widget="handle"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_farm_type_form" model="ir.ui.view">
+        <field name="name">gest_agri.farm.type.form</field>
+        <field name="model">gest_agri.farm.type</field>
+        <field name="arch" type="xml">
+            <form string="Types d'exploitation">
+                <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Nom"/>
+                        <h1><field name="name" placeholder="Type d'exploitation"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                        </group>
+                        <group>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                            <field name="sequence"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Description ou notes internes..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_farm_type_search" model="ir.ui.view">
+        <field name="name">gest_agri.farm.type.search</field>
+        <field name="model">gest_agri.farm.type</field>
+        <field name="arch" type="xml">
+            <search string="Types d'exploitation">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <filter name="active" string="Actifs" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Archivés" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_company" string="Société" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_farm_type" model="ir.actions.act_window">
+        <field name="name">Types d'exploitation</field>
+        <field name="res_model">gest_agri.farm.type</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Créez votre premier type d'exploitation.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_gest_agri_farm_type" name="Types d'exploitation" parent="menu_gest_agri_config_farms" action="action_gest_agri_farm_type" sequence="10" groups="gestion_agricole.group_gest_agri_user"/>
+
+    <!-- Types de sol -->
+    <record id="view_gest_agri_soil_type_list" model="ir.ui.view">
+        <field name="name">gest_agri.soil.type.list</field>
+        <field name="model">gest_agri.soil.type</field>
+        <field name="arch" type="xml">
+            <list string="Types de sol">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="sequence" widget="handle"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_soil_type_form" model="ir.ui.view">
+        <field name="name">gest_agri.soil.type.form</field>
+        <field name="model">gest_agri.soil.type</field>
+        <field name="arch" type="xml">
+            <form string="Types de sol">
+                <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Nom"/>
+                        <h1><field name="name" placeholder="Type de sol"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                        </group>
+                        <group>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                            <field name="sequence"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Description ou notes internes..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_soil_type_search" model="ir.ui.view">
+        <field name="name">gest_agri.soil.type.search</field>
+        <field name="model">gest_agri.soil.type</field>
+        <field name="arch" type="xml">
+            <search string="Types de sol">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <filter name="active" string="Actifs" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Archivés" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_company" string="Société" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_soil_type" model="ir.actions.act_window">
+        <field name="name">Types de sol</field>
+        <field name="res_model">gest_agri.soil.type</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Créez votre premier type de sol.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_gest_agri_soil_type" name="Types de sol" parent="menu_gest_agri_config_farms" action="action_gest_agri_soil_type" sequence="20" groups="gestion_agricole.group_gest_agri_user"/>
+
+    <!-- Types de bâtiment -->
+    <record id="view_gest_agri_building_type_list" model="ir.ui.view">
+        <field name="name">gest_agri.building.type.list</field>
+        <field name="model">gest_agri.building.type</field>
+        <field name="arch" type="xml">
+            <list string="Types de bâtiment">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="sequence" widget="handle"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_building_type_form" model="ir.ui.view">
+        <field name="name">gest_agri.building.type.form</field>
+        <field name="model">gest_agri.building.type</field>
+        <field name="arch" type="xml">
+            <form string="Types de bâtiment">
+                <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Nom"/>
+                        <h1><field name="name" placeholder="Type de bâtiment"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                        </group>
+                        <group>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                            <field name="sequence"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Description ou notes internes..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_building_type_search" model="ir.ui.view">
+        <field name="name">gest_agri.building.type.search</field>
+        <field name="model">gest_agri.building.type</field>
+        <field name="arch" type="xml">
+            <search string="Types de bâtiment">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <filter name="active" string="Actifs" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Archivés" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_company" string="Société" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_building_type" model="ir.actions.act_window">
+        <field name="name">Types de bâtiment</field>
+        <field name="res_model">gest_agri.building.type</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Créez votre premier type de bâtiment.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_gest_agri_building_type" name="Types de bâtiment" parent="menu_gest_agri_config_farms" action="action_gest_agri_building_type" sequence="30" groups="gestion_agricole.group_gest_agri_user"/>
+
+    <!-- Types de culture -->
+    <record id="view_gest_agri_crop_type_list" model="ir.ui.view">
+        <field name="name">gest_agri.crop.type.list</field>
+        <field name="model">gest_agri.crop.type</field>
+        <field name="arch" type="xml">
+            <list string="Types de culture">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="crop_cycle"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="sequence" widget="handle"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_crop_type_form" model="ir.ui.view">
+        <field name="name">gest_agri.crop.type.form</field>
+        <field name="model">gest_agri.crop.type</field>
+        <field name="arch" type="xml">
+            <form string="Types de culture">
+                <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Nom"/>
+                        <h1><field name="name" placeholder="Type de culture"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="crop_cycle"/>
+                        </group>
+                        <group>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                            <field name="sequence"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Description ou notes internes..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_crop_type_search" model="ir.ui.view">
+        <field name="name">gest_agri.crop.type.search</field>
+        <field name="model">gest_agri.crop.type</field>
+        <field name="arch" type="xml">
+            <search string="Types de culture">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <filter name="active" string="Actifs" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Archivés" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_company" string="Société" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_crop_type" model="ir.actions.act_window">
+        <field name="name">Types de culture</field>
+        <field name="res_model">gest_agri.crop.type</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Créez votre premier type de culture.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_gest_agri_crop_type" name="Types de culture" parent="menu_gest_agri_config_crops" action="action_gest_agri_crop_type" sequence="10" groups="gestion_agricole.group_gest_agri_user"/>
+
+    <!-- Variétés de culture -->
+    <record id="view_gest_agri_crop_variety_list" model="ir.ui.view">
+        <field name="name">gest_agri.crop.variety.list</field>
+        <field name="model">gest_agri.crop.variety</field>
+        <field name="arch" type="xml">
+            <list string="Variétés de culture">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="crop_type_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="sequence" widget="handle"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_crop_variety_form" model="ir.ui.view">
+        <field name="name">gest_agri.crop.variety.form</field>
+        <field name="model">gest_agri.crop.variety</field>
+        <field name="arch" type="xml">
+            <form string="Variétés de culture">
+                <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Nom"/>
+                        <h1><field name="name" placeholder="Variété de culture"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="crop_type_id"/>
+                        </group>
+                        <group>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                            <field name="sequence"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Description ou notes internes..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_crop_variety_search" model="ir.ui.view">
+        <field name="name">gest_agri.crop.variety.search</field>
+        <field name="model">gest_agri.crop.variety</field>
+        <field name="arch" type="xml">
+            <search string="Variétés de culture">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <filter name="active" string="Actifs" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Archivés" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_company" string="Société" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_crop_variety" model="ir.actions.act_window">
+        <field name="name">Variétés de culture</field>
+        <field name="res_model">gest_agri.crop.variety</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Créez votre premier variété de culture.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_gest_agri_crop_variety" name="Variétés de culture" parent="menu_gest_agri_config_crops" action="action_gest_agri_crop_variety" sequence="20" groups="gestion_agricole.group_gest_agri_user"/>
+
+    <!-- Espèces animales -->
+    <record id="view_gest_agri_livestock_species_list" model="ir.ui.view">
+        <field name="name">gest_agri.livestock.species.list</field>
+        <field name="model">gest_agri.livestock.species</field>
+        <field name="arch" type="xml">
+            <list string="Espèces animales">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="sequence" widget="handle"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_livestock_species_form" model="ir.ui.view">
+        <field name="name">gest_agri.livestock.species.form</field>
+        <field name="model">gest_agri.livestock.species</field>
+        <field name="arch" type="xml">
+            <form string="Espèces animales">
+                <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Nom"/>
+                        <h1><field name="name" placeholder="Espèce animale"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                        </group>
+                        <group>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                            <field name="sequence"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Description ou notes internes..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_livestock_species_search" model="ir.ui.view">
+        <field name="name">gest_agri.livestock.species.search</field>
+        <field name="model">gest_agri.livestock.species</field>
+        <field name="arch" type="xml">
+            <search string="Espèces animales">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <filter name="active" string="Actifs" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Archivés" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_company" string="Société" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_livestock_species" model="ir.actions.act_window">
+        <field name="name">Espèces animales</field>
+        <field name="res_model">gest_agri.livestock.species</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Créez votre premier espèce animale.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_gest_agri_livestock_species" name="Espèces animales" parent="menu_gest_agri_config_livestock" action="action_gest_agri_livestock_species" sequence="10" groups="gestion_agricole.group_gest_agri_user"/>
+
+    <!-- Races animales -->
+    <record id="view_gest_agri_livestock_breed_list" model="ir.ui.view">
+        <field name="name">gest_agri.livestock.breed.list</field>
+        <field name="model">gest_agri.livestock.breed</field>
+        <field name="arch" type="xml">
+            <list string="Races animales">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="species_id"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="sequence" widget="handle"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_livestock_breed_form" model="ir.ui.view">
+        <field name="name">gest_agri.livestock.breed.form</field>
+        <field name="model">gest_agri.livestock.breed</field>
+        <field name="arch" type="xml">
+            <form string="Races animales">
+                <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Nom"/>
+                        <h1><field name="name" placeholder="Race animale"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="species_id"/>
+                        </group>
+                        <group>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                            <field name="sequence"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Description ou notes internes..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_livestock_breed_search" model="ir.ui.view">
+        <field name="name">gest_agri.livestock.breed.search</field>
+        <field name="model">gest_agri.livestock.breed</field>
+        <field name="arch" type="xml">
+            <search string="Races animales">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <filter name="active" string="Actifs" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Archivés" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_company" string="Société" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_livestock_breed" model="ir.actions.act_window">
+        <field name="name">Races animales</field>
+        <field name="res_model">gest_agri.livestock.breed</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Créez votre premier race animale.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_gest_agri_livestock_breed" name="Races animales" parent="menu_gest_agri_config_livestock" action="action_gest_agri_livestock_breed" sequence="20" groups="gestion_agricole.group_gest_agri_user"/>
+
+    <!-- Types de production -->
+    <record id="view_gest_agri_production_type_list" model="ir.ui.view">
+        <field name="name">gest_agri.production.type.list</field>
+        <field name="model">gest_agri.production.type</field>
+        <field name="arch" type="xml">
+            <list string="Types de production">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="sequence" widget="handle"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_production_type_form" model="ir.ui.view">
+        <field name="name">gest_agri.production.type.form</field>
+        <field name="model">gest_agri.production.type</field>
+        <field name="arch" type="xml">
+            <form string="Types de production">
+                <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Nom"/>
+                        <h1><field name="name" placeholder="Type de production"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                        </group>
+                        <group>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                            <field name="sequence"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Description ou notes internes..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_production_type_search" model="ir.ui.view">
+        <field name="name">gest_agri.production.type.search</field>
+        <field name="model">gest_agri.production.type</field>
+        <field name="arch" type="xml">
+            <search string="Types de production">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <filter name="active" string="Actifs" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Archivés" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_company" string="Société" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_production_type" model="ir.actions.act_window">
+        <field name="name">Types de production</field>
+        <field name="res_model">gest_agri.production.type</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Créez votre premier type de production.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_gest_agri_production_type" name="Types de production" parent="menu_gest_agri_config_livestock" action="action_gest_agri_production_type" sequence="30" groups="gestion_agricole.group_gest_agri_user"/>
+
+    <!-- Types d'opération -->
+    <record id="view_gest_agri_operation_type_list" model="ir.ui.view">
+        <field name="name">gest_agri.operation.type.list</field>
+        <field name="model">gest_agri.operation.type</field>
+        <field name="arch" type="xml">
+            <list string="Types d'opération">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="sequence" widget="handle"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_operation_type_form" model="ir.ui.view">
+        <field name="name">gest_agri.operation.type.form</field>
+        <field name="model">gest_agri.operation.type</field>
+        <field name="arch" type="xml">
+            <form string="Types d'opération">
+                <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Nom"/>
+                        <h1><field name="name" placeholder="Type d'opération"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                        </group>
+                        <group>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                            <field name="sequence"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Description ou notes internes..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_operation_type_search" model="ir.ui.view">
+        <field name="name">gest_agri.operation.type.search</field>
+        <field name="model">gest_agri.operation.type</field>
+        <field name="arch" type="xml">
+            <search string="Types d'opération">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <filter name="active" string="Actifs" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Archivés" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_company" string="Société" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_operation_type" model="ir.actions.act_window">
+        <field name="name">Types d'opération</field>
+        <field name="res_model">gest_agri.operation.type</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Créez votre premier type d'opération.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_gest_agri_operation_type" name="Types d'opération" parent="menu_gest_agri_config_operations" action="action_gest_agri_operation_type" sequence="10" groups="gestion_agricole.group_gest_agri_user"/>
+
+    <!-- Types de traitement -->
+    <record id="view_gest_agri_treatment_type_list" model="ir.ui.view">
+        <field name="name">gest_agri.treatment.type.list</field>
+        <field name="model">gest_agri.treatment.type</field>
+        <field name="arch" type="xml">
+            <list string="Types de traitement">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="sequence" widget="handle"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_treatment_type_form" model="ir.ui.view">
+        <field name="name">gest_agri.treatment.type.form</field>
+        <field name="model">gest_agri.treatment.type</field>
+        <field name="arch" type="xml">
+            <form string="Types de traitement">
+                <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Nom"/>
+                        <h1><field name="name" placeholder="Type de traitement"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                        </group>
+                        <group>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                            <field name="sequence"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Description ou notes internes..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_treatment_type_search" model="ir.ui.view">
+        <field name="name">gest_agri.treatment.type.search</field>
+        <field name="model">gest_agri.treatment.type</field>
+        <field name="arch" type="xml">
+            <search string="Types de traitement">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <filter name="active" string="Actifs" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Archivés" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_company" string="Société" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_treatment_type" model="ir.actions.act_window">
+        <field name="name">Types de traitement</field>
+        <field name="res_model">gest_agri.treatment.type</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Créez votre premier type de traitement.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_gest_agri_treatment_type" name="Types de traitement" parent="menu_gest_agri_config_operations" action="action_gest_agri_treatment_type" sequence="20" groups="gestion_agricole.group_gest_agri_user"/>
+
+    <!-- Types d'engrais -->
+    <record id="view_gest_agri_fertilizer_type_list" model="ir.ui.view">
+        <field name="name">gest_agri.fertilizer.type.list</field>
+        <field name="model">gest_agri.fertilizer.type</field>
+        <field name="arch" type="xml">
+            <list string="Types d'engrais">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="sequence" widget="handle"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_fertilizer_type_form" model="ir.ui.view">
+        <field name="name">gest_agri.fertilizer.type.form</field>
+        <field name="model">gest_agri.fertilizer.type</field>
+        <field name="arch" type="xml">
+            <form string="Types d'engrais">
+                <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Nom"/>
+                        <h1><field name="name" placeholder="Type d'engrais"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                        </group>
+                        <group>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                            <field name="sequence"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Description ou notes internes..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_fertilizer_type_search" model="ir.ui.view">
+        <field name="name">gest_agri.fertilizer.type.search</field>
+        <field name="model">gest_agri.fertilizer.type</field>
+        <field name="arch" type="xml">
+            <search string="Types d'engrais">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <filter name="active" string="Actifs" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Archivés" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_company" string="Société" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_fertilizer_type" model="ir.actions.act_window">
+        <field name="name">Types d'engrais</field>
+        <field name="res_model">gest_agri.fertilizer.type</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Créez votre premier type d'engrais.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_gest_agri_fertilizer_type" name="Types d'engrais" parent="menu_gest_agri_config_operations" action="action_gest_agri_fertilizer_type" sequence="30" groups="gestion_agricole.group_gest_agri_user"/>
+
+    <!-- Types d'équipement -->
+    <record id="view_gest_agri_equipment_type_list" model="ir.ui.view">
+        <field name="name">gest_agri.equipment.type.list</field>
+        <field name="model">gest_agri.equipment.type</field>
+        <field name="arch" type="xml">
+            <list string="Types d'équipement">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="sequence" widget="handle"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_equipment_type_form" model="ir.ui.view">
+        <field name="name">gest_agri.equipment.type.form</field>
+        <field name="model">gest_agri.equipment.type</field>
+        <field name="arch" type="xml">
+            <form string="Types d'équipement">
+                <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Nom"/>
+                        <h1><field name="name" placeholder="Type d'équipement"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                        </group>
+                        <group>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                            <field name="sequence"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Description ou notes internes..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_equipment_type_search" model="ir.ui.view">
+        <field name="name">gest_agri.equipment.type.search</field>
+        <field name="model">gest_agri.equipment.type</field>
+        <field name="arch" type="xml">
+            <search string="Types d'équipement">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <filter name="active" string="Actifs" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Archivés" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_company" string="Société" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_equipment_type" model="ir.actions.act_window">
+        <field name="name">Types d'équipement</field>
+        <field name="res_model">gest_agri.equipment.type</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Créez votre premier type d'équipement.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_gest_agri_equipment_type" name="Types d'équipement" parent="menu_gest_agri_config_equipment" action="action_gest_agri_equipment_type" sequence="10" groups="gestion_agricole.group_gest_agri_user"/>
+
+    <!-- Types d'irrigation -->
+    <record id="view_gest_agri_irrigation_type_list" model="ir.ui.view">
+        <field name="name">gest_agri.irrigation.type.list</field>
+        <field name="model">gest_agri.irrigation.type</field>
+        <field name="arch" type="xml">
+            <list string="Types d'irrigation">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="sequence" widget="handle"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_irrigation_type_form" model="ir.ui.view">
+        <field name="name">gest_agri.irrigation.type.form</field>
+        <field name="model">gest_agri.irrigation.type</field>
+        <field name="arch" type="xml">
+            <form string="Types d'irrigation">
+                <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Nom"/>
+                        <h1><field name="name" placeholder="Type d'irrigation"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                        </group>
+                        <group>
+                            <field name="company_id" options="{'no_create': True}" groups="base.group_multi_company"/>
+                            <field name="sequence"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Description ou notes internes..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_irrigation_type_search" model="ir.ui.view">
+        <field name="name">gest_agri.irrigation.type.search</field>
+        <field name="model">gest_agri.irrigation.type</field>
+        <field name="arch" type="xml">
+            <search string="Types d'irrigation">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <filter name="active" string="Actifs" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Archivés" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_company" string="Société" context="{'group_by': 'company_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_irrigation_type" model="ir.actions.act_window">
+        <field name="name">Types d'irrigation</field>
+        <field name="res_model">gest_agri.irrigation.type</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Créez votre premier type d'irrigation.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_gest_agri_irrigation_type" name="Types d'irrigation" parent="menu_gest_agri_config_irrigation" action="action_gest_agri_irrigation_type" sequence="10" groups="gestion_agricole.group_gest_agri_user"/>
+
+</odoo>

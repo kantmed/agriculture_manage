@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Exploitations agricoles -->
+    <record id="action_gest_agri_farm_access" model="ir.actions.act_window">
+        <field name="name">Droits d'accès</field>
+        <field name="res_model">gest_agri.farm.access</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Accordez un droit d'accès à une exploitation.</p>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_farm_list" model="ir.ui.view">
+        <field name="name">gest_agri.farm.list</field>
+        <field name="model">gest_agri.farm</field>
+        <field name="arch" type="xml">
+            <list string="Exploitations">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="farm_type_id"/>
+                <field name="manager_id"/>
+                <field name="total_area" sum="Total"/>
+                <field name="allocated_area" sum="Affecté"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_farm_form" model="ir.ui.view">
+        <field name="name">gest_agri.farm.form</field>
+        <field name="model">gest_agri.farm</field>
+        <field name="arch" type="xml">
+            <form string="Exploitation">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" type="action"
+                                name="%(action_gest_agri_site)d"
+                                icon="fa-map-marker"
+                                context="{'default_farm_id': id}">
+                            <field name="site_count" widget="statinfo" string="Sites"/>
+                        </button>
+                        <button class="oe_stat_button" type="action"
+                                name="%(action_gest_agri_plot)d"
+                                icon="fa-th-large"
+                                context="{'default_farm_id': id}">
+                            <field name="plot_count" widget="statinfo" string="Parcelles"/>
+                        </button>
+                        <button class="oe_stat_button" type="action"
+                                name="%(action_gest_agri_building)d"
+                                icon="fa-home"
+                                context="{'default_farm_id': id}">
+                            <field name="building_count" widget="statinfo" string="Bâtiments"/>
+                        </button>
+                        <button class="oe_stat_button" type="action"
+                                name="%(action_gest_agri_infrastructure)d"
+                                icon="fa-road"
+                                context="{'default_farm_id': id}">
+                            <field name="infrastructure_count" widget="statinfo" string="Infrastructures"/>
+                        </button>
+                        <button class="oe_stat_button" type="action"
+                                name="%(action_gest_agri_water_source)d"
+                                icon="fa-tint"
+                                context="{'default_farm_id': id}">
+                            <field name="water_source_count" widget="statinfo" string="Sources d'eau"/>
+                        </button>
+                        <button class="oe_stat_button" type="action"
+                                name="%(action_gest_agri_irrigation_network)d"
+                                icon="fa-sitemap"
+                                context="{'default_farm_id': id}">
+                            <field name="irrigation_network_count" widget="statinfo" string="Réseaux"/>
+                        </button>
+                        <button class="oe_stat_button" type="action"
+                                name="%(action_gest_agri_farm_access)d"
+                                icon="fa-key"
+                                groups="gestion_agricole.group_gest_agri_manager"
+                                context="{'default_farm_id': id, 'default_company_id': company_id}">
+                            <field name="access_count" widget="statinfo" string="Accès"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Nom de l'exploitation"/>
+                        <h1><field name="name" placeholder="Ex. Domaine des Oliviers"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="farm_type_id"/>
+                            <field name="manager_id"/>
+                            <field name="partner_id"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="analytic_account_id" groups="analytic.group_analytic_accounting"/>
+                            <field name="total_area"/>
+                            <field name="allocated_area"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Sites" name="sites">
+                            <field name="site_ids" context="{'default_farm_id': id}">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="active" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Parcelles" name="plots">
+                            <field name="plot_ids" context="{'default_farm_id': id}">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="site_id"/>
+                                    <field name="area" sum="Total"/>
+                                    <field name="soil_type_id"/>
+                                    <field name="irrigation_type_id"/>
+                                    <field name="active" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Bâtiments" name="buildings">
+                            <field name="building_ids" context="{'default_farm_id': id}">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="building_type_id"/>
+                                    <field name="area"/>
+                                    <field name="capacity"/>
+                                    <field name="active" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Infrastructures" name="infrastructures">
+                            <field name="infrastructure_ids" context="{'default_farm_id': id}">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="infrastructure_kind"/>
+                                    <field name="length_m"/>
+                                    <field name="area"/>
+                                    <field name="active" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Sources d'eau" name="water_sources">
+                            <field name="water_source_ids" context="{'default_farm_id': id}">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="source_type"/>
+                                    <field name="capacity_m3_day"/>
+                                    <field name="depth_m"/>
+                                    <field name="active" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Réseaux d'irrigation" name="irrigation_networks">
+                            <field name="irrigation_network_ids" context="{'default_farm_id': id}">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="network_type"/>
+                                    <field name="water_source_id"/>
+                                    <field name="flow_rate_m3_h"/>
+                                    <field name="active" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Droits d'accès" name="accesses" groups="gestion_agricole.group_gest_agri_manager">
+                            <field name="access_ids" context="{'default_farm_id': id, 'default_company_id': company_id}">
+                                <list>
+                                    <field name="user_id"/>
+                                    <field name="role"/>
+                                    <field name="active" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Description" name="description">
+                            <field name="description" placeholder="Informations complémentaires..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_farm_access_search" model="ir.ui.view">
+        <field name="name">gest_agri.farm.access.search</field>
+        <field name="model">gest_agri.farm.access</field>
+        <field name="arch" type="xml">
+            <search string="Droits d'accès">
+                <field name="farm_id"/>
+                <field name="user_id"/>
+                <field name="role"/>
+                <filter name="active" string="Actifs" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Archivés" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_farm" string="Exploitation" context="{'group_by': 'farm_id'}"/>
+                    <filter name="group_user" string="Utilisateur" context="{'group_by': 'user_id'}"/>
+                    <filter name="group_role" string="Rôle" context="{'group_by': 'role'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <menuitem id="menu_gest_agri_farm_access" name="Droits d'accès"
+              parent="menu_gestion_agricole_exploitations"
+              action="action_gest_agri_farm_access" sequence="80"
+              groups="gestion_agricole.group_gest_agri_manager"/>
+
+</odoo>

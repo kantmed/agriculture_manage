@@ -1,0 +1,270 @@
+# -*- coding: utf-8 -*-
+from odoo.exceptions import UserError, ValidationError
+from odoo.tests.common import TransactionCase
+
+
+class TestPatrimony(TransactionCase):
+    @classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.company = cls.env.company
+        cls.farm_type = cls.env["gest_agri.farm.type"].create(
+            {
+                "name": "Polyculture",
+                "code": "POLY",
+                "company_id": cls.company.id,
+            }
+        )
+        cls.soil_type = cls.env["gest_agri.soil.type"].create(
+            {"name": "Limoneux", "code": "LIM", "company_id": cls.company.id}
+        )
+        cls.irrigation_type = cls.env["gest_agri.irrigation.type"].create(
+            {"name": "Goutte-à-goutte", "code": "GAG", "company_id": cls.company.id}
+        )
+        cls.building_type = cls.env["gest_agri.building.type"].create(
+            {"name": "Hangar", "code": "HAN", "company_id": cls.company.id}
+        )
+        cls.farm = cls.env["gest_agri.farm"].create(
+            {
+                "name": "Domaine principal",
+                "code": "DOM",
+                "company_id": cls.company.id,
+                "farm_type_id": cls.farm_type.id,
+                "total_area": 100.0,
+            }
+        )
+        cls.site = cls.env["gest_agri.site"].create(
+            {
+                "name": "Site Nord",
+                "code": "NORD",
+                "farm_id": cls.farm.id,
+            }
+        )
+        cls.plot = cls.env["gest_agri.plot"].create(
+            {
+                "name": "Parcelle A",
+                "code": "A",
+                "farm_id": cls.farm.id,
+                "site_id": cls.site.id,
+                "area": 10.0,
+                "soil_type_id": cls.soil_type.id,
+                "irrigation_type_id": cls.irrigation_type.id,
+            }
+        )
+
+    def test_farm_site_plot_creation(self):
+        self.assertEqual(self.farm.site_count, 1)
+        self.assertEqual(self.farm.plot_count, 1)
+        self.assertEqual(self.farm.allocated_area, 10.0)
+        self.assertEqual(self.site.company_id, self.company)
+        self.assertEqual(self.plot.company_id, self.company)
+        self.assertEqual(self.plot.site_id, self.site)
+
+    def test_full_patrimony_creation(self):
+        building = self.env["gest_agri.building"].create(
+            {
+                "name": "Hangar principal",
+                "code": "HANGAR",
+                "farm_id": self.farm.id,
+                "site_id": self.site.id,
+                "building_type_id": self.building_type.id,
+                "area": 250.0,
+                "capacity": 200,
+            }
+        )
+        infrastructure = self.env["gest_agri.infrastructure"].create(
+            {
+                "name": "Piste principale",
+                "code": "PISTE",
+                "farm_id": self.farm.id,
+                "site_id": self.site.id,
+                "infrastructure_kind": "road",
+                "length_m": 500.0,
+            }
+        )
+        water_source = self.env["gest_agri.water.source"].create(
+            {
+                "name": "Forage Nord",
+                "code": "FORAGE",
+                "farm_id": self.farm.id,
+                "site_id": self.site.id,
+                "source_type": "borehole",
+                "capacity_m3_day": 120.0,
+                "depth_m": 45.0,
+            }
+        )
+        network = self.env["gest_agri.irrigation.network"].create(
+            {
+                "name": "Réseau principal",
+                "code": "RESEAU",
+                "farm_id": self.farm.id,
+                "water_source_id": water_source.id,
+                "network_type": "drip",
+                "flow_rate_m3_h": 25.0,
+            }
+        )
+        sector = self.env["gest_agri.irrigation.sector"].create(
+            {
+                "name": "Secteur A",
+                "code": "SEC-A",
+                "network_id": network.id,
+                "area": 10.0,
+                "plot_ids": [(6, 0, self.plot.ids)],
+            }
+        )
+        pump = self.env["gest_agri.irrigation.pump"].create(
+            {
+                "name": "Pompe principale",
+                "code": "POMPE",
+                "network_id": network.id,
+                "power_kw": 7.5,
+                "flow_rate_m3_h": 25.0,
+            }
+        )
+
+        self.assertEqual(building.company_id, self.company)
+        self.assertEqual(infrastructure.site_id, self.site)
+        self.assertEqual(water_source.source_type, "borehole")
+        self.assertEqual(network.water_source_id, water_source)
+        self.assertEqual(sector.farm_id, self.farm)
+        self.assertEqual(sector.company_id, self.company)
+        self.assertEqual(pump.farm_id, self.farm)
+        self.assertEqual(pump.company_id, self.company)
+        self.assertEqual(self.farm.water_source_count, 1)
+        self.assertEqual(self.farm.irrigation_network_count, 1)
+
+    def test_farm_code_unique_per_company(self):
+        with self.assertRaises(ValidationError):
+            self.env["gest_agri.farm"].create(
+                {
+                    "name": "Autre domaine",
+                    "code": "dom",
+                    "company_id": self.company.id,
+                    "total_area": 1.0,
+                }
+            )
+
+    def test_site_code_unique_per_farm(self):
+        with self.assertRaises(ValidationError):
+            self.env["gest_agri.site"].create(
+                {
+                    "name": "Site Nord bis",
+                    "code": "nord",
+                    "farm_id": self.farm.id,
+                }
+            )
+
+    def test_site_must_belong_to_same_farm(self):
+        other_farm = self.env["gest_agri.farm"].create(
+            {
+                "name": "Autre domaine",
+                "code": "AUTRE",
+                "company_id": self.company.id,
+                "total_area": 50.0,
+            }
+        )
+        other_site = self.env["gest_agri.site"].create(
+            {"name": "Site Sud", "code": "SUD", "farm_id": other_farm.id}
+        )
+        with self.assertRaises(ValidationError):
+            self.env["gest_agri.plot"].create(
+                {
+                    "name": "Parcelle invalide",
+                    "code": "INVALIDE",
+                    "farm_id": self.farm.id,
+                    "site_id": other_site.id,
+                    "area": 1.0,
+                }
+            )
+
+    def test_negative_area_rejected(self):
+        with self.assertRaises(ValidationError):
+            self.env["gest_agri.plot"].create(
+                {
+                    "name": "Parcelle négative",
+                    "code": "NEG",
+                    "farm_id": self.farm.id,
+                    "area": -1.0,
+                }
+            )
+        with self.assertRaises(ValidationError):
+            self.env["gest_agri.farm"].create(
+                {
+                    "name": "Domaine négatif",
+                    "code": "NEG-DOM",
+                    "company_id": self.company.id,
+                    "total_area": -5.0,
+                }
+            )
+
+    def test_allocated_area_cannot_exceed_total(self):
+        small_farm = self.env["gest_agri.farm"].create(
+            {
+                "name": "Petit domaine",
+                "code": "PETIT",
+                "company_id": self.company.id,
+                "total_area": 5.0,
+            }
+        )
+        with self.assertRaises(ValidationError):
+            self.env["gest_agri.plot"].create(
+                {
+                    "name": "Parcelle trop grande",
+                    "code": "TROP",
+                    "farm_id": small_farm.id,
+                    "area": 6.0,
+                }
+            )
+            self.env.flush_all()
+
+    def test_plot_agronomic_ranges(self):
+        with self.assertRaises(ValidationError):
+            self.env["gest_agri.plot"].create(
+                {
+                    "name": "Parcelle pH invalide",
+                    "code": "PH",
+                    "farm_id": self.farm.id,
+                    "area": 1.0,
+                    "ph_min": 8.0,
+                    "ph_max": 6.0,
+                }
+            )
+        with self.assertRaises(ValidationError):
+            self.env["gest_agri.plot"].create(
+                {
+                    "name": "Parcelle pente invalide",
+                    "code": "PENTE",
+                    "farm_id": self.farm.id,
+                    "area": 1.0,
+                    "slope_percent": 120.0,
+                }
+            )
+
+    def test_company_consistency(self):
+        other_company = self.env["res.company"].create({"name": "Société distante"})
+        other_type = self.env["gest_agri.farm.type"].create(
+            {
+                "name": "Type distant",
+                "code": "DIST",
+                "company_id": other_company.id,
+            }
+        )
+        plan = self.env["account.analytic.plan"].create({"name": "Plan distant"})
+        other_account = self.env["account.analytic.account"].create(
+            {
+                "name": "Compte distant",
+                "plan_id": plan.id,
+                "company_id": other_company.id,
+            }
+        )
+        with self.assertRaises((ValidationError, UserError)):
+            self.env["gest_agri.farm"].create(
+                {
+                    "name": "Domaine incohérent",
+                    "code": "INCOHERENT",
+                    "company_id": self.company.id,
+                    "farm_type_id": other_type.id,
+                    "analytic_account_id": other_account.id,
+                    "total_area": 1.0,
+                }
+            )

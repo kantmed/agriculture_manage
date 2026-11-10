@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Réseaux d'irrigation -->
+    <record id="view_gest_agri_irrigation_network_list" model="ir.ui.view">
+        <field name="name">gest_agri.irrigation.network.list</field>
+        <field name="model">gest_agri.irrigation.network</field>
+        <field name="arch" type="xml">
+            <list string="Réseaux d'irrigation">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="farm_id"/>
+                <field name="water_source_id"/>
+                <field name="network_type"/>
+                <field name="flow_rate_m3_h" sum="Total"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_irrigation_network_form" model="ir.ui.view">
+        <field name="name">gest_agri.irrigation.network.form</field>
+        <field name="model">gest_agri.irrigation.network</field>
+        <field name="arch" type="xml">
+            <form string="Réseau d'irrigation">
+                <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Nom du réseau"/>
+                        <h1><field name="name" placeholder="Ex. Réseau goutte-à-goutte"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="farm_id"/>
+                            <field name="water_source_id"
+                                   domain="[('farm_id', '=', farm_id)]"/>
+                            <field name="network_type"/>
+                        </group>
+                        <group>
+                            <field name="flow_rate_m3_h"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Secteurs" name="sectors">
+                            <field name="sector_ids" context="{'default_network_id': id}">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="area"/>
+                                    <field name="active" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Pompes" name="pumps">
+                            <field name="pump_ids" context="{'default_network_id': id}">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="code"/>
+                                    <field name="power_kw"/>
+                                    <field name="flow_rate_m3_h"/>
+                                    <field name="active" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Description" name="description">
+                            <field name="description" placeholder="Informations complémentaires..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_irrigation_network_search" model="ir.ui.view">
+        <field name="name">gest_agri.irrigation.network.search</field>
+        <field name="model">gest_agri.irrigation.network</field>
+        <field name="arch" type="xml">
+            <search string="Réseaux d'irrigation">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="farm_id"/>
+                <field name="water_source_id"/>
+                <field name="network_type"/>
+                <filter name="active" string="Actifs" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Archivés" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_farm" string="Exploitation" context="{'group_by': 'farm_id'}"/>
+                    <filter name="group_type" string="Type de réseau" context="{'group_by': 'network_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_irrigation_network" model="ir.actions.act_window">
+        <field name="name">Réseaux d'irrigation</field>
+        <field name="res_model">gest_agri.irrigation.network</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Créez votre premier réseau d'irrigation.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_gest_agri_irrigation_network" name="Réseaux"
+              parent="menu_gestion_agricole_irrigation"
+              action="action_gest_agri_irrigation_network" sequence="20"
+              groups="gestion_agricole.group_gest_agri_user"/>
+
+    <!-- Secteurs d'irrigation -->
+    <record id="view_gest_agri_irrigation_sector_list" model="ir.ui.view">
+        <field name="name">gest_agri.irrigation.sector.list</field>
+        <field name="model">gest_agri.irrigation.sector</field>
+        <field name="arch" type="xml">
+            <list string="Secteurs d'irrigation">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="network_id"/>
+                <field name="farm_id"/>
+                <field name="area" sum="Total"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_irrigation_sector_form" model="ir.ui.view">
+        <field name="name">gest_agri.irrigation.sector.form</field>
+        <field name="model">gest_agri.irrigation.sector</field>
+        <field name="arch" type="xml">
+            <form string="Secteur d'irrigation">
+                <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Nom du secteur"/>
+                        <h1><field name="name" placeholder="Ex. Secteur A"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="network_id"/>
+                            <field name="farm_id" readonly="1"/>
+                            <field name="area"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Parcelles desservies">
+                        <field name="plot_ids" nolabel="1" colspan="2"
+                               domain="[('farm_id', '=', farm_id)]">
+                            <list>
+                                <field name="name"/>
+                                <field name="code"/>
+                                <field name="area"/>
+                            </list>
+                        </field>
+                    </group>
+                    <field name="description" placeholder="Informations complémentaires..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_irrigation_sector_search" model="ir.ui.view">
+        <field name="name">gest_agri.irrigation.sector.search</field>
+        <field name="model">gest_agri.irrigation.sector</field>
+        <field name="arch" type="xml">
+            <search string="Secteurs d'irrigation">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="network_id"/>
+                <field name="farm_id"/>
+                <filter name="active" string="Actifs" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Archivés" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_farm" string="Exploitation" context="{'group_by': 'farm_id'}"/>
+                    <filter name="group_network" string="Réseau" context="{'group_by': 'network_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_irrigation_sector" model="ir.actions.act_window">
+        <field name="name">Secteurs d'irrigation</field>
+        <field name="res_model">gest_agri.irrigation.sector</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Créez votre premier secteur d'irrigation.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_gest_agri_irrigation_sector" name="Secteurs"
+              parent="menu_gestion_agricole_irrigation"
+              action="action_gest_agri_irrigation_sector" sequence="30"
+              groups="gestion_agricole.group_gest_agri_user"/>
+
+    <!-- Pompes d'irrigation -->
+    <record id="view_gest_agri_irrigation_pump_list" model="ir.ui.view">
+        <field name="name">gest_agri.irrigation.pump.list</field>
+        <field name="model">gest_agri.irrigation.pump</field>
+        <field name="arch" type="xml">
+            <list string="Pompes d'irrigation">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="network_id"/>
+                <field name="farm_id"/>
+                <field name="power_kw" sum="Total"/>
+                <field name="flow_rate_m3_h" sum="Total"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_irrigation_pump_form" model="ir.ui.view">
+        <field name="name">gest_agri.irrigation.pump.form</field>
+        <field name="model">gest_agri.irrigation.pump</field>
+        <field name="arch" type="xml">
+            <form string="Pompe d'irrigation">
+                <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Nom de la pompe"/>
+                        <h1><field name="name" placeholder="Ex. Pompe principale"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="network_id"/>
+                            <field name="farm_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="power_kw"/>
+                            <field name="flow_rate_m3_h"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Informations complémentaires..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_irrigation_pump_search" model="ir.ui.view">
+        <field name="name">gest_agri.irrigation.pump.search</field>
+        <field name="model">gest_agri.irrigation.pump</field>
+        <field name="arch" type="xml">
+            <search string="Pompes d'irrigation">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="network_id"/>
+                <field name="farm_id"/>
+                <filter name="active" string="Actives" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Archivées" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_farm" string="Exploitation" context="{'group_by': 'farm_id'}"/>
+                    <filter name="group_network" string="Réseau" context="{'group_by': 'network_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_irrigation_pump" model="ir.actions.act_window">
+        <field name="name">Pompes d'irrigation</field>
+        <field name="res_model">gest_agri.irrigation.pump</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Créez votre première pompe d'irrigation.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_gest_agri_irrigation_pump" name="Pompes"
+              parent="menu_gestion_agricole_irrigation"
+              action="action_gest_agri_irrigation_pump" sequence="40"
+              groups="gestion_agricole.group_gest_agri_user"/>
+
+</odoo>

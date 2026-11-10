@@ -17,6 +17,7 @@
     <record id="group_gest_agri_user" model="res.groups">
         <field name="name">Utilisateur agricole</field>
         <field name="privilege_id" ref="res_groups_privilege_gestion_agricole"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
     </record>
 
     <record id="group_gest_agri_manager" model="res.groups">
