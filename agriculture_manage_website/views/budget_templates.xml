@@ -3,7 +3,10 @@
     <template id="budget_list" name="Budgets">
         <t t-call="portal.portal_layout">
             <div class="container my-4">
-                <h2>Budgets agricoles</h2>
+                <div class="d-flex justify-content-between mb-3">
+                    <h2>Budgets agricoles</h2>
+                    <a href="/my/agriculture/budgets/new" class="btn btn-primary">Nouveau budget</a>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">
                         <thead>
@@ -42,6 +45,41 @@
         </t>
     </template>
 
+    <template id="budget_form" name="Formulaire budget">
+        <t t-call="portal.portal_layout">
+            <div class="container my-4">
+                <h2 t-if="not budget">Nouveau budget</h2>
+                <h2 t-if="budget">Modifier le budget</h2>
+                <form method="post" t-att-action="'/my/agriculture/budgets/%s/update' % budget.id if budget else '/my/agriculture/budgets/create'">
+                    <div class="card"><div class="card-body">
+                        <div class="mb-3">
+                            <label>Nom</label>
+                            <input type="text" name="name" class="form-control" required="required" t-att-value="values.get('name') if values else (budget.name if budget else '')"/>
+                        </div>
+                        <div class="mb-3">
+                            <label>Campagne</label>
+                            <select name="campaign_id" class="form-select">
+                                <t t-foreach="campaigns" t-as="campaign" t-key="campaign.id">
+                                    <option t-att-value="campaign.id" t-att-selected="'selected' if (values.get('campaign_id') if values else (budget.campaign_id.id if budget else None)) == campaign.id else None" t-out="campaign.name"/>
+                                </t>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label>Date de début</label>
+                            <input type="date" name="date_start" class="form-control" t-att-value="values.get('date_start') if values else (budget.date_start if budget else '')"/>
+                        </div>
+                        <div class="mb-3">
+                            <label>Date de fin</label>
+                            <input type="date" name="date_end" class="form-control" t-att-value="values.get('date_end') if values else (budget.date_end if budget else '')"/>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Enregistrer</button>
+                        <a href="/my/agriculture/budgets" class="btn btn-secondary">Annuler</a>
+                    </div></div>
+                </form>
+            </div>
+        </t>
+    </template>
+
     <template id="budget_detail" name="Détail budget">
         <t t-call="portal.portal_layout">
             <div class="container my-4">
@@ -51,10 +89,11 @@
                 <p>Période : <span t-out="budget.date_start"/> — <span t-out="budget.date_end"/></p>
                 <p>Budget total : <span t-out="budget.budget_total"/></p>
                 <p>Dépenses réelles : <span t-out="budget.actual_total"/></p>
-                <p>Écart : <span t-out="budget.variance_total"/></p>
-                <p>Restant : <span t-out="budget.remaining_total"/></p>
-                <p>Consommation : <span t-out="budget.consumption_rate"/>%</p>
                 <p>État : <span t-out="budget.state"/></p>
+                <a t-att-href="'/my/agriculture/budgets/%s/edit' % budget.id" class="btn btn-secondary">Modifier</a>
+                <form t-att-action="'/my/agriculture/budgets/%s/delete' % budget.id" method="post" style="display:inline">
+                    <button type="submit" class="btn btn-danger">Supprimer</button>
+                </form>
                 <a href="/my/agriculture/budgets" class="btn btn-secondary">Retour</a>
             </div>
         </t>
