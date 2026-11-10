@@ -25,3 +25,24 @@ class AgricultureFinancePortal(http.Controller):
             "agriculture_manage_website.finance_detail",
             {"account": account},
         )
+
+    @http.route("/my/agriculture/finance/transactions", type="http", auth="user", website=True)
+    def transaction_list(self, search="", **kwargs):
+        domain = []
+        if search:
+            domain += ["|", ("name", "ilike", search), ("reference", "ilike", search)]
+        transactions = request.env["agriculture.farm.financial.transaction"].sudo().search(domain, order="date desc, id desc", limit=100)
+        return request.render(
+            "agriculture_manage_website.transaction_list",
+            {"transactions": transactions, "search": search},
+        )
+
+    @http.route("/my/agriculture/finance/transactions/<int:transaction_id>", type="http", auth="user", website=True)
+    def transaction_detail(self, transaction_id, **kwargs):
+        transaction = request.env["agriculture.farm.financial.transaction"].sudo().search([("id", "=", transaction_id)], limit=1)
+        if not transaction:
+            return request.not_found()
+        return request.render(
+            "agriculture_manage_website.transaction_detail",
+            {"transaction": transaction},
+        )
