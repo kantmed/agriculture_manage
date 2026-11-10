@@ -147,6 +147,10 @@
                     </div>
                 </div>
 
+            </div>
+        </t>
+    </template>
+
     <template id="portal_plots" name="Parcelles">
         <t t-call="portal.portal_layout">
             <div class="container my-4">
