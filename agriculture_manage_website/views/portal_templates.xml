@@ -137,6 +137,17 @@
                     <div class="col-md-4">
                         <div class="card shadow-sm">
                             <div class="card-body">
+                                <h5>Alimentation</h5>
+                                <p>Rations alimentaires.</p>
+                                <a href="/my/agriculture/feeding" class="btn btn-primary">
+                                    Consulter
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
                                 <h5>Finance</h5>
                                 <p>Comptes financiers agricoles.</p>
                                 <a href="/my/agriculture/finance" class="btn btn-primary">

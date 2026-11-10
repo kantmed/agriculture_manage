@@ -11,6 +11,7 @@ from . import finance
 from . import budget
 from . import crop
 from . import health
+from . import feeding
 from . import campaign
 from . import site
 from . import infrastructure
