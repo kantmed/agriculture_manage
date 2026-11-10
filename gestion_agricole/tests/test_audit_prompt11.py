@@ -19,6 +19,8 @@ Chaque test cible une anomalie identifiée et corrigée pendant l'audit :
 """
 import hashlib
 
+import psycopg2
+
 from odoo.exceptions import AccessError, ValidationError
 from odoo.service.model import call_kw
 from odoo.tests.common import TransactionCase
@@ -165,16 +167,51 @@ class TestAuditPrompt11(TransactionCase):
                 f"{model_name} n'a pas d'index unique sur le nom",
             )
 
-    def test_c2_code_uniqueness_still_enforced_by_python_constraint(self):
-        """La contrainte applicative continue de produire un message clair."""
+    def test_c2_code_uniqueness_still_enforced(self):
+        """L'unicité du code est garantie après la création des index.
+
+        L'index unique PostgreSQL est levé au moment de l'INSERT, donc avant
+        la contrainte Python. Au niveau ORM l'erreur brute est propagée ; au
+        niveau web, Odoo la convertit en ValidationError avec le message de
+        l'index (vérifié dans le rapport Prompt 12).
+        """
         SoilType = self.env["gest_agri.soil.type"]
         SoilType.create(
             {"name": "Limoneux P11", "code": "P11UNI", "company_id": self.company.id}
         )
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(
+            (ValidationError, psycopg2.errors.UniqueViolation)
+        ):
             SoilType.create(
                 {"name": "Limoneux bis", "code": "p11uni", "company_id": self.company.id}
             )
+
+    def test_c2_unique_index_message_is_user_friendly(self):
+        """Le message utilisateur final (couche web) doit être explicite."""
+        SoilType = self.env["gest_agri.soil.type"]
+        SoilType.create(
+            {"name": "Limoneux P11", "code": "P11MSGU", "company_id": self.company.id}
+        )
+        try:
+            with self.env.cr.savepoint():
+                SoilType.create(
+                    {
+                        "name": "Limoneux bis",
+                        "code": "p11msgu",
+                        "company_id": self.company.id,
+                    }
+                )
+        except psycopg2.errors.UniqueViolation as exc:
+            # Reproduction de la couche web Odoo (odoo/http/retrying.py)
+            model = self.env["base"]
+            for rclass in self.env.registry.values():
+                if exc.diag.table_name == rclass._table:
+                    model = self.env[rclass._name]
+                    break
+            message = model._sql_error_to_message(exc)
+            self.assertIn("unique", message.lower())
+        else:
+            self.fail("L'index unique unique n'a pas rejete le doublon")
 
     # ------------------------------------------------------------------
     # C3 / C4 / C5 - plot.write()

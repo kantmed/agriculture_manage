@@ -5,7 +5,7 @@
               sequence="10"/>
 
     <menuitem id="menu_gestion_agricole_exploitations"
-              name="Exploitations"
+              name="Patrimoine agricole"
               parent="menu_gestion_agricole_root"
               sequence="10"/>
 

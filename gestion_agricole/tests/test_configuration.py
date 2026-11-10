@@ -1,6 +1,16 @@
 # -*- coding: utf-8 -*-
+import psycopg2
+
 from odoo.exceptions import ValidationError
 from odoo.tests.common import TransactionCase
+
+
+# L'index unique PostgreSQL est levé au moment de l'INSERT / de l'UPDATE,
+# donc avant (ou à la place de) la contrainte Python. Au niveau web, Odoo
+# convertit cette erreur en ValidationError avec le message de l'index
+# (odoo/http/retrying.py -> model._sql_error_to_message) ; au niveau ORM,
+# l'erreur brute psycopg2 est propagée. Les deux sont acceptées.
+UNIQUE_ERRORS = (ValidationError, psycopg2.errors.UniqueViolation)
 
 
 class TestConfiguration(TransactionCase):
@@ -79,7 +89,7 @@ class TestConfiguration(TransactionCase):
         self.env["gest_agri.soil.type"].create(
             {"name": "Argileux", "code": "ARG", "company_id": self.company.id}
         )
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(UNIQUE_ERRORS):
             self.env["gest_agri.soil.type"].create(
                 {"name": "Argile lourde", "code": "arg", "company_id": self.company.id}
             )
@@ -127,7 +137,7 @@ class TestConfiguration(TransactionCase):
 
     def test_same_code_in_lot_creation(self):
         """Teste que deux références identiques dans une création en lot sont refusées."""
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(UNIQUE_ERRORS):
             self.env["gest_agri.soil.type"].create([
                 {"name": "Sable 1", "code": "SAB", "company_id": self.company.id},
                 {"name": "Sable 2", "code": "SAB", "company_id": self.company.id},
@@ -143,7 +153,7 @@ class TestConfiguration(TransactionCase):
             {"name": "Argile", "code": "ARG", "company_id": self.company.id}
         )
         # Le changement de code vers un code déjà utilisé doit être refusé.
-        with self.assertRaises(ValidationError):
+        with self.assertRaises(UNIQUE_ERRORS):
             other.write({"name": "Sable modifié", "code": "SAB"})
 
     def test_code_unchanged_is_not_a_conflict(self):
