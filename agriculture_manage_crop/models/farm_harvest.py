@@ -17,6 +17,10 @@ class AgricultureFarmHarvest(models.Model):
         copy=False,
         default="Nouveau",
     )
+    traceability_code = fields.Char(
+        string="Code de traçabilité", readonly=True, copy=False,
+        help="Code unique pour le suivi de la graine à la récolte.",
+    )
     campaign_id = fields.Many2one(
         "agriculture.farm.crop.campaign",
         string="Campagne",
@@ -98,6 +102,9 @@ class AgricultureFarmHarvest(models.Model):
                     self.env["ir.sequence"].next_by_code("farm.harvest")
                     or "Nouveau"
                 )
+            if not vals.get("traceability_code"):
+                import uuid
+                vals["traceability_code"] = "TRC-%s" % uuid.uuid4().hex[:12].upper()
         return super().create(vals_list)
 
 
