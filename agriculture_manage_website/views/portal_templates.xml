@@ -134,6 +134,17 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5>Budgets</h5>
+                                <p>Budgets agricoles.</p>
+                                <a href="/my/agriculture/budgets" class="btn btn-primary">
+                                    Consulter
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
     <template id="portal_plots" name="Parcelles">
