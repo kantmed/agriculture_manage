@@ -110,6 +110,9 @@ class AgricultureFarmPlot(models.Model):
 
     soil_analysis_date = fields.Date(string="Date d'analyse du sol")
     soil_notes = fields.Text(string="Observations sur le sol")
+    soil_analysis_ids = fields.One2many(
+        "agriculture.farm.soil.analysis", "plot_id", string="Historique des analyses de sol",
+    )
 
     irrigation_water_source = fields.Selection(
         [

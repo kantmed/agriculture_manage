@@ -18,3 +18,6 @@ access_irrigation_user,irrigation type user,agriculture.farm.irrigation.type,agr
 access_irrigation_manager,irrigation type manager,agriculture.farm.irrigation.type,agriculture_manage.group_farm_manager,crud,
 access_irrigation_admin,irrigation type admin,agriculture.farm.irrigation.type,agriculture_manage.group_farm_admin,crud,
 access_farm_dashboard_user,farm dashboard user,agriculture.farm.dashboard,agriculture_manage.group_farm_user,cr,
+access_soil_analysis_user,soil analysis user,agriculture.farm.soil.analysis,agriculture_manage.group_farm_user,crud,"[('plot_id.farm_id', 'in', user.farm_ids.ids)]"
+access_soil_analysis_manager,soil analysis manager,agriculture.farm.soil.analysis,agriculture_manage.group_farm_manager,crud,"[('plot_id.farm_id.company_id', 'in', company_ids)]"
+access_soil_analysis_admin,soil analysis admin,agriculture.farm.soil.analysis,agriculture_manage.group_farm_admin,crud,

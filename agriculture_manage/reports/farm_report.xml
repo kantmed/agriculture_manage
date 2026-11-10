@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_farm" model="ir.actions.report">
+        <field name="name">Rapport des exploitations</field>
+        <field name="model">agriculture.farm</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">agriculture_manage.farm_report</field>
+        <field name="binding_model_id" ref="model_agriculture_farm"/>
+        <field name="binding_type">report</field>
+    </record>
+    <template id="farm_report">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="farm">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 t-out="farm.name"/>
+                        <p>Référence : <span t-out="farm.code"/></p>
+                        <p>Superficie totale : <span t-out="farm.total_area"/> ha</p>
+                        <p>Sites : <span t-out="farm.site_count"/></p>
+                        <p>Parcelles : <span t-out="farm.plot_count"/></p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
