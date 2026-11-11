@@ -273,6 +273,7 @@
                         <group>
                             <field name="date_start"/>
                             <field name="date_end"/>
+                            <field name="is_expired" readonly="1"/>
                         </group>
                     </group>
                     <field name="description" placeholder="Description ou notes internes..."/>
@@ -296,6 +297,8 @@
                 <field name="role"/>
                 <filter name="active" string="Actifs" domain="[('active', '=', True)]"/>
                 <filter name="inactive" string="Archivés" domain="[('active', '=', False)]"/>
+                <filter name="expired" string="Habilitations expirées" domain="[('is_expired', '=', True)]"/>
+                <filter name="not_expired" string="Habilitations non expirées" domain="[('is_expired', '=', False)]"/>
                 <group>
                     <filter name="group_farm" string="Exploitation" context="{'group_by': 'farm_id'}"/>
                     <filter name="group_user" string="Utilisateur" context="{'group_by': 'user_id'}"/>

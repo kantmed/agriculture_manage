@@ -57,6 +57,13 @@ class GestAgriFarmAccess(models.Model):
         string="Date de fin",
         help="Fin prévue de validité de l'habilitation.",
     )
+    is_expired = fields.Boolean(
+        string="Habilitation expirée",
+        compute="_compute_is_expired",
+        search="_search_is_expired",
+        help="Indique si la date de fin de validité est dépassée. "
+        "Information purement indicative : elle ne modifie pas les droits accordés.",
+    )
     active = fields.Boolean(string="Actif", default=True)
 
     _unique_active_user_farm = models.UniqueIndex(
@@ -88,6 +95,51 @@ class GestAgriFarmAccess(models.Model):
         )
         self.env.transaction.invalidate_ormcache("default")
         self.env.transaction.invalidate_access_cache()
+
+    @api.depends("date_end")
+    def _compute_is_expired(self):
+        """Une habilitation est expirée si sa date de fin est passée.
+
+        Le champ n'est pas stocké : le résultat est recalculé à chaque lecture
+        et suit donc naturellement le changement de date, sans cron.
+        """
+        today = fields.Date.context_today(self)
+        for access in self:
+            access.is_expired = bool(access.date_end and access.date_end < today)
+
+    def _search_is_expired(self, operator, value):
+        """Traduit la recherche sur ``is_expired`` en domaine sur ``date_end``."""
+        today = fields.Date.context_today(self)
+        expired_domain = [("date_end", "<", today)]
+        not_expired_domain = [
+            "|",
+            ("date_end", "=", False),
+            ("date_end", ">=", today),
+        ]
+
+        if operator in ("in", "not in"):
+            # L'optimiseur de domaines d'Odoo 20 peut convertir un test
+            # booléen en opérateur « in » : on le prend en charge.
+            values = value if isinstance(value, (list, tuple, set)) else [value]
+            states = {bool(item) for item in values}
+            if operator == "not in":
+                states = {not state for state in states}
+            if states == {True}:
+                return expired_domain
+            if states == {False}:
+                return not_expired_domain
+            return []
+
+        if operator not in ("=", "!="):
+            raise ValueError(
+                self.env._(
+                    "Opérateur non pris en charge pour « Habilitation expirée »."
+                )
+            )
+        expired = bool(value)
+        if operator == "!=":
+            expired = not expired
+        return expired_domain if expired else not_expired_domain
 
     @api.constrains("date_start", "date_end")
     def _check_date_period(self):

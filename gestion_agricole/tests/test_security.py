@@ -1,4 +1,7 @@
 # -*- coding: utf-8 -*-
+from datetime import timedelta
+
+from odoo import fields
 from odoo.exceptions import AccessError, ValidationError
 from odoo.tests.common import TransactionCase
 
@@ -321,6 +324,126 @@ class TestSecurity(TransactionCase):
         reloaded = Access.browse(self.access_a_user.id)
         self.assertEqual(str(reloaded.date_start), "2026-01-01")
         self.assertEqual(str(reloaded.date_end), "2026-12-31")
+
+    def test_farm_access_is_expired_compute_and_update(self):
+        """Le statut d'expiration suit la date du jour et les modifications de date_end."""
+        Access = self.env["gest_agri.farm.access"]
+        today = fields.Date.context_today(Access)
+        past = today - timedelta(days=1)
+        future = today + timedelta(days=1)
+
+        no_end = Access.create(
+            {"farm_id": self.farm_b.id, "user_id": self.user_a.id, "role": "user"}
+        )
+        expired = Access.create(
+            {
+                "farm_id": self.farm_b.id,
+                "user_id": self.manager.id,
+                "role": "user",
+                "date_end": past,
+            }
+        )
+        ends_today = Access.create(
+            {
+                "farm_id": self.farm_a.id,
+                "user_id": self.user_b.id,
+                "role": "user",
+                "date_end": today,
+            }
+        )
+        not_yet = Access.create(
+            {
+                "farm_id": self.farm_b.id,
+                "user_id": self.farm_owner.id,
+                "role": "user",
+                "date_end": future,
+            }
+        )
+
+        self.assertFalse(no_end.is_expired)
+        self.assertTrue(expired.is_expired)
+        self.assertFalse(ends_today.is_expired)
+        self.assertFalse(not_yet.is_expired)
+
+        # La modification de date_end actualise immédiatement le calcul.
+        not_yet.write({"date_end": past})
+        self.assertTrue(not_yet.is_expired)
+        not_yet.write({"date_end": today})
+        self.assertFalse(not_yet.is_expired)
+        not_yet.write({"date_end": False})
+        self.assertFalse(not_yet.is_expired)
+
+    def test_farm_access_is_expired_search(self):
+        """Les filtres =/!= True/False traduisent correctement l'expiration."""
+        Access = self.env["gest_agri.farm.access"]
+        today = fields.Date.context_today(Access)
+        past = today - timedelta(days=1)
+        future = today + timedelta(days=1)
+
+        expired = Access.create(
+            {
+                "farm_id": self.farm_b.id,
+                "user_id": self.user_a.id,
+                "role": "user",
+                "date_end": past,
+            }
+        )
+        ends_today = Access.create(
+            {
+                "farm_id": self.farm_b.id,
+                "user_id": self.manager.id,
+                "role": "user",
+                "date_end": today,
+            }
+        )
+        no_end = Access.create(
+            {
+                "farm_id": self.farm_a.id,
+                "user_id": self.user_b.id,
+                "role": "user",
+            }
+        )
+        not_yet = Access.create(
+            {
+                "farm_id": self.farm_b.id,
+                "user_id": self.farm_owner.id,
+                "role": "user",
+                "date_end": future,
+            }
+        )
+        ids = (expired | ends_today | no_end | not_yet).ids
+
+        expired_found = Access.search([("id", "in", ids), ("is_expired", "=", True)])
+        self.assertEqual(expired_found, expired)
+
+        not_expired_found = Access.search(
+            [("id", "in", ids), ("is_expired", "=", False)]
+        )
+        self.assertEqual(
+            set(not_expired_found.ids), {ends_today.id, no_end.id, not_yet.id}
+        )
+
+        expired_ne = Access.search([("id", "in", ids), ("is_expired", "!=", True)])
+        self.assertEqual(expired_ne, ends_today | no_end | not_yet)
+
+        not_expired_ne = Access.search(
+            [("id", "in", ids), ("is_expired", "!=", False)]
+        )
+        self.assertEqual(not_expired_ne, expired)
+
+    def test_expired_access_keeps_effective_rights(self):
+        """Une habilitation expirée reste active et continue d'accorder les mêmes droits."""
+        Access = self.env["gest_agri.farm.access"]
+        today = fields.Date.context_today(Access)
+        self.access_a_user.write({"date_end": today - timedelta(days=1)})
+
+        self.assertTrue(self.access_a_user.is_expired)
+        self.assertTrue(self.access_a_user.active)
+
+        visible = self.env["gest_agri.farm"].with_user(self.user_a).search([])
+        self.assertIn(self.farm_a, visible)
+        self.assertEqual(self.farm_a.with_user(self.user_a).read(["name"])[0]["name"],
+                         self.farm_a.name)
 
     def test_multi_company_isolation(self):
         """Teste l'isolation entre deux sociétés distinctes."""
