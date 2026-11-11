@@ -30,6 +30,10 @@ class GestAgriSite(models.Model):
         index=True,
     )
     description = fields.Text(string="Description")
+    notes = fields.Text(
+        string="Notes internes",
+        help="Observations et informations complémentaires relatives au site.",
+    )
     area_ha = fields.Float(
         string="Surface (ha)",
         digits=(16, 2),

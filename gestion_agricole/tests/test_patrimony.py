@@ -92,6 +92,16 @@ class TestPatrimony(TransactionCase):
         self.assertEqual(self.plot.company_id, self.company)
         self.assertEqual(self.plot.site_id, self.site)
 
+    def test_site_notes_default_and_modification(self):
+        """Les notes d'un site peuvent être créées, modifiées et relues."""
+        self.assertFalse(self.site.notes)
+        self.site.write({"notes": "Observation terrain : sol très humide."})
+        self.assertEqual(self.site.notes, "Observation terrain : sol très humide.")
+        reloaded = self.env["gest_agri.site"].browse(self.site.id)
+        self.assertEqual(reloaded.notes, "Observation terrain : sol très humide.")
+        self.site.write({"notes": False})
+        self.assertFalse(self.site.notes)
+
     def test_site_area_ha_default_and_positive(self):
         """La surface d'un site est nulle par défaut et accepte une valeur positive."""
         self.assertEqual(self.site.area_ha, 0.0)
