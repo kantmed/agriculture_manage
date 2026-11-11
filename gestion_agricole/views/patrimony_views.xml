@@ -10,6 +10,7 @@
                 <field name="name"/>
                 <field name="code"/>
                 <field name="farm_id"/>
+                <field name="area_ha" sum="Total"/>
                 <field name="company_id" groups="base.group_multi_company"/>
                 <field name="sequence" widget="handle"/>
                 <field name="active" column_invisible="1"/>
@@ -35,6 +36,7 @@
                         </group>
                         <group>
                             <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                            <field name="area_ha"/>
                             <field name="sequence"/>
                             <field name="active" invisible="1"/>
                         </group>
@@ -137,6 +139,8 @@
                 <field name="area" sum="Total"/>
                 <field name="soil_type_id"/>
                 <field name="irrigation_type_id"/>
+                <field name="crop_type_id"/>
+                <field name="state" widget="badge"/>
                 <field name="company_id" groups="base.group_multi_company"/>
                 <field name="active" column_invisible="1"/>
             </list>
@@ -164,6 +168,8 @@
                         <group>
                             <field name="soil_type_id"/>
                             <field name="irrigation_type_id"/>
+                            <field name="crop_type_id"/>
+                            <field name="state"/>
                             <field name="company_id" groups="base.group_multi_company" readonly="1"/>
                             <field name="active" invisible="1"/>
                         </group>
@@ -201,12 +207,21 @@
                 <field name="farm_id"/>
                 <field name="site_id"/>
                 <field name="soil_type_id"/>
+                <field name="crop_type_id"/>
+                <field name="state"/>
                 <filter name="active" string="Actives" domain="[('active', '=', True)]"/>
+                <filter name="available" string="Disponibles" domain="[('state', '=', 'available')]"/>
+                <filter name="cultivated" string="Cultivées" domain="[('state', '=', 'cultivated')]"/>
+                <filter name="fallow" string="En jachère" domain="[('state', '=', 'fallow')]"/>
+                <group>
+                    <filter name="group_state" string="Statut" context="{'group_by': 'state'}"/>
+                </group>
                 <filter name="inactive" string="Archivées" domain="[('active', '=', False)]"/>
                 <group>
                     <filter name="group_farm" string="Exploitation" context="{'group_by': 'farm_id'}"/>
                     <filter name="group_site" string="Site" context="{'group_by': 'site_id'}"/>
                     <filter name="group_soil" string="Type de sol" context="{'group_by': 'soil_type_id'}"/>
+                    <filter name="group_crop" string="Type de culture" context="{'group_by': 'crop_type_id'}"/>
                     <filter name="group_irrigation" string="Type d'irrigation" context="{'group_by': 'irrigation_type_id'}"/>
                 </group>
             </search>

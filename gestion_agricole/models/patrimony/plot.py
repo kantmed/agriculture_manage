@@ -57,6 +57,14 @@ class GestAgriPlot(models.Model):
         ondelete="restrict",
         index=True,
     )
+
+    crop_type_id = fields.Many2one(
+        "gest_agri.crop.type",
+        string="Type de culture",
+        check_company=True,
+        ondelete="restrict",
+        index=True,
+    )
     ph_min = fields.Float(
         string="pH minimum",
         digits=(4, 2),
@@ -79,6 +87,18 @@ class GestAgriPlot(models.Model):
     longitude = fields.Float(string="Longitude", digits=(10, 6))
     description = fields.Text(string="Description")
     active = fields.Boolean(string="Actif", default=True)
+    state = fields.Selection(
+        selection=[
+            ("available", "Disponible"),
+            ("cultivated", "Cultivée"),
+            ("fallow", "Jachère"),
+            ("unavailable", "Indisponible"),
+        ],
+        string="Statut",
+        default="available",
+        index=True,
+        help="Statut opérationnel de la parcelle.",
+    )
     sequence = fields.Integer(string="Séquence", default=10)
 
     _code_farm_unique = models.UniqueIndex(
@@ -145,9 +165,9 @@ class GestAgriPlot(models.Model):
                     self.env._("La longitude doit être comprise entre -180 et 180.")
                 )
 
-    @api.constrains("soil_type_id", "irrigation_type_id")
+    @api.constrains("soil_type_id", "irrigation_type_id", "crop_type_id")
     def _check_company_relations(self):
-        check_same_company(self, ["soil_type_id", "irrigation_type_id"])
+        check_same_company(self, ["soil_type_id", "irrigation_type_id", "crop_type_id"])
 
     def write(self, vals):
         # Note : write() est une méthode « record » (elle agit sur les

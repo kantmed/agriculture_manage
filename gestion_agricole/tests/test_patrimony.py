@@ -92,6 +92,63 @@ class TestPatrimony(TransactionCase):
         self.assertEqual(self.plot.company_id, self.company)
         self.assertEqual(self.plot.site_id, self.site)
 
+    def test_site_area_ha_default_and_positive(self):
+        """La surface d'un site est nulle par défaut et accepte une valeur positive."""
+        self.assertEqual(self.site.area_ha, 0.0)
+        self.site.write({"area_ha": 25.5})
+        self.assertEqual(self.site.area_ha, 25.5)
+        self.site.write({"area_ha": 0.0})
+        self.assertEqual(self.site.area_ha, 0.0)
+
+    def test_site_area_ha_negative_rejected(self):
+        """Une surface négative est refusée."""
+        with self.assertRaises(ValidationError):
+            self.site.write({"area_ha": -5.0})
+
+    def test_farm_status_default_and_values(self):
+        """Le statut d'une exploitation est brouillon par défaut."""
+        self.assertEqual(self.farm.status, "draft")
+        self.farm.write({"status": "active"})
+        self.assertEqual(self.farm.status, "active")
+        self.farm.write({"status": "suspended"})
+        self.assertEqual(self.farm.status, "suspended")
+        self.farm.write({"status": "closed"})
+        self.assertEqual(self.farm.status, "closed")
+        self.farm.write({"status": "draft"})
+        self.assertEqual(self.farm.status, "draft")
+
+    def test_farm_status_invalid_rejected(self):
+        """Un statut invalide est refusé."""
+        with self.assertRaises(ValueError):
+            self.farm.write({"status": "invalid_status"})
+
+    def test_plot_crop_type_assignment(self):
+        """Le type de culture peut être affecté à une parcelle."""
+        crop_type = self.env["gest_agri.crop.type"].create(
+            {"name": "Blé", "code": "BLE", "crop_cycle": "annual", "company_id": self.company.id}
+        )
+        self.plot.write({"crop_type_id": crop_type.id})
+        self.assertEqual(self.plot.crop_type_id, crop_type)
+        self.plot.write({"crop_type_id": False})
+        self.assertFalse(self.plot.crop_type_id)
+
+    def test_plot_state_default_and_values(self):
+        """Le statut d'une parcelle est disponible par défaut."""
+        self.assertEqual(self.plot.state, "available")
+        self.plot.write({"state": "cultivated"})
+        self.assertEqual(self.plot.state, "cultivated")
+        self.plot.write({"state": "fallow"})
+        self.assertEqual(self.plot.state, "fallow")
+        self.plot.write({"state": "unavailable"})
+        self.assertEqual(self.plot.state, "unavailable")
+        self.plot.write({"state": "available"})
+        self.assertEqual(self.plot.state, "available")
+
+    def test_plot_state_invalid_rejected(self):
+        """Un statut invalide est refusé."""
+        with self.assertRaises(ValueError):
+            self.plot.write({"state": "invalid_status"})
+
     def test_full_patrimony_creation(self):
         building = self.env["gest_agri.building"].create(
             {

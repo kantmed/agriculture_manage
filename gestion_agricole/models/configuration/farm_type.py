@@ -14,7 +14,10 @@ class GestAgriFarmType(ReferenceReservationMixin, models.Model):
 
     name = fields.Char(string="Nom", required=True, index=True)
     code = fields.Char(string="Code", required=True, index=True)
-    description = fields.Text(string="Description")
+    description = fields.Text(
+        string="Description",
+        help="Permet de décrire les caractéristiques du type d'exploitation.",
+    )
     active = fields.Boolean(string="Actif", default=True)
     company_id = fields.Many2one(
         "res.company",

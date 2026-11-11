@@ -34,6 +34,7 @@
                 <field name="code"/>
                 <field name="farm_type_id"/>
                 <field name="manager_id"/>
+                <field name="status" widget="badge"/>
                 <field name="total_area" sum="Total"/>
                 <field name="allocated_area" sum="Affecté"/>
                 <field name="company_id" groups="base.group_multi_company"/>
@@ -107,6 +108,7 @@
                         </group>
                         <group>
                             <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="status"/>
                             <field name="analytic_account_id" groups="analytic.group_analytic_accounting"/>
                             <field name="total_area"/>
                             <field name="allocated_area"/>
@@ -213,10 +215,15 @@
                 <field name="farm_type_id"/>
                 <field name="manager_id"/>
                 <field name="partner_id"/>
+                <field name="status"/>
                 <filter name="active" string="Actives" domain="[('active', '=', True)]"/>
                 <filter name="inactive" string="Archivées" domain="[('active', '=', False)]"/>
+                <filter name="draft" string="Brouillons" domain="[('status', '=', 'draft')]"/>
+                <filter name="suspended" string="Suspendues" domain="[('status', '=', 'suspended')]"/>
+                <filter name="closed" string="Clôturées" domain="[('status', '=', 'closed')]"/>
                 <group>
                     <filter name="group_farm_type" string="Type d'exploitation" context="{'group_by': 'farm_type_id'}"/>
+                    <filter name="group_status" string="Statut" context="{'group_by': 'status'}"/>
                     <filter name="group_manager" string="Responsable" context="{'group_by': 'manager_id'}"/>
                     <filter name="group_company" string="Société" context="{'group_by': 'company_id'}"/>
                 </group>

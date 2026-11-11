@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models
+from odoo.exceptions import ValidationError
 
 from ._common import check_unique_code
 
@@ -29,6 +30,12 @@ class GestAgriSite(models.Model):
         index=True,
     )
     description = fields.Text(string="Description")
+    area_ha = fields.Float(
+        string="Surface (ha)",
+        digits=(16, 2),
+        default=0.0,
+        help="Surface totale du site en hectares.",
+    )
     active = fields.Boolean(string="Actif", default=True)
     sequence = fields.Integer(string="Séquence", default=10)
 
@@ -45,6 +52,14 @@ class GestAgriSite(models.Model):
         "(farm_id, UPPER(code)) WHERE active IS TRUE",
         "Le code du site doit être unique au sein de l'exploitation.",
     )
+
+    @api.constrains("area_ha")
+    def _check_area_ha(self):
+        for site in self:
+            if site.area_ha < 0:
+                raise ValidationError(
+                    self.env._("La surface du site ne peut pas être négative.")
+                )
 
     @api.constrains("code", "farm_id", "active")
     def _check_code_unique(self):

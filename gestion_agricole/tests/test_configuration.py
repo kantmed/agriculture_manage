@@ -165,3 +165,14 @@ class TestConfiguration(TransactionCase):
         record.write({"name": "Sable renommé", "code": "SABLE"})
         self.assertEqual(record.code, "SABLE")
 
+    def test_farm_type_description(self):
+        """La description d'un type d'exploitation peut être créée, modifiée et relue."""
+        farm_type = self.env["gest_agri.farm.type"].create(
+            {"name": "Polyculture", "code": "POLY", "company_id": self.company.id}
+        )
+        self.assertFalse(farm_type.description)
+        farm_type.write({"description": "Exploitation mixte céréales et élevage."})
+        self.assertEqual(farm_type.description, "Exploitation mixte céréales et élevage.")
+        reloaded = self.env["gest_agri.farm.type"].browse(farm_type.id)
+        self.assertEqual(reloaded.description, "Exploitation mixte céréales et élevage.")
+

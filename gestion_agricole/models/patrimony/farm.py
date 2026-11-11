@@ -76,6 +76,19 @@ class GestAgriFarm(models.Model):
     )
     description = fields.Text(string="Description")
     active = fields.Boolean(string="Actif", default=True)
+    status = fields.Selection(
+        selection=[
+            ("draft", "Brouillon"),
+            ("active", "Active"),
+            ("suspended", "Suspendue"),
+            ("closed", "Clôturée"),
+        ],
+        string="Statut",
+        default="draft",
+        tracking=True,
+        index=True,
+        help="Statut opérationnel de l'exploitation agricole.",
+    )
     sequence = fields.Integer(string="Séquence", default=10)
 
     site_ids = fields.One2many("gest_agri.site", "farm_id", string="Sites")

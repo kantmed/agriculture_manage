@@ -11,8 +11,12 @@ def normalize_reference(value):
     """Normalise une référence (code ou nom) pour les comparaisons.
 
     La normalisation est insensible à la casse et aux espaces de début et de
-    fin, comme les index uniques PostgreSQL ``LOWER(BTRIM(...))`` posés par
-    Odoo sur les tables de référence.
+    fin. Elle utilise ``str.strip().casefold()``, qui est plus stricte que
+    l'index PostgreSQL ``LOWER(BTRIM(...))`` pour certaines chaînes Unicode
+    (tabulations, ``ß``, ``İ``). La réservation GiST utilise cette
+    normalisation Python ; les index SQL utilisent ``LOWER(BTRIM(...))``.
+    Les deux mécanismes sont complémentaires : aucun doublon ne passe, mais
+    la qualité du message d'erreur peut varier.
     """
     if not value:
         return ""
