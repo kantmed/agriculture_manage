@@ -171,10 +171,21 @@ class TestReservationUnicity(TransactionCase):
         return outcome
 
     def _cleanup_reservations(self, normalized_values):
-        self.env.cr.execute(
-            f"DELETE FROM {RESERVATION_TABLE} WHERE model_name = %s AND normalized = ANY(%s)",
-            (MODEL_NAME, list(normalized_values)),
-        )
+        # Les réservations de concurrence sont validées par des connexions
+        # psycopg2 autonomes : le nettoyage doit donc être committé sur une
+        # connexion indépendante, sinon il serait annulé avec la transaction
+        # de test (et les réservations resteraient orphelines).
+        conn = psycopg2.connect(DSN)
+        try:
+            conn.set_session(autocommit=True)
+            with conn.cursor() as cur:
+                cur.execute(
+                    f"DELETE FROM {RESERVATION_TABLE} "
+                    f"WHERE model_name = %s AND normalized = ANY(%s)",
+                    (MODEL_NAME, list(normalized_values)),
+                )
+        finally:
+            conn.close()
 
     # ------------------------------------------------------------------
     # Activation
