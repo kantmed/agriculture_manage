@@ -5,5 +5,6 @@ from . import test_patrimony
 from . import test_security
 from . import test_crop_cycle
 from . import test_crop_campaign
+from . import test_crop_cycle_campaign
 from . import test_audit_prompt11
 from . import test_reservation_unicity

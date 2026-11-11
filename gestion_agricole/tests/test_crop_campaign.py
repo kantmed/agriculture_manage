@@ -374,7 +374,8 @@ class TestCropCampaign(TransactionCase):
     # Non-régression : cycles de culture
     # ------------------------------------------------------------------
     def test_crop_cycle_untouched(self):
-        self.assertNotIn("campaign_id", self.env["gest_agri.crop.cycle"]._fields)
+        # Prompt 52 ajoute volontairement la relation « campaign_id » au cycle.
+        self.assertIn("campaign_id", self.env["gest_agri.crop.cycle"]._fields)
         self.assertNotIn("campaign_ids", self.env["gest_agri.crop.cycle"]._fields)
 
         cycle = self.env["gest_agri.crop.cycle"].create(
@@ -388,4 +389,4 @@ class TestCropCampaign(TransactionCase):
         self._create_campaign(name="Campagne sans effet sur les cycles")
         self.assertEqual(cycle.name, cycle_name)
         self.assertEqual(cycle.state, "planned")
-        self.assertNotIn("campaign_id", cycle._fields)
+        self.assertFalse(cycle.campaign_id)

@@ -61,6 +61,16 @@ class GestAgriCropCycle(models.Model):
         readonly=True,
         index=True,
     )
+    campaign_id = fields.Many2one(
+        "gest_agri.crop.campaign",
+        string="Campagne agricole",
+        index=True,
+        ondelete="restrict",
+        check_company=True,
+        domain="[('farm_id', '=', farm_id), ('state', 'in', ('draft', 'active')), "
+        "('active', '=', True)]",
+        help="Campagne à laquelle la culture est rattachée. Facultatif.",
+    )
     company_id = fields.Many2one(
         "res.company",
         string="Société",
@@ -149,6 +159,10 @@ class GestAgriCropCycle(models.Model):
     @api.model_create_multi
     def create(self, vals_list):
         for vals in vals_list:
+            if vals.get("campaign_id"):
+                self._check_campaign_assignment(
+                    self.env["gest_agri.crop.campaign"].browse(vals["campaign_id"])
+                )
             if not vals.get("name"):
                 reference = self.env["ir.sequence"].next_by_code(
                     "gest_agri.crop.cycle"
@@ -174,6 +188,37 @@ class GestAgriCropCycle(models.Model):
         """Fin effective d'une culture, utilisée pour les chevauchements."""
         self.ensure_one()
         return self.date_end_actual or self.date_end_planned or date.max
+
+    @api.model
+    def _check_campaign_assignment(self, campaign):
+        """Valide un nouveau rattachement à une campagne.
+
+        Une campagne archivée ne peut pas recevoir de nouveau cycle ; seules
+        les campagnes en brouillon ou en cours sont ouvertes au rattachement.
+        Les relations déjà existantes vers une campagne archivée sont
+        conservées : ce contrôle ne s'applique qu'à un changement de campagne.
+        """
+        if not campaign:
+            return
+        if not campaign.active:
+            raise UserError(
+                self.env._(
+                    "La campagne « %s » est archivée : aucun nouveau cycle ne peut "
+                    "y être rattaché.",
+                    campaign.display_name,
+                )
+            )
+        if campaign.state not in ("draft", "active"):
+            raise UserError(
+                self.env._(
+                    "La campagne « %(campaign)s » est à l'état « %(state)s » : "
+                    "aucun nouveau cycle ne peut y être rattaché.",
+                    campaign=campaign.display_name,
+                    state=dict(campaign._fields["state"].selection).get(
+                        campaign.state, campaign.state
+                    ),
+                )
+            )
 
     @api.onchange("plot_id")
     def _onchange_plot_id(self):
@@ -305,11 +350,95 @@ class GestAgriCropCycle(models.Model):
                         )
                     )
 
+    @api.constrains(
+        "campaign_id",
+        "plot_id",
+        "date_start",
+        "date_end_planned",
+        "date_end_actual",
+    )
+    def _check_campaign_compatibility(self):
+        """Le cycle rattaché doit rester cohérent avec sa campagne."""
+        for cycle in self:
+            campaign = cycle.campaign_id
+            if not campaign:
+                continue
+            if cycle.farm_id != campaign.farm_id:
+                raise ValidationError(
+                    self.env._(
+                        "La culture « %(cycle)s » et la campagne « %(campaign)s » "
+                        "n'appartiennent pas à la même exploitation.",
+                        cycle=cycle.display_name,
+                        campaign=campaign.display_name,
+                    )
+                )
+            if cycle.company_id != campaign.company_id:
+                raise ValidationError(
+                    self.env._(
+                        "La culture « %(cycle)s » et la campagne « %(campaign)s » "
+                        "n'appartiennent pas à la même société.",
+                        cycle=cycle.display_name,
+                        campaign=campaign.display_name,
+                    )
+                )
+            if cycle.date_start < campaign.date_start:
+                raise ValidationError(
+                    self.env._(
+                        "La culture « %(cycle)s » commence le %(start)s, avant le "
+                        "début de la campagne « %(campaign)s » (%(campaign_start)s).",
+                        cycle=cycle.display_name,
+                        start=cycle.date_start,
+                        campaign=campaign.display_name,
+                        campaign_start=campaign.date_start,
+                    )
+                )
+            if campaign.date_end:
+                cycle_end = cycle.date_end_actual or cycle.date_end_planned
+                if not cycle_end:
+                    raise ValidationError(
+                        self.env._(
+                            "La culture « %(cycle)s » a une fin ouverte et ne peut "
+                            "pas être rattachée à la campagne « %(campaign)s » qui "
+                            "possède une date de fin prévue.",
+                            cycle=cycle.display_name,
+                            campaign=campaign.display_name,
+                        )
+                    )
+                if cycle_end > campaign.date_end:
+                    raise ValidationError(
+                        self.env._(
+                            "La culture « %(cycle)s » se termine le %(end)s, après "
+                            "la fin prévue de la campagne « %(campaign)s » "
+                            "(%(campaign_end)s).",
+                            cycle=cycle.display_name,
+                            end=cycle_end,
+                            campaign=campaign.display_name,
+                            campaign_end=campaign.date_end,
+                        )
+                    )
+
     # ------------------------------------------------------------------
     # Protection des transitions d'état
     # ------------------------------------------------------------------
     def write(self, vals):
         """Empêche la modification directe de l'état hors des boutons prévus."""
+        if "campaign_id" in vals:
+            new_campaign_id = vals["campaign_id"] or False
+            for cycle in self:
+                if (cycle.campaign_id.id or False) == new_campaign_id:
+                    continue
+                if new_campaign_id:
+                    self._check_campaign_assignment(
+                        self.env["gest_agri.crop.campaign"].browse(new_campaign_id)
+                    )
+                elif cycle.campaign_id.state in ("closed", "cancelled"):
+                    raise UserError(
+                        self.env._(
+                            "La campagne « %s » étant clôturée ou annulée, le cycle "
+                            "ne peut plus en être détaché.",
+                            cycle.campaign_id.display_name,
+                        )
+                    )
         if "state" in vals and not self.env.context.get(
             "gest_agri_state_transition"
         ):

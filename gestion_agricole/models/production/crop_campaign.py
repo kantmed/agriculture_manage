@@ -73,6 +73,15 @@ class GestAgriCropCampaign(models.Model):
     notes = fields.Text(string="Notes internes")
     active = fields.Boolean(string="Actif", default=True)
     sequence = fields.Integer(string="Séquence", default=10)
+    crop_cycle_ids = fields.One2many(
+        "gest_agri.crop.cycle",
+        "campaign_id",
+        string="Cycles de culture",
+    )
+    crop_cycle_count = fields.Integer(
+        string="Nombre de cycles",
+        compute="_compute_crop_cycle_count",
+    )
 
     _code_unique = models.UniqueIndex(
         "(UPPER(BTRIM(code)))",
@@ -164,6 +173,15 @@ class GestAgriCropCampaign(models.Model):
     # Protection des données et des transitions d'état
     # ------------------------------------------------------------------
     def write(self, vals):
+        if {"farm_id", "date_start", "date_end"}.intersection(vals):
+            for campaign in self:
+                campaign._check_cycles_compatible(
+                    self.env["gest_agri.farm"].browse(vals["farm_id"])
+                    if "farm_id" in vals
+                    else campaign.farm_id,
+                    vals.get("date_start", campaign.date_start),
+                    vals.get("date_end", campaign.date_end),
+                )
         if PROTECTED_FIELDS.intersection(vals):
             for campaign in self:
                 if campaign.state in ("closed", "cancelled"):
@@ -189,6 +207,73 @@ class GestAgriCropCampaign(models.Model):
                         )
                     )
         return super().write(vals)
+
+    # ------------------------------------------------------------------
+    # Cycles rattachés
+    # ------------------------------------------------------------------
+    @api.depends("crop_cycle_ids")
+    def _compute_crop_cycle_count(self):
+        Cycle = self.env["gest_agri.crop.cycle"].with_context(active_test=False)
+        for campaign in self:
+            campaign.crop_cycle_count = Cycle.search_count(
+                [("campaign_id", "=", campaign.id)]
+            )
+
+    def _check_cycles_compatible(self, farm, date_start, date_end):
+        """Vérifie qu'une modification de campagne reste compatible.
+
+        Contrôle effectué côté serveur sur tous les cycles rattachés, y
+        compris archivés, avant toute modification de l'exploitation ou des
+        dates de la campagne.
+        """
+        cycles = (
+            self.env["gest_agri.crop.cycle"]
+            .sudo()
+            .with_context(active_test=False)
+            .search([("campaign_id", "=", self.id)])
+        )
+        for cycle in cycles:
+            if farm and cycle.farm_id != farm:
+                raise ValidationError(
+                    self.env._(
+                        "La campagne ne peut pas être rattachée à l'exploitation "
+                        "« %(farm)s » : le cycle « %(cycle)s » appartient à "
+                        "l'exploitation « %(cycle_farm)s ».",
+                        farm=farm.display_name,
+                        cycle=cycle.display_name,
+                        cycle_farm=cycle.farm_id.display_name,
+                    )
+                )
+            if date_start and cycle.date_start < date_start:
+                raise ValidationError(
+                    self.env._(
+                        "La date de début de la campagne (%(start)s) est postérieure "
+                        "au début du cycle « %(cycle)s » (%(cycle_start)s).",
+                        start=date_start,
+                        cycle=cycle.display_name,
+                        cycle_start=cycle.date_start,
+                    )
+                )
+            if date_end:
+                cycle_end = cycle.date_end_actual or cycle.date_end_planned
+                if not cycle_end:
+                    raise ValidationError(
+                        self.env._(
+                            "La campagne ne peut pas avoir de date de fin : le "
+                            "cycle « %s » a une fin ouverte.",
+                            cycle.display_name,
+                        )
+                    )
+                if cycle_end > date_end:
+                    raise ValidationError(
+                        self.env._(
+                            "La fin prévue de la campagne (%(end)s) précède la fin "
+                            "du cycle « %(cycle)s » (%(cycle_end)s).",
+                            end=date_end,
+                            cycle=cycle.display_name,
+                            cycle_end=cycle_end,
+                        )
+                    )
 
     def _check_allowed_states(self, allowed):
         labels = dict(STATE_SELECTION)
