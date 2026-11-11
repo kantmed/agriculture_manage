@@ -393,9 +393,17 @@ class TestCropIntervention(TransactionCase):
             intervention.with_user(self.user_a).write({"name": "Interdit"})
 
     def test_manager_rights(self):
+        plot = self.env["gest_agri.plot"].create(
+            {
+                "name": "Parcelle interventions A3",
+                "code": "PINT-A3",
+                "farm_id": self.farm_a.id,
+                "area": 6.0,
+            }
+        )
         cycle = self.env["gest_agri.crop.cycle"].create(
             {
-                "plot_id": self.plot_a2.id,
+                "plot_id": plot.id,
                 "crop_type_id": self.crop_type.id,
                 "date_start": date(2026, 3, 1),
                 "date_end_planned": date(2026, 10, 31),
@@ -431,7 +439,7 @@ class TestCropIntervention(TransactionCase):
                 "total_area": 10.0,
             }
         )
-        other_plot = cls.env["gest_agri.plot"].create(
+        other_plot = self.env["gest_agri.plot"].create(
             {
                 "name": "Parcelle société B interventions",
                 "code": "PINT-B2",
@@ -439,25 +447,32 @@ class TestCropIntervention(TransactionCase):
                 "area": 5.0,
             }
         )
-        other_type = cls.env["gest_agri.crop.type"].create(
+        other_type = self.env["gest_agri.crop.type"].create(
             {"name": "Culture B interventions", "code": "BINT2", "company_id": other_company.id}
         )
-        other_intervention = cls.env["gest_agri.crop.intervention"].create(
+        other_operation_type = self.env["gest_agri.operation.type"].create(
+            {
+                "name": "Labour société B",
+                "code": "LABB",
+                "company_id": other_company.id,
+            }
+        )
+        other_intervention = self.env["gest_agri.crop.intervention"].create(
             {
                 "name": "Intervention autre société",
-                "crop_cycle_id": cls.env["gest_agri.crop.cycle"].create(
+                "crop_cycle_id": self.env["gest_agri.crop.cycle"].create(
                     {
                         "plot_id": other_plot.id,
                         "crop_type_id": other_type.id,
                         "date_start": date(2026, 3, 1),
                     }
                 ).id,
-                "operation_type_id": self.operation_type.id,
+                "operation_type_id": other_operation_type.id,
                 "date_planned": date(2026, 4, 1),
             }
         )
         visible = (
-            cls.env["gest_agri.crop.intervention"].with_user(self.user_a).search([])
+            self.env["gest_agri.crop.intervention"].with_user(self.user_a).search([])
         )
         self.assertNotIn(other_intervention, visible)
         with self.assertRaises(AccessError):
@@ -470,11 +485,22 @@ class TestCropIntervention(TransactionCase):
         action = self.cycle.action_view_interventions()
         self.assertEqual(action["res_model"], "gest_agri.crop.intervention")
         self.assertIn(("crop_cycle_id", "=", self.cycle.id), action["domain"])
+        self.assertEqual(
+            action["context"]["default_crop_cycle_id"], self.cycle.id
+        )
 
     def test_interventions_do_not_alter_cycle_rules(self):
+        plot = self.env["gest_agri.plot"].create(
+            {
+                "name": "Parcelle interventions A4",
+                "code": "PINT-A4",
+                "farm_id": self.farm_a.id,
+                "area": 7.0,
+            }
+        )
         cycle = self.env["gest_agri.crop.cycle"].create(
             {
-                "plot_id": self.plot_a.id,
+                "plot_id": plot.id,
                 "crop_type_id": self.crop_type.id,
                 "date_start": date(2026, 3, 1),
                 "date_end_planned": date(2026, 10, 31),
@@ -485,7 +511,7 @@ class TestCropIntervention(TransactionCase):
         with self.assertRaises(ValidationError):
             self.env["gest_agri.crop.cycle"].create(
                 {
-                    "plot_id": self.plot_a.id,
+                    "plot_id": plot.id,
                     "crop_type_id": self.crop_type.id,
                     "date_start": date(2026, 5, 1),
                     "date_end_planned": date(2026, 9, 30),

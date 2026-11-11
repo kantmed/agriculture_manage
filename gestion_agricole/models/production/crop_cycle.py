@@ -140,6 +140,23 @@ class GestAgriCropCycle(models.Model):
     )
     notes = fields.Text(string="Notes internes")
 
+    intervention_ids = fields.One2many(
+        "gest_agri.crop.intervention",
+        "crop_cycle_id",
+        string="Interventions",
+    )
+    intervention_count = fields.Integer(
+        string="Nombre d'interventions",
+        compute="_compute_intervention_count",
+    )
+
+    @api.depends("intervention_ids", "intervention_ids.active")
+    def _compute_intervention_count(self):
+        for cycle in self:
+            cycle.intervention_count = len(
+                cycle.with_context(active_test=False).intervention_ids
+            )
+
     # ------------------------------------------------------------------
     # Contraintes SQL
     # ------------------------------------------------------------------
@@ -268,6 +285,37 @@ class GestAgriCropCycle(models.Model):
                         "début de la culture."
                     )
                 )
+
+    @api.constrains("date_start", "date_end_planned", "date_end_actual")
+    def _check_intervention_dates(self):
+        intervention_model = (
+            self.env["gest_agri.crop.intervention"]
+            .sudo()
+            .with_context(active_test=False)
+        )
+        for cycle in self:
+            cycle_end = cycle.date_end_actual or cycle.date_end_planned
+            interventions = intervention_model.search(
+                [
+                    ("crop_cycle_id", "=", cycle.id),
+                    ("state", "!=", "cancelled"),
+                ]
+            )
+            for intervention in interventions:
+                for intervention_date in (
+                    intervention.date_planned,
+                    intervention.date_actual,
+                ):
+                    if intervention_date and (
+                        intervention_date < cycle.date_start
+                        or (cycle_end and intervention_date > cycle_end)
+                    ):
+                        raise ValidationError(
+                            self.env._(
+                                "La période du cycle ne peut pas exclure les dates "
+                                "d'interventions existantes."
+                            )
+                        )
 
     @api.constrains("state", "date_end_actual")
     def _check_done_requires_end_date(self):
@@ -514,3 +562,13 @@ class GestAgriCropCycle(models.Model):
             )
         self._check_allowed_states({"cancelled"})
         self._apply_state("planned")
+
+    def action_view_interventions(self):
+        """Ouvre les interventions associées au cycle courant."""
+        self.ensure_one()
+        action = self.env["ir.actions.act_window"]._for_xml_id(
+            "gestion_agricole.action_gest_agri_crop_intervention"
+        )
+        action["domain"] = [("crop_cycle_id", "=", self.id)]
+        action["context"] = {"default_crop_cycle_id": self.id}
+        return action
