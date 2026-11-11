@@ -69,6 +69,9 @@
                         <page string="Description" name="description">
                             <field name="description" placeholder="Informations complémentaires..."/>
                         </page>
+                        <page string="Notes internes" name="notes">
+                            <field name="notes" placeholder="Observations et informations complémentaires relatives au réseau d'irrigation..."/>
+                        </page>
                     </notebook>
                 </sheet>
             </form>
@@ -160,6 +163,11 @@
                         </field>
                     </group>
                     <field name="description" placeholder="Informations complémentaires..."/>
+                    <notebook>
+                        <page string="Notes internes" name="notes">
+                            <field name="notes" placeholder="Observations et informations complémentaires..."/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
@@ -241,6 +249,11 @@
                         </group>
                     </group>
                     <field name="description" placeholder="Informations complémentaires..."/>
+                    <notebook>
+                        <page string="Notes internes" name="notes">
+                            <field name="notes" placeholder="Observations et informations complémentaires..."/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>

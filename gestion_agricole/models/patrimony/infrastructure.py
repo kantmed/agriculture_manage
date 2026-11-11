@@ -53,6 +53,10 @@ class GestAgriInfrastructure(models.Model):
     )
     area = fields.Float(string="Surface (m²)", digits=(16, 2), default=0.0)
     description = fields.Text(string="Description")
+    notes = fields.Text(
+        string="Notes internes",
+        help="Observations et informations complémentaires relatives au infrastructure agricole.",
+    )
     active = fields.Boolean(string="Actif", default=True)
     sequence = fields.Integer(string="Séquence", default=10)
 

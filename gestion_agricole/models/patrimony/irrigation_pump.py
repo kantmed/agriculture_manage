@@ -48,6 +48,10 @@ class GestAgriIrrigationPump(models.Model):
         default=0.0,
     )
     description = fields.Text(string="Description")
+    notes = fields.Text(
+        string="Notes internes",
+        help="Observations et informations complémentaires relatives au pompe d'irrigation.",
+    )
     active = fields.Boolean(string="Actif", default=True)
     sequence = fields.Integer(string="Séquence", default=10)
 

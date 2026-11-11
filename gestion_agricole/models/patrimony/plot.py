@@ -86,6 +86,10 @@ class GestAgriPlot(models.Model):
     latitude = fields.Float(string="Latitude", digits=(10, 6))
     longitude = fields.Float(string="Longitude", digits=(10, 6))
     description = fields.Text(string="Description")
+    notes = fields.Text(
+        string="Notes internes",
+        help="Observations et informations complémentaires relatives à la parcelle.",
+    )
     active = fields.Boolean(string="Actif", default=True)
     state = fields.Selection(
         selection=[

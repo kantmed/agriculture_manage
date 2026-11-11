@@ -155,6 +155,93 @@ class TestPatrimony(TransactionCase):
         )
         self.assertEqual(farm.notes, "Terrain en pente, prévoir un drainage.")
 
+    def test_plot_notes_default_and_modification(self):
+        """Les notes d'une parcelle sont vides par défaut, puis modifiables."""
+        self.assertFalse(self.plot.notes)
+        self.plot.write({"notes": "Zone humide en bordure nord."})
+        self.assertEqual(self.plot.notes, "Zone humide en bordure nord.")
+        reloaded = self.env["gest_agri.plot"].browse(self.plot.id)
+        self.assertEqual(reloaded.notes, "Zone humide en bordure nord.")
+        self.plot.write({"notes": False})
+        self.assertFalse(self.plot.notes)
+
+    def test_plot_creation_with_notes(self):
+        """Une parcelle peut être créée directement avec des notes internes."""
+        plot = self.env["gest_agri.plot"].create(
+            {
+                "name": "Parcelle B",
+                "code": "B",
+                "farm_id": self.farm.id,
+                "site_id": self.site.id,
+                "area": 5.0,
+                "notes": "Prévoir une analyse de sol avant semis.",
+            }
+        )
+        self.assertEqual(plot.notes, "Prévoir une analyse de sol avant semis.")
+
+    def test_building_notes_default_and_modification(self):
+        """Les notes d'un bâtiment sont vides par défaut, puis modifiables."""
+        building = self.env["gest_agri.building"].create(
+            {"name": "Hangar", "code": "HANGAR", "farm_id": self.farm.id, "site_id": self.site.id}
+        )
+        self.assertFalse(building.notes)
+        building.write({"notes": "Charpente à vérifier après la tempête."})
+        self.assertEqual(building.notes, "Charpente à vérifier après la tempête.")
+        reloaded = self.env["gest_agri.building"].browse(building.id)
+        self.assertEqual(reloaded.notes, "Charpente à vérifier après la tempête.")
+        building.write({"notes": False})
+        self.assertFalse(building.notes)
+
+    def test_building_creation_with_notes(self):
+        """Un bâtiment peut être créé directement avec des notes internes."""
+        building = self.env["gest_agri.building"].create(
+            {
+                "name": "Étable",
+                "code": "ETABLE",
+                "farm_id": self.farm.id,
+                "notes": "Prévoir l'installation de ventilateurs.",
+            }
+        )
+        self.assertEqual(building.notes, "Prévoir l'installation de ventilateurs.")
+
+    def test_notes_on_other_patrimony_assets(self):
+        """Les autres actifs du patrimoine acceptent des notes internes persistantes."""
+        network = self.env["gest_agri.irrigation.network"].create(
+            {"name": "Réseau test", "code": "NET-TEST", "farm_id": self.farm.id}
+        )
+        cases = [
+            (
+                "gest_agri.infrastructure",
+                {"name": "Clôture test", "code": "CLOT-TEST", "farm_id": self.farm.id},
+            ),
+            (
+                "gest_agri.water.source",
+                {"name": "Forage test", "code": "FORAGE-TEST", "farm_id": self.farm.id},
+            ),
+            (
+                "gest_agri.irrigation.network",
+                {"name": "Réseau test 2", "code": "NET-TEST2", "farm_id": self.farm.id},
+            ),
+            (
+                "gest_agri.irrigation.sector",
+                {"name": "Secteur test", "code": "SEC-TEST", "network_id": network.id},
+            ),
+            (
+                "gest_agri.irrigation.pump",
+                {"name": "Pompe test", "code": "PUMP-TEST", "network_id": network.id},
+            ),
+        ]
+        for model_name, values in cases:
+            with self.subTest(model=model_name):
+                record = self.env[model_name].create(values)
+                self.assertFalse(record.notes)
+                record.write({"notes": f"Observation sur {model_name}."})
+                self.assertEqual(record.notes, f"Observation sur {model_name}.")
+                reloaded = self.env[model_name].browse(record.id)
+                self.assertEqual(reloaded.notes, f"Observation sur {model_name}.")
+                record.write({"notes": False})
+                self.assertFalse(record.notes)
+
     def test_plot_crop_type_assignment(self):
         """Le type de culture peut être affecté à une parcelle."""
         crop_type = self.env["gest_agri.crop.type"].create(

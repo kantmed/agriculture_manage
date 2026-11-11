@@ -57,6 +57,10 @@ class GestAgriWaterSource(models.Model):
     )
     depth_m = fields.Float(string="Profondeur (m)", digits=(16, 2), default=0.0)
     description = fields.Text(string="Description")
+    notes = fields.Text(
+        string="Notes internes",
+        help="Observations et informations complémentaires relatives au source d'eau.",
+    )
     active = fields.Boolean(string="Actif", default=True)
     sequence = fields.Integer(string="Séquence", default=10)
 

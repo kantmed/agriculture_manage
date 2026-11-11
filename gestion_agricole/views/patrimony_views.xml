@@ -195,6 +195,11 @@
                         </group>
                     </group>
                     <field name="description" placeholder="Observations agronomiques..."/>
+                    <notebook>
+                        <page string="Notes internes" name="notes">
+                            <field name="notes" placeholder="Observations et informations complémentaires relatives à la parcelle..."/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
@@ -290,6 +295,11 @@
                         </group>
                     </group>
                     <field name="description" placeholder="Informations complémentaires..."/>
+                    <notebook>
+                        <page string="Notes internes" name="notes">
+                            <field name="notes" placeholder="Observations et informations complémentaires..."/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
@@ -373,6 +383,11 @@
                         </group>
                     </group>
                     <field name="description" placeholder="Informations complémentaires..."/>
+                    <notebook>
+                        <page string="Notes internes" name="notes">
+                            <field name="notes" placeholder="Observations et informations complémentaires..."/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
@@ -456,6 +471,11 @@
                         </group>
                     </group>
                     <field name="description" placeholder="Informations complémentaires..."/>
+                    <notebook>
+                        <page string="Notes internes" name="notes">
+                            <field name="notes" placeholder="Observations et informations complémentaires..."/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>

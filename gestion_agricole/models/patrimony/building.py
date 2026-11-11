@@ -55,6 +55,10 @@ class GestAgriBuilding(models.Model):
         help="Capacité d'accueil (places, animaux, tonnes, etc.).",
     )
     description = fields.Text(string="Description")
+    notes = fields.Text(
+        string="Notes internes",
+        help="Observations et informations complémentaires relatives au bâtiment agricole.",
+    )
     active = fields.Boolean(string="Actif", default=True)
     sequence = fields.Integer(string="Séquence", default=10)
 
