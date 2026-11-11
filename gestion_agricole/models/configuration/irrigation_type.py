@@ -3,9 +3,10 @@ from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 from ._common import check_unique_reference
+from .reservation import ReferenceReservationMixin
 
 
-class GestAgriIrrigationType(models.Model):
+class GestAgriIrrigationType(ReferenceReservationMixin, models.Model):
     _name = "gest_agri.irrigation.type"
     _description = "Type d'irrigation"
     _order = "sequence, name"

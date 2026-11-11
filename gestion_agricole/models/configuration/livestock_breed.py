@@ -3,9 +3,10 @@ from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 from ._common import check_unique_reference
+from .reservation import ReferenceReservationMixin
 
 
-class GestAgriLivestockBreed(models.Model):
+class GestAgriLivestockBreed(ReferenceReservationMixin, models.Model):
     _name = "gest_agri.livestock.breed"
     _description = "Race animale"
     _order = "sequence, name"

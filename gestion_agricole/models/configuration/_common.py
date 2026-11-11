@@ -1,6 +1,41 @@
 # -*- coding: utf-8 -*-
 from odoo.exceptions import ValidationError
 
+#: Périmètre d'un code global : [1, +inf) — couvre toutes les sociétés.
+SCOPE_GLOBAL_CODE = (1, None)
+#: Périmètre d'un nom global : [-1, 0) — disjoint de toute société.
+SCOPE_GLOBAL_NAME = (-1, 0)
+
+
+def normalize_reference(value):
+    """Normalise une référence (code ou nom) pour les comparaisons.
+
+    La normalisation est insensible à la casse et aux espaces de début et de
+    fin, comme les index uniques PostgreSQL ``LOWER(BTRIM(...))`` posés par
+    Odoo sur les tables de référence.
+    """
+    if not value:
+        return ""
+    return value.strip().casefold()
+
+
+def reference_scope(kind, company_id):
+    """Renvoie le périmètre ``(scope_lo, scope_hi)`` d'une référence.
+
+    * ``kind='code'``, société ``c``  -> ``(c, c+1)``  (domaine positif)
+    * ``kind='code'``, global          -> ``(1, None)``  (couvre tout le positif)
+    * ``kind='name'``, société ``c``   -> ``(c, c+1)``  (domaine positif)
+    * ``kind='name'``, global           -> ``(-1, 0)``   (domaine négatif)
+
+    Les domaines sont disjoints par construction : un nom global ne peut
+    jamais chevaucher une société (dont l'identifiant est toujours >= 1).
+    """
+    if company_id:
+        return (company_id, company_id + 1)
+    if kind == "code":
+        return SCOPE_GLOBAL_CODE
+    return SCOPE_GLOBAL_NAME
+
 
 def _advisory_lock_key(normalized):
     """Calcule une clé de verrou consultatif stable et valide pour PostgreSQL.

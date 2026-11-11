@@ -100,17 +100,17 @@ class GestAgriFarm(models.Model):
         "gest_agri.farm.access", "farm_id", string="Droits d'accès"
     )
 
-    site_count = fields.Integer(string="Sites", compute="_compute_counts")
-    plot_count = fields.Integer(string="Parcelles", compute="_compute_counts")
-    building_count = fields.Integer(string="Bâtiments", compute="_compute_counts")
+    site_count = fields.Integer(string="Nb sites", compute="_compute_counts")
+    plot_count = fields.Integer(string="Nb parcelles", compute="_compute_counts")
+    building_count = fields.Integer(string="Nb bâtiments", compute="_compute_counts")
     infrastructure_count = fields.Integer(
-        string="Infrastructures", compute="_compute_counts"
+        string="Nb infrastructures", compute="_compute_counts"
     )
-    water_source_count = fields.Integer(string="Sources d'eau", compute="_compute_counts")
+    water_source_count = fields.Integer(string="Nb sources d'eau", compute="_compute_counts")
     irrigation_network_count = fields.Integer(
-        string="Réseaux d'irrigation", compute="_compute_counts"
+        string="Nb réseaux d'irrigation", compute="_compute_counts"
     )
-    access_count = fields.Integer(string="Droits d'accès", compute="_compute_counts")
+    access_count = fields.Integer(string="Nb droits d'accès", compute="_compute_counts")
 
     _code_company_unique = models.UniqueIndex(
         "(company_id, UPPER(code)) WHERE active IS TRUE",

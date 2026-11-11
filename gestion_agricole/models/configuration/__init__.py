@@ -12,3 +12,4 @@ from . import irrigation_type
 from . import equipment_type
 from . import building_type
 from . import production_type
+from . import reservation

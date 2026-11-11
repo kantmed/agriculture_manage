@@ -187,31 +187,28 @@ class TestAuditPrompt11(TransactionCase):
             )
 
     def test_c2_unique_index_message_is_user_friendly(self):
-        """Le message utilisateur final (couche web) doit être explicite."""
+        """Un doublon doit produire un message métier français lisible.
+
+        Depuis la mise en place du mécanisme de réservation (Prompt 14), le
+        conflit est détecté **avant** l'écriture métier et converti en
+        ``ValidationError`` : l'utilisateur n'est plus exposé à une erreur
+        PostgreSQL brute.
+        """
         SoilType = self.env["gest_agri.soil.type"]
         SoilType.create(
             {"name": "Limoneux P11", "code": "P11MSGU", "company_id": self.company.id}
         )
-        try:
-            with self.env.cr.savepoint():
-                SoilType.create(
-                    {
-                        "name": "Limoneux bis",
-                        "code": "p11msgu",
-                        "company_id": self.company.id,
-                    }
-                )
-        except psycopg2.errors.UniqueViolation as exc:
-            # Reproduction de la couche web Odoo (odoo/http/retrying.py)
-            model = self.env["base"]
-            for rclass in self.env.registry.values():
-                if exc.diag.table_name == rclass._table:
-                    model = self.env[rclass._name]
-                    break
-            message = model._sql_error_to_message(exc)
-            self.assertIn("unique", message.lower())
-        else:
-            self.fail("L'index unique unique n'a pas rejete le doublon")
+        with self.assertRaises(ValidationError) as catcher:
+            SoilType.create(
+                {
+                    "name": "Limoneux bis",
+                    "code": "p11msgu",
+                    "company_id": self.company.id,
+                }
+            )
+        message = str(catcher.exception)
+        self.assertIn("déjà utilisé", message)
+        self.assertIn("P11MSGU", message)
 
     # ------------------------------------------------------------------
     # C3 / C4 / C5 - plot.write()
