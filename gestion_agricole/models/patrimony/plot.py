@@ -65,6 +65,12 @@ class GestAgriPlot(models.Model):
         ondelete="restrict",
         index=True,
     )
+    crop_cycle_ids = fields.One2many(
+        "gest_agri.crop.cycle",
+        "plot_id",
+        string="Cultures implantées",
+        help="Historique des cultures implantées sur la parcelle.",
+    )
     ph_min = fields.Float(
         string="pH minimum",
         digits=(4, 2),

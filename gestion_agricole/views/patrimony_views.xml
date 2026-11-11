@@ -196,6 +196,21 @@
                     </group>
                     <field name="description" placeholder="Observations agronomiques..."/>
                     <notebook>
+                        <page string="Cultures" name="crop_cycles">
+                            <field name="crop_cycle_ids" context="{'default_plot_id': id}">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="crop_type_id"/>
+                                    <field name="crop_variety_id"/>
+                                    <field name="date_start"/>
+                                    <field name="date_end_planned"/>
+                                    <field name="date_end_actual"/>
+                                    <field name="area_ha" sum="Total"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="active" column_invisible="1"/>
+                                </list>
+                            </field>
+                        </page>
                         <page string="Notes internes" name="notes">
                             <field name="notes" placeholder="Observations et informations complémentaires relatives à la parcelle..."/>
                         </page>

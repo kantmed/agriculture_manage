@@ -70,3 +70,6 @@ gest_agri_irrigation_sector_admin_crud,gest_agri.irrigation.sector - administrat
 gest_agri_irrigation_pump_user_read,gest_agri.irrigation.pump - lecture utilisateur,gest_agri.irrigation.pump,group_gest_agri_user,r,"[('farm_id', 'in', user.gest_agri_farm_ids.ids)]"
 gest_agri_irrigation_pump_manager_create_update,gest_agri.irrigation.pump - gestion responsable,gest_agri.irrigation.pump,group_gest_agri_manager,cu,"[('farm_id', 'in', user.gest_agri_managed_farm_ids.ids)]"
 gest_agri_irrigation_pump_admin_crud,gest_agri.irrigation.pump - administration,gest_agri.irrigation.pump,group_gest_agri_admin,crud,"[('company_id', 'in', company_ids)]"
+gest_agri_crop_cycle_user_read,Cultures implantées - lecture utilisateur,gest_agri.crop.cycle,group_gest_agri_user,r,"[('farm_id', 'in', user.gest_agri_farm_ids.ids)]"
+gest_agri_crop_cycle_manager_create_update,Cultures implantées - gestion responsable,gest_agri.crop.cycle,group_gest_agri_manager,cu,"[('farm_id', 'in', user.gest_agri_managed_farm_ids.ids)]"
+gest_agri_crop_cycle_admin_crud,Cultures implantées - administration,gest_agri.crop.cycle,group_gest_agri_admin,crud,"[('company_id', 'in', company_ids)]"

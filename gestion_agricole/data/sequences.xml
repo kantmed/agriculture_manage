@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <!--
-    Fichier réservé aux futures séquences agricoles.
-    Aucune séquence n'est créée à ce stade, car aucun modèle métier n'existe encore.
+    Séquences des modèles métier agricoles.
     -->
+    <record id="seq_gest_agri_crop_cycle" model="ir.sequence">
+        <field name="name">Culture implantée</field>
+        <field name="code">gest_agri.crop.cycle</field>
+        <field name="prefix">CUL/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
 </odoo>
-

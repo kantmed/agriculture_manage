@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Cultures implantées -->
+    <record id="view_gest_agri_crop_cycle_list" model="ir.ui.view">
+        <field name="name">gest_agri.crop.cycle.list</field>
+        <field name="model">gest_agri.crop.cycle</field>
+        <field name="arch" type="xml">
+            <list string="Cultures implantées">
+                <field name="name"/>
+                <field name="farm_id"/>
+                <field name="site_id"/>
+                <field name="plot_id"/>
+                <field name="crop_type_id"/>
+                <field name="crop_variety_id"/>
+                <field name="date_start"/>
+                <field name="date_end_planned"/>
+                <field name="area_ha" sum="Total"/>
+                <field name="state" widget="badge"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_crop_cycle_form" model="ir.ui.view">
+        <field name="name">gest_agri.crop.cycle.form</field>
+        <field name="model">gest_agri.crop.cycle</field>
+        <field name="arch" type="xml">
+            <form string="Culture implantée">
+                <header>
+                    <button name="action_plant" string="Implanter" type="object"
+                            class="oe_highlight" invisible="state != 'planned'"/>
+                    <button name="action_start" string="Démarrer" type="object"
+                            class="oe_highlight" invisible="state != 'planted'"/>
+                    <button name="action_done" string="Terminer" type="object"
+                            class="oe_highlight" invisible="state != 'in_progress'"/>
+                    <button name="action_cancel" string="Annuler" type="object"
+                            invisible="state not in ('planned', 'planted', 'in_progress')"
+                            confirm="Confirmez-vous l'annulation de cette culture ?"/>
+                    <button name="action_reset" string="Réinitialiser" type="object"
+                            invisible="state != 'cancelled'"
+                            groups="gestion_agricole.group_gest_agri_manager"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="planned,planted,in_progress,done"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Référence"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Identification">
+                            <field name="sequence"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group string="Parcelle et exploitation">
+                            <field name="plot_id"/>
+                            <field name="farm_id" readonly="1"/>
+                            <field name="site_id" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Culture et variété">
+                            <field name="crop_type_id"/>
+                            <field name="crop_variety_id"/>
+                        </group>
+                        <group string="Période">
+                            <field name="date_start"/>
+                            <field name="date_end_planned"/>
+                            <field name="date_end_actual"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Surface">
+                            <field name="area_ha"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Notes internes" name="notes">
+                            <field name="notes" placeholder="Observations et informations complémentaires relatives à la culture..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_crop_cycle_search" model="ir.ui.view">
+        <field name="name">gest_agri.crop.cycle.search</field>
+        <field name="model">gest_agri.crop.cycle</field>
+        <field name="arch" type="xml">
+            <search string="Cultures implantées">
+                <field name="name" string="Référence"/>
+                <field name="plot_id"/>
+                <field name="farm_id"/>
+                <field name="crop_type_id"/>
+                <field name="crop_variety_id"/>
+                <filter name="planned" string="Prévues" domain="[('state', '=', 'planned')]"/>
+                <filter name="planted" string="Implantées" domain="[('state', '=', 'planted')]"/>
+                <filter name="in_progress" string="En cours" domain="[('state', '=', 'in_progress')]"/>
+                <filter name="done" string="Terminées" domain="[('state', '=', 'done')]"/>
+                <filter name="cancelled" string="Annulées" domain="[('state', '=', 'cancelled')]"/>
+                <separator/>
+                <filter name="active" string="Cycles actifs" domain="[('active', '=', True)]"/>
+                <filter name="inactive" string="Cycles archivés" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_farm" string="Exploitation" context="{'group_by': 'farm_id'}"/>
+                    <filter name="group_plot" string="Parcelle" context="{'group_by': 'plot_id'}"/>
+                    <filter name="group_crop_type" string="Type de culture" context="{'group_by': 'crop_type_id'}"/>
+                    <filter name="group_state" string="État" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_crop_cycle" model="ir.actions.act_window">
+        <field name="name">Cultures implantées</field>
+        <field name="res_model">gest_agri.crop.cycle</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Créez votre première culture implantée.</p>
+            <p>Affectez un type de culture à une parcelle sur une période donnée.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_gest_agri_crop_cycle" name="Cultures implantées"
+              parent="menu_gestion_agricole_production_vegetale"
+              action="action_gest_agri_crop_cycle" sequence="10"
+              groups="gestion_agricole.group_gest_agri_user"/>
+
+</odoo>
