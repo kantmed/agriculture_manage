@@ -131,4 +131,118 @@
               action="action_gest_agri_crop_cycle" sequence="10"
               groups="gestion_agricole.group_gest_agri_user"/>
 
+    <!-- Campagnes agricoles -->
+    <record id="view_gest_agri_crop_campaign_list" model="ir.ui.view">
+        <field name="name">gest_agri.crop.campaign.list</field>
+        <field name="model">gest_agri.crop.campaign</field>
+        <field name="arch" type="xml">
+            <list string="Campagnes agricoles">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="farm_id"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="state" widget="badge"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_crop_campaign_form" model="ir.ui.view">
+        <field name="name">gest_agri.crop.campaign.form</field>
+        <field name="model">gest_agri.crop.campaign</field>
+        <field name="arch" type="xml">
+            <form string="Campagne agricole">
+                <header>
+                    <button name="action_activate" string="Démarrer" type="object"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_close" string="Clôturer" type="object"
+                            class="oe_highlight" invisible="state != 'active'"/>
+                    <button name="action_cancel" string="Annuler" type="object"
+                            invisible="state not in ('draft', 'active')"
+                            confirm="Confirmez-vous l'annulation de cette campagne ?"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,active,closed"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Nom de la campagne"/>
+                        <h1><field name="name" placeholder="Ex. Campagne céréalière 2026"
+                                   readonly="state in ('closed', 'cancelled')"/></h1>
+                    </div>
+                    <group>
+                        <group string="Informations générales">
+                            <field name="code" readonly="1"/>
+                            <field name="farm_id" readonly="state in ('closed', 'cancelled')"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                    </group>
+                    <group string="Période">
+                        <group>
+                            <field name="date_start" readonly="state in ('closed', 'cancelled')"/>
+                            <field name="date_end" readonly="state in ('closed', 'cancelled')"/>
+                        </group>
+                        <group>
+                            <field name="date_end_actual" readonly="state in ('closed', 'cancelled')"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" placeholder="Description de la campagne..."
+                               readonly="state in ('closed', 'cancelled')"/>
+                    </group>
+                    <notebook>
+                        <page string="Notes internes" name="notes">
+                            <field name="notes" placeholder="Observations et informations complémentaires relatives à la campagne..."
+                                   readonly="state in ('closed', 'cancelled')"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_crop_campaign_search" model="ir.ui.view">
+        <field name="name">gest_agri.crop.campaign.search</field>
+        <field name="model">gest_agri.crop.campaign</field>
+        <field name="arch" type="xml">
+            <search string="Campagnes agricoles">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="farm_id"/>
+                <filter name="draft" string="Brouillon" domain="[('state', '=', 'draft')]"/>
+                <filter name="active" string="En cours" domain="[('state', '=', 'active')]"/>
+                <filter name="closed" string="Clôturées" domain="[('state', '=', 'closed')]"/>
+                <filter name="cancelled" string="Annulées" domain="[('state', '=', 'cancelled')]"/>
+                <separator/>
+                <filter name="inactive" string="Archivées" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_farm" string="Exploitation" context="{'group_by': 'farm_id'}"/>
+                    <filter name="group_state" string="État" context="{'group_by': 'state'}"/>
+                    <filter name="group_year" string="Année de début" context="{'group_by': 'date_start:year'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_crop_campaign" model="ir.actions.act_window">
+        <field name="name">Campagnes agricoles</field>
+        <field name="res_model">gest_agri.crop.campaign</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Créez votre première campagne agricole.</p>
+            <p>Définissez une période de production pour une exploitation.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_gest_agri_crop_campaign" name="Campagnes agricoles"
+              parent="menu_gestion_agricole_production_vegetale"
+              action="action_gest_agri_crop_campaign" sequence="20"
+              groups="gestion_agricole.group_gest_agri_user"/>
+
 </odoo>

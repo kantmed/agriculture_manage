@@ -10,4 +10,11 @@
         <field name="padding">5</field>
         <field name="implementation">standard</field>
     </record>
+    <record id="seq_gest_agri_crop_campaign" model="ir.sequence">
+        <field name="name">Campagne agricole</field>
+        <field name="code">gest_agri.crop.campaign</field>
+        <field name="prefix">CAM/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
 </odoo>

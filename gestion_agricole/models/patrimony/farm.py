@@ -97,6 +97,9 @@ class GestAgriFarm(models.Model):
 
     site_ids = fields.One2many("gest_agri.site", "farm_id", string="Sites")
     plot_ids = fields.One2many("gest_agri.plot", "farm_id", string="Parcelles")
+    crop_campaign_ids = fields.One2many(
+        "gest_agri.crop.campaign", "farm_id", string="Campagnes agricoles"
+    )
     building_ids = fields.One2many("gest_agri.building", "farm_id", string="Bâtiments")
     infrastructure_ids = fields.One2many(
         "gest_agri.infrastructure", "farm_id", string="Infrastructures"
