@@ -17,4 +17,11 @@
         <field name="padding">5</field>
         <field name="implementation">standard</field>
     </record>
+    <record id="seq_gest_agri_crop_intervention" model="ir.sequence">
+        <field name="name">Intervention agricole</field>
+        <field name="code">gest_agri.crop.intervention</field>
+        <field name="prefix">INT/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
 </odoo>

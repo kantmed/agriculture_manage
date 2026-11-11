@@ -46,6 +46,13 @@
                            statusbar_visible="planned,planted,in_progress,done"/>
                 </header>
                 <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_view_interventions" type="object"
+                                class="oe_stat_button" icon="fa-tasks">
+                            <field name="intervention_count" widget="statinfo"
+                                   string="Interventions"/>
+                        </button>
+                    </div>
                     <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
                     <div class="oe_title">
                         <label for="name" string="Référence"/>
@@ -81,6 +88,21 @@
                         </group>
                     </group>
                     <notebook>
+                        <page string="Interventions agricoles" name="interventions">
+                            <field name="intervention_ids" context="{'default_crop_cycle_id': id}">
+                                <list create="false" edit="false">
+                                    <field name="code"/>
+                                    <field name="name"/>
+                                    <field name="operation_type_id"/>
+                                    <field name="date_planned"/>
+                                    <field name="date_actual"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="active" column_invisible="1"/>
+                                </list>
+                            </field>
+                            <button name="action_view_interventions" type="object"
+                                    class="btn btn-link" string="Ouvrir toutes les interventions du cycle"/>
+                        </page>
                         <page string="Notes internes" name="notes">
                             <field name="notes" placeholder="Observations et informations complémentaires relatives à la culture..."/>
                         </page>

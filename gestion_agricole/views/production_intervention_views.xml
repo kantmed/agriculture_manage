@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Interventions agricoles -->
+    <record id="view_gest_agri_crop_intervention_list" model="ir.ui.view">
+        <field name="name">gest_agri.crop.intervention.list</field>
+        <field name="model">gest_agri.crop.intervention</field>
+        <field name="arch" type="xml">
+            <list string="Interventions agricoles">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="operation_type_id"/>
+                <field name="crop_cycle_id"/>
+                <field name="campaign_id"/>
+                <field name="plot_id"/>
+                <field name="farm_id"/>
+                <field name="date_planned"/>
+                <field name="date_actual"/>
+                <field name="state" widget="badge"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_crop_intervention_form" model="ir.ui.view">
+        <field name="name">gest_agri.crop.intervention.form</field>
+        <field name="model">gest_agri.crop.intervention</field>
+        <field name="arch" type="xml">
+            <form string="Intervention agricole">
+                <header>
+                    <button name="action_plan" string="Planifier" type="object"
+                            class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_done" string="Réaliser" type="object"
+                            class="oe_highlight" invisible="state != 'planned'"/>
+                    <button name="action_cancel" string="Annuler" type="object"
+                            invisible="state not in ('draft', 'planned')"
+                            confirm="Confirmez-vous l'annulation de cette intervention ?"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,planned,done"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Libellé"/>
+                        <h1><field name="name" placeholder="Ex. Labour de préparation"/></h1>
+                    </div>
+                    <group>
+                        <group string="Informations générales">
+                            <field name="code" readonly="1"/>
+                            <field name="operation_type_id"/>
+                            <field name="crop_cycle_id" options="{'no_create': True}"/>
+                            <field name="campaign_id" readonly="1"/>
+                            <field name="plot_id" readonly="1"/>
+                            <field name="farm_id" readonly="1"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                            <field name="sequence"/>
+                            <field name="active" invisible="1"/>
+                        </group>
+                        <group string="Planification et réalisation">
+                            <field name="date_planned"/>
+                            <field name="date_actual"/>
+                        </group>
+                    </group>
+                    <group string="Description">
+                        <field name="description" placeholder="Description des travaux réalisés..."/>
+                    </group>
+                    <notebook>
+                        <page string="Notes internes" name="notes">
+                            <field name="notes" placeholder="Observations et informations complémentaires relatives à l'intervention..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_crop_intervention_search" model="ir.ui.view">
+        <field name="name">gest_agri.crop.intervention.search</field>
+        <field name="model">gest_agri.crop.intervention</field>
+        <field name="arch" type="xml">
+            <search string="Interventions agricoles">
+                <field name="code" string="Référence"/>
+                <field name="name"/>
+                <field name="operation_type_id"/>
+                <field name="crop_cycle_id"/>
+                <field name="campaign_id"/>
+                <field name="plot_id"/>
+                <field name="farm_id"/>
+                <filter name="draft" string="Brouillon" domain="[('state', '=', 'draft')]"/>
+                <filter name="planned" string="Planifiées" domain="[('state', '=', 'planned')]"/>
+                <filter name="done" string="Réalisées" domain="[('state', '=', 'done')]"/>
+                <filter name="cancelled" string="Annulées" domain="[('state', '=', 'cancelled')]"/>
+                <separator/>
+                <filter name="archived" string="Archivées" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="group_operation_type" string="Type d'intervention" context="{'group_by': 'operation_type_id'}"/>
+                    <filter name="group_crop_cycle" string="Cycle de culture" context="{'group_by': 'crop_cycle_id'}"/>
+                    <filter name="group_campaign" string="Campagne agricole" context="{'group_by': 'campaign_id'}"/>
+                    <filter name="group_plot" string="Parcelle" context="{'group_by': 'plot_id'}"/>
+                    <filter name="group_farm" string="Exploitation" context="{'group_by': 'farm_id'}"/>
+                    <filter name="group_state" string="État" context="{'group_by': 'state'}"/>
+                    <filter name="group_year" string="Année de réalisation" context="{'group_by': 'date_actual:year'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_crop_intervention" model="ir.actions.act_window">
+        <field name="name">Interventions agricoles</field>
+        <field name="res_model">gest_agri.crop.intervention</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Créez votre première intervention agricole.</p>
+            <p>Enregistrez les travaux réalisés sur une culture implantée.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_gest_agri_crop_intervention" name="Interventions agricoles"
+              parent="menu_gestion_agricole_production_vegetale"
+              action="action_gest_agri_crop_intervention" sequence="30"
+              groups="gestion_agricole.group_gest_agri_user"/>
+
+</odoo>

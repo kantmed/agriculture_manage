@@ -54,6 +54,7 @@ Architecture :
         "views/patrimony_views.xml",
         "views/irrigation_views.xml",
         "views/production_views.xml",
+        "views/production_intervention_views.xml",
         "views/farm_views.xml",
     ],
     "assets": {},
