@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import api, fields, models
-from odoo.exceptions import AccessError
+from odoo.exceptions import AccessError, ValidationError
 
 
 class GestAgriFarmAccess(models.Model):
@@ -45,6 +45,18 @@ class GestAgriFarmAccess(models.Model):
         index=True,
     )
     description = fields.Text(string="Description")
+    notes = fields.Text(
+        string="Notes internes",
+        help="Motif, observations et précisions complémentaires concernant cette habilitation.",
+    )
+    date_start = fields.Date(
+        string="Date de début",
+        help="Début prévu de validité de l'habilitation.",
+    )
+    date_end = fields.Date(
+        string="Date de fin",
+        help="Fin prévue de validité de l'habilitation.",
+    )
     active = fields.Boolean(string="Actif", default=True)
 
     _unique_active_user_farm = models.UniqueIndex(
@@ -76,6 +88,22 @@ class GestAgriFarmAccess(models.Model):
         )
         self.env.transaction.invalidate_ormcache("default")
         self.env.transaction.invalidate_access_cache()
+
+    @api.constrains("date_start", "date_end")
+    def _check_date_period(self):
+        """La date de fin ne peut pas précéder la date de début."""
+        for access in self:
+            if (
+                access.date_start
+                and access.date_end
+                and access.date_end < access.date_start
+            ):
+                raise ValidationError(
+                    self.env._(
+                        "La date de fin de validité ne peut pas être antérieure "
+                        "à la date de début."
+                    )
+                )
 
     def _check_self_management(self):
         """Interdit à un non-administrateur de modifier ses propres droits."""

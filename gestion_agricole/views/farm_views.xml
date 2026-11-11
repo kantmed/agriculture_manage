@@ -269,7 +269,18 @@
                             <field name="active" invisible="1"/>
                         </group>
                     </group>
+                    <group string="Période de validité">
+                        <group>
+                            <field name="date_start"/>
+                            <field name="date_end"/>
+                        </group>
+                    </group>
                     <field name="description" placeholder="Description ou notes internes..."/>
+                    <notebook>
+                        <page string="Notes internes" name="notes">
+                            <field name="notes" placeholder="Motif, observations et précisions concernant cette habilitation..."/>
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>

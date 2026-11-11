@@ -202,6 +202,126 @@ class TestSecurity(TransactionCase):
             )
             self.env.flush_all()
 
+    def test_farm_access_notes_default_and_modification(self):
+        """Les notes d'une habilitation sont vides par défaut, puis modifiables."""
+        self.assertFalse(self.access_a_user.notes)
+        self.access_a_user.write(
+            {"notes": "Habilitation accordée pour la saison 2026."}
+        )
+        self.assertEqual(
+            self.access_a_user.notes, "Habilitation accordée pour la saison 2026."
+        )
+        reloaded = self.env["gest_agri.farm.access"].browse(self.access_a_user.id)
+        self.assertEqual(
+            reloaded.notes, "Habilitation accordée pour la saison 2026."
+        )
+        self.access_a_user.write({"notes": False})
+        self.assertFalse(self.access_a_user.notes)
+
+    def test_farm_access_notes_creation_and_security_preserved(self):
+        """La création avec notes fonctionne et l'isolation des habilitations reste intacte."""
+        access = self.env["gest_agri.farm.access"].create(
+            {
+                "farm_id": self.farm_a.id,
+                "user_id": self.user_b.id,
+                "role": "user",
+                "notes": "Accès temporaire pour la récolte.",
+            }
+        )
+        self.assertEqual(access.notes, "Accès temporaire pour la récolte.")
+
+        # L'utilisateur concerné peut lire ses propres notes.
+        own_notes = self.access_a_user.with_user(self.user_a).read(["notes"])
+        self.assertEqual(own_notes[0]["notes"], False)
+
+        # Un autre utilisateur ne peut pas lire une habilitation qui ne le concerne pas.
+        with self.assertRaises(AccessError):
+            self.access_a_user.with_user(self.user_b).read(["notes"])
+
+    def test_farm_access_dates_optional_and_coherent(self):
+        """Les dates de validité sont facultatives et acceptent une période cohérente."""
+        Access = self.env["gest_agri.farm.access"]
+
+        no_dates = Access.create(
+            {"farm_id": self.farm_b.id, "user_id": self.user_a.id, "role": "user"}
+        )
+        self.assertFalse(no_dates.date_start)
+        self.assertFalse(no_dates.date_end)
+
+        start_only = Access.create(
+            {
+                "farm_id": self.farm_b.id,
+                "user_id": self.manager.id,
+                "role": "user",
+                "date_start": "2026-01-01",
+            }
+        )
+        self.assertEqual(str(start_only.date_start), "2026-01-01")
+        self.assertFalse(start_only.date_end)
+
+        end_only = Access.create(
+            {
+                "farm_id": self.farm_a.id,
+                "user_id": self.user_b.id,
+                "role": "user",
+                "date_end": "2026-12-31",
+            }
+        )
+        self.assertFalse(end_only.date_start)
+        self.assertEqual(str(end_only.date_end), "2026-12-31")
+
+        coherent = Access.create(
+            {
+                "farm_id": self.farm_b.id,
+                "user_id": self.farm_owner.id,
+                "role": "user",
+                "date_start": "2026-01-01",
+                "date_end": "2026-12-31",
+            }
+        )
+        self.assertEqual(str(coherent.date_start), "2026-01-01")
+        self.assertEqual(str(coherent.date_end), "2026-12-31")
+
+        same_day = Access.create(
+            {
+                "farm_id": self.farm_a.id,
+                "user_id": self.admin.id,
+                "role": "user",
+                "date_start": "2026-06-15",
+                "date_end": "2026-06-15",
+            }
+        )
+        self.assertEqual(str(same_day.date_start), "2026-06-15")
+        self.assertEqual(str(same_day.date_end), "2026-06-15")
+
+    def test_farm_access_dates_incoherent_rejected_and_correction(self):
+        """Une période incohérente est refusée à la création comme à la modification."""
+        Access = self.env["gest_agri.farm.access"]
+
+        with self.assertRaises(ValidationError):
+            Access.create(
+                {
+                    "farm_id": self.farm_b.id,
+                    "user_id": self.user_a.id,
+                    "role": "user",
+                    "date_start": "2026-12-31",
+                    "date_end": "2026-01-01",
+                }
+            )
+
+        with self.assertRaises(ValidationError):
+            self.access_a_user.write(
+                {"date_start": "2026-12-31", "date_end": "2026-01-01"}
+            )
+
+        # Une correction cohérente est acceptée après l'erreur.
+        self.access_a_user.write(
+            {"date_start": "2026-01-01", "date_end": "2026-12-31"}
+        )
+        reloaded = Access.browse(self.access_a_user.id)
+        self.assertEqual(str(reloaded.date_start), "2026-01-01")
+        self.assertEqual(str(reloaded.date_end), "2026-12-31")
+
     def test_multi_company_isolation(self):
         """Teste l'isolation entre deux sociétés distinctes."""
         other_company = self.env["res.company"].create({"name": "Société B"})
