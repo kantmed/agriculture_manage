@@ -132,6 +132,29 @@ class TestPatrimony(TransactionCase):
         with self.assertRaises(ValueError):
             self.farm.write({"status": "invalid_status"})
 
+    def test_farm_notes_default_and_modification(self):
+        """Les notes d'une exploitation sont vides par défaut, puis modifiables."""
+        self.assertFalse(self.farm.notes)
+        self.farm.write({"notes": "Suivi parcellaire à confirmer avec le gérant."})
+        self.assertEqual(self.farm.notes, "Suivi parcellaire à confirmer avec le gérant.")
+        reloaded = self.env["gest_agri.farm"].browse(self.farm.id)
+        self.assertEqual(reloaded.notes, "Suivi parcellaire à confirmer avec le gérant.")
+        self.farm.write({"notes": False})
+        self.assertFalse(self.farm.notes)
+
+    def test_farm_creation_with_notes(self):
+        """Une exploitation peut être créée directement avec des notes internes."""
+        farm = self.env["gest_agri.farm"].create(
+            {
+                "name": "Exploitation des Coteaux",
+                "code": "COTEAUX",
+                "company_id": self.company.id,
+                "farm_type_id": self.farm_type.id,
+                "notes": "Terrain en pente, prévoir un drainage.",
+            }
+        )
+        self.assertEqual(farm.notes, "Terrain en pente, prévoir un drainage.")
+
     def test_plot_crop_type_assignment(self):
         """Le type de culture peut être affecté à une parcelle."""
         crop_type = self.env["gest_agri.crop.type"].create(

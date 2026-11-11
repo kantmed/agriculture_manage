@@ -198,6 +198,9 @@
                         <page string="Description" name="description">
                             <field name="description" placeholder="Informations complémentaires..."/>
                         </page>
+                        <page string="Notes internes" name="notes">
+                            <field name="notes" placeholder="Observations et informations complémentaires relatives à l'exploitation..."/>
+                        </page>
                     </notebook>
                 </sheet>
                 <chatter/>

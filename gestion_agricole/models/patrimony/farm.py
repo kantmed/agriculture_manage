@@ -75,6 +75,10 @@ class GestAgriFarm(models.Model):
         help="Somme des surfaces des parcelles rattachées à l'exploitation.",
     )
     description = fields.Text(string="Description")
+    notes = fields.Text(
+        string="Notes internes",
+        help="Observations et informations complémentaires relatives à l'exploitation.",
+    )
     active = fields.Boolean(string="Actif", default=True)
     status = fields.Selection(
         selection=[
