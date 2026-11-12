@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_gest_agri_equipment" model="ir.sequence">
+        <field name="name">Équipement agricole</field>
+        <field name="code">gest_agri.equipment</field>
+        <field name="prefix">MAT/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+    <record id="seq_gest_agri_equipment_usage" model="ir.sequence">
+        <field name="name">Utilisation de matériel</field>
+        <field name="code">gest_agri.equipment.usage</field>
+        <field name="prefix">UTI/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+    <record id="seq_gest_agri_equipment_maintenance" model="ir.sequence">
+        <field name="name">Maintenance de matériel</field>
+        <field name="code">gest_agri.equipment.maintenance</field>
+        <field name="prefix">MAI/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+</odoo>
