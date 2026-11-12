@@ -1,0 +1,553 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Événements reproductifs -->
+    <record id="view_gest_agri_animal_reproduction_list" model="ir.ui.view">
+        <field name="name">gest_agri.animal.reproduction.list</field>
+        <field name="model">gest_agri.animal.reproduction</field>
+        <field name="arch" type="xml">
+            <list string="Événements reproductifs">
+                <field name="name"/>
+                <field name="event_date"/>
+                <field name="female_id"/>
+                <field name="male_id"/>
+                <field name="event_type"/>
+                <field name="species_id"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_animal_reproduction_form" model="ir.ui.view">
+        <field name="name">gest_agri.animal.reproduction.form</field>
+        <field name="model">gest_agri.animal.reproduction</field>
+        <field name="arch" type="xml">
+            <form string="Événement reproductif">
+                <header>
+                    <button name="action_confirm" string="Confirmer" type="object" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_cancel" string="Annuler" type="object" invisible="state == 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,confirmed,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Référence"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="female_id"/>
+                            <field name="male_id"/>
+                            <field name="farm_id" readonly="1"/>
+                            <field name="site_id"/>
+                        </group>
+                        <group>
+                            <field name="event_date"/>
+                            <field name="event_type"/>
+                            <field name="method"/>
+                            <field name="semen_origin"/>
+                            <field name="responsible_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="species_id" readonly="1"/>
+                            <field name="breed_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                            <field name="gestation_count"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="notes"/>
+                    </group>
+                    <field name="active" invisible="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_animal_reproduction_search" model="ir.ui.view">
+        <field name="name">gest_agri.animal.reproduction.search</field>
+        <field name="model">gest_agri.animal.reproduction</field>
+        <field name="arch" type="xml">
+            <search string="Événements reproductifs">
+                <field name="name"/>
+                <field name="female_id"/>
+                <field name="male_id"/>
+                <field name="farm_id"/>
+                <field name="event_date"/>
+                <filter string="Brouillons" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Confirmés" name="confirmed" domain="[('state','=','confirmed')]"/>
+                <filter string="Annulés" name="cancelled" domain="[('state','=','cancelled')]"/>
+                <separator/>
+                <filter string="Inséminations" name="ai" domain="[('event_type','=','artificial_insemination')]"/>
+                <separator/>
+                <group>
+                    <filter string="Exploitation" name="group_farm" context="{'group_by':'farm_id'}"/>
+                    <filter string="Espèce" name="group_species" context="{'group_by':'species_id'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by':'event_type'}"/>
+                    <filter string="État" name="group_state" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_animal_reproduction" model="ir.actions.act_window">
+        <field name="name">Événements reproductifs</field>
+        <field name="res_model">gest_agri.animal.reproduction</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Gestations -->
+    <record id="view_gest_agri_animal_gestation_list" model="ir.ui.view">
+        <field name="name">gest_agri.animal.gestation.list</field>
+        <field name="model">gest_agri.animal.gestation</field>
+        <field name="arch" type="xml">
+            <list string="Gestations">
+                <field name="name"/>
+                <field name="female_id"/>
+                <field name="start_date"/>
+                <field name="expected_birth_date"/>
+                <field name="actual_end_date"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_animal_gestation_form" model="ir.ui.view">
+        <field name="name">gest_agri.animal.gestation.form</field>
+        <field name="model">gest_agri.animal.gestation</field>
+        <field name="arch" type="xml">
+            <form string="Gestation">
+                <header>
+                    <button name="action_confirm" string="Confirmer" type="object" invisible="state != 'to_confirm'" class="btn-primary"/>
+                    <button name="action_terminate" string="Terminer" type="object" invisible="state != 'confirmed'" class="btn-primary"/>
+                    <button name="action_abort" string="Avortée" type="object" invisible="state not in ('to_confirm','confirmed')"/>
+                    <button name="action_interrupt" string="Interrompre" type="object" invisible="state not in ('to_confirm','confirmed')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="to_confirm,confirmed,terminated,aborted,interrupted"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Référence"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="female_id"/>
+                            <field name="reproduction_id"/>
+                            <field name="male_id"/>
+                            <field name="farm_id" readonly="1"/>
+                            <field name="site_id"/>
+                        </group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="expected_birth_date"/>
+                            <field name="actual_end_date"/>
+                            <field name="confirmation_date"/>
+                            <field name="confirmation_method"/>
+                            <field name="responsible_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="species_id" readonly="1"/>
+                            <field name="breed_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                            <field name="birth_count"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="notes"/>
+                    </group>
+                    <field name="active" invisible="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_animal_gestation_search" model="ir.ui.view">
+        <field name="name">gest_agri.animal.gestation.search</field>
+        <field name="model">gest_agri.animal.gestation</field>
+        <field name="arch" type="xml">
+            <search string="Gestations">
+                <field name="name"/>
+                <field name="female_id"/>
+                <field name="farm_id"/>
+                <field name="start_date"/>
+                <field name="expected_birth_date"/>
+                <filter string="À confirmer" name="to_confirm" domain="[('state','=','to_confirm')]"/>
+                <filter string="Confirmées" name="confirmed" domain="[('state','=','confirmed')]"/>
+                <filter string="Terminées" name="terminated" domain="[('state','=','terminated')]"/>
+                <filter string="Avortées/interrompues" name="failed" domain="[('state','in',['aborted','interrupted'])]"/>
+                <separator/>
+                <filter string="Mise bas à venir" name="upcoming" domain="[('state','in',['to_confirm','confirmed']),('expected_birth_date','&gt;=',datetime.date.today())]"/>
+                <filter string="Mise bas dépassée" name="overdue" domain="[('state','in',['to_confirm','confirmed']),('expected_birth_date','&lt;',datetime.date.today())]"/>
+                <separator/>
+                <group>
+                    <filter string="Exploitation" name="group_farm" context="{'group_by':'farm_id'}"/>
+                    <filter string="Espèce" name="group_species" context="{'group_by':'species_id'}"/>
+                    <filter string="Statut" name="group_state" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_animal_gestation" model="ir.actions.act_window">
+        <field name="name">Gestations</field>
+        <field name="res_model">gest_agri.animal.gestation</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Mises bas et naissances -->
+    <record id="view_gest_agri_animal_birth_list" model="ir.ui.view">
+        <field name="name">gest_agri.animal.birth.list</field>
+        <field name="model">gest_agri.animal.birth</field>
+        <field name="arch" type="xml">
+            <list string="Mises bas">
+                <field name="name"/>
+                <field name="birth_datetime"/>
+                <field name="mother_id"/>
+                <field name="birth_type"/>
+                <field name="total_count"/>
+                <field name="alive_count"/>
+                <field name="stillborn_count"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_animal_birth_form" model="ir.ui.view">
+        <field name="name">gest_agri.animal.birth.form</field>
+        <field name="model">gest_agri.animal.birth</field>
+        <field name="arch" type="xml">
+            <form string="Mise bas">
+                <header>
+                    <button name="action_validate" string="Valider" type="object" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_create_newborn_animals" string="Créer les nouveaux animaux" type="object" invisible="state != 'validated'"/>
+                    <button name="action_cancel" string="Annuler" type="object" invisible="state != 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,validated,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Référence"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="gestation_id"/>
+                            <field name="mother_id" readonly="1"/>
+                            <field name="father_id"/>
+                            <field name="farm_id" readonly="1"/>
+                            <field name="site_id"/>
+                        </group>
+                        <group>
+                            <field name="birth_datetime"/>
+                            <field name="birth_type"/>
+                            <field name="responsible_id"/>
+                            <field name="veterinarian_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Décompte des petits">
+                            <field name="total_count"/>
+                            <field name="alive_count"/>
+                            <field name="stillborn_count"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="notes"/>
+                    </group>
+                    <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                    <notebook>
+                        <page string="Nouveau-nés" name="newborns">
+                            <field name="newborn_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="sex"/>
+                                    <field name="breed_id"/>
+                                    <field name="lot_id"/>
+                                    <field name="animal_id"/>
+                                    <field name="notes"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                    <field name="active" invisible="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_animal_birth_search" model="ir.ui.view">
+        <field name="name">gest_agri.animal.birth.search</field>
+        <field name="model">gest_agri.animal.birth</field>
+        <field name="arch" type="xml">
+            <search string="Mises bas">
+                <field name="name"/>
+                <field name="mother_id"/>
+                <field name="farm_id"/>
+                <field name="birth_datetime"/>
+                <filter string="Brouillons" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Validées" name="validated" domain="[('state','=','validated')]"/>
+                <filter string="Annulées" name="cancelled" domain="[('state','=','cancelled')]"/>
+                <separator/>
+                <filter string="Naissances multiples" name="multiple" domain="[('total_count','&gt;',1)]"/>
+                <filter string="Avec mort-nés" name="stillborn" domain="[('stillborn_count','&gt;',0)]"/>
+                <separator/>
+                <group>
+                    <filter string="Exploitation" name="group_farm" context="{'group_by':'farm_id'}"/>
+                    <filter string="Mère" name="group_mother" context="{'group_by':'mother_id'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by':'birth_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_animal_birth" model="ir.actions.act_window">
+        <field name="name">Mises bas et naissances</field>
+        <field name="res_model">gest_agri.animal.birth</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Mortalité -->
+    <record id="view_gest_agri_animal_mortality_list" model="ir.ui.view">
+        <field name="name">gest_agri.animal.mortality.list</field>
+        <field name="model">gest_agri.animal.mortality</field>
+        <field name="arch" type="xml">
+            <list string="Mortalités">
+                <field name="name"/>
+                <field name="death_datetime"/>
+                <field name="animal_id"/>
+                <field name="lot_id"/>
+                <field name="mortality_type"/>
+                <field name="animal_count"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_animal_mortality_form" model="ir.ui.view">
+        <field name="name">gest_agri.animal.mortality.form</field>
+        <field name="model">gest_agri.animal.mortality</field>
+        <field name="arch" type="xml">
+            <form string="Mortalité">
+                <header>
+                    <button name="action_validate" string="Valider" type="object" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_cancel" string="Annuler" type="object" invisible="state == 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,validated,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Référence"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="animal_id"/>
+                            <field name="lot_id"/>
+                            <field name="farm_id" readonly="1"/>
+                            <field name="site_id"/>
+                        </group>
+                        <group>
+                            <field name="death_datetime"/>
+                            <field name="mortality_type"/>
+                            <field name="animal_count" invisible="not lot_id"/>
+                            <field name="previous_animal_state" readonly="1" invisible="not animal_id or state == 'draft'"/>
+                            <field name="responsible_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="cause"/>
+                        <field name="diagnosis"/>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="health_record_id"/>
+                            <field name="consultation_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="notes"/>
+                    </group>
+                    <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                    <field name="active" invisible="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_animal_mortality_search" model="ir.ui.view">
+        <field name="name">gest_agri.animal.mortality.search</field>
+        <field name="model">gest_agri.animal.mortality</field>
+        <field name="arch" type="xml">
+            <search string="Mortalités">
+                <field name="name"/>
+                <field name="animal_id"/>
+                <field name="lot_id"/>
+                <field name="farm_id"/>
+                <field name="death_datetime"/>
+                <filter string="Brouillons" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Validées" name="validated" domain="[('state','=','validated')]"/>
+                <filter string="Annulées" name="cancelled" domain="[('state','=','cancelled')]"/>
+                <separator/>
+                <filter string="Individuelles" name="individual" domain="[('animal_id','!=',False)]"/>
+                <filter string="Par lot" name="by_lot" domain="[('lot_id','!=',False)]"/>
+                <separator/>
+                <group>
+                    <filter string="Exploitation" name="group_farm" context="{'group_by':'farm_id'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by':'mortality_type'}"/>
+                    <filter string="État" name="group_state" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_animal_mortality" model="ir.actions.act_window">
+        <field name="name">Mortalité</field>
+        <field name="res_model">gest_agri.animal.mortality</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Statistiques reproductives (indicateurs calculés sur l'animal) -->
+    <record id="view_gest_agri_animal_reproduction_stats_list" model="ir.ui.view">
+        <field name="name">gest_agri.animal.reproduction.stats.list</field>
+        <field name="model">gest_agri.animal</field>
+        <field name="arch" type="xml">
+            <list string="Statistiques reproductives">
+                <field name="name"/>
+                <field name="species_id"/>
+                <field name="farm_id"/>
+                <field name="reproduction_count"/>
+                <field name="gestation_count"/>
+                <field name="gestation_terminated_count"/>
+                <field name="birth_count"/>
+                <field name="alive_newborn_count"/>
+                <field name="stillborn_count"/>
+                <field name="mortality_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_animal_reproduction_stats_search" model="ir.ui.view">
+        <field name="name">gest_agri.animal.reproduction.stats.search</field>
+        <field name="model">gest_agri.animal</field>
+        <field name="arch" type="xml">
+            <search string="Statistiques reproductives">
+                <field name="name"/>
+                <field name="farm_id"/>
+                <field name="species_id"/>
+                <filter string="Avec reproduction" name="with_repro" domain="[('reproduction_count','&gt;',0)]"/>
+                <filter string="Avec mise bas" name="with_birth" domain="[('birth_count','&gt;',0)]"/>
+                <filter string="Avec mortalité" name="with_mortality" domain="[('mortality_count','&gt;',0)]"/>
+                <separator/>
+                <group>
+                    <filter string="Exploitation" name="group_farm" context="{'group_by':'farm_id'}"/>
+                    <filter string="Espèce" name="group_species" context="{'group_by':'species_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_reproduction_stats" model="ir.actions.act_window">
+        <field name="name">Statistiques reproductives</field>
+        <field name="res_model">gest_agri.animal</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('reproduction_count','&gt;',0)]</field>
+        <field name="context">{'search_default_with_repro': 1}</field>
+    </record>
+
+    <!-- Boutons intelligents reproduction sur la fiche animal -->
+    <record id="view_gest_agri_animal_form_reproduction" model="ir.ui.view">
+        <field name="name">gest_agri.animal.form.reproduction</field>
+        <field name="model">gest_agri.animal</field>
+        <field name="inherit_id" ref="gestion_agricole.view_gest_agri_animal_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box_health']" position="inside">
+                <button name="action_view_reproduction" type="object" class="oe_stat_button" icon="fa-venus-mars">
+                    <field name="reproduction_count" widget="statinfo" string="Reproduction"/>
+                </button>
+                <button name="action_view_gestations" type="object" class="oe_stat_button" icon="fa-calendar-check-o">
+                    <field name="gestation_count" widget="statinfo" string="Gestations"/>
+                </button>
+                <button name="action_view_births" type="object" class="oe_stat_button" icon="fa-child">
+                    <field name="birth_count" widget="statinfo" string="Mises bas"/>
+                </button>
+                <button name="action_view_mortalities" type="object" class="oe_stat_button" icon="fa-times-circle">
+                    <field name="mortality_count" widget="statinfo" string="Mortalités"/>
+                </button>
+            </xpath>
+            <xpath expr="//sheet" position="inside">
+                <group string="Filiation">
+                    <group>
+                        <field name="mother_id"/>
+                        <field name="father_id"/>
+                    </group>
+                    <group>
+                        <field name="birth_id"/>
+                        <field name="is_dead"/>
+                    </group>
+                </group>
+                <group string="Reproduction">
+                    <group>
+                        <field name="last_birth_date"/>
+                        <field name="next_expected_birth_date"/>
+                        <field name="alive_newborn_count"/>
+                        <field name="stillborn_count"/>
+                    </group>
+                    <group>
+                        <field name="gestation_terminated_count"/>
+                        <field name="gestation_failed_count"/>
+                        <field name="death_date"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Bouton mortalité sur la fiche lot -->
+    <record id="view_gest_agri_animal_lot_form_reproduction" model="ir.ui.view">
+        <field name="name">gest_agri.animal.lot.form.reproduction</field>
+        <field name="model">gest_agri.animal.lot</field>
+        <field name="inherit_id" ref="gestion_agricole.view_gest_agri_animal_lot_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box_health_lot']" position="inside">
+                <button name="action_view_mortalities" type="object" class="oe_stat_button" icon="fa-times-circle">
+                    <field name="mortality_count" widget="statinfo" string="Mortalités"/>
+                </button>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Menus -->
+    <menuitem id="menu_gestion_agricole_reproduction"
+              name="Reproduction"
+              parent="menu_gestion_agricole_elevage"
+              sequence="95"/>
+    <menuitem id="menu_gest_agri_animal_reproduction"
+              name="Événements reproductifs"
+              parent="menu_gestion_agricole_reproduction"
+              action="action_gest_agri_animal_reproduction"
+              sequence="10"/>
+    <menuitem id="menu_gest_agri_animal_gestation"
+              name="Gestations"
+              parent="menu_gestion_agricole_reproduction"
+              action="action_gest_agri_animal_gestation"
+              sequence="20"/>
+    <menuitem id="menu_gest_agri_animal_birth"
+              name="Mises bas et naissances"
+              parent="menu_gestion_agricole_reproduction"
+              action="action_gest_agri_animal_birth"
+              sequence="30"/>
+    <menuitem id="menu_gest_agri_animal_mortality"
+              name="Mortalité"
+              parent="menu_gestion_agricole_reproduction"
+              action="action_gest_agri_animal_mortality"
+              sequence="40"/>
+    <menuitem id="menu_gest_agri_reproduction_stats"
+              name="Statistiques reproductives"
+              parent="menu_gestion_agricole_reproduction"
+              action="action_gest_agri_reproduction_stats"
+              sequence="50"/>
+</odoo>

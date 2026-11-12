@@ -8,5 +8,6 @@ from . import economy
 from . import livestock
 from . import feeding
 from . import health
+from . import reproduction
 from . import res_users
 from . import patrimony

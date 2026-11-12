@@ -24,6 +24,20 @@ class GestAgriLivestockSpecies(ReferenceReservationMixin, models.Model):
         help="Laisser vide pour un référentiel global, réservé aux administrateurs.",
     )
     sequence = fields.Integer(string="Séquence", default=10)
+    gestation_duration_days = fields.Integer(
+        string="Durée de gestation (jours)",
+        help="Durée moyenne de gestation de l'espèce, utilisée pour calculer "
+             "la date prévue de mise bas. Laisser vide si l'espèce n'est pas "
+             "concernée par la reproduction suivie.",
+    )
+
+    @api.constrains("gestation_duration_days")
+    def _check_gestation_duration(self):
+        for species in self:
+            if species.gestation_duration_days and species.gestation_duration_days <= 0:
+                raise ValidationError(
+                    self.env._("La durée de gestation doit être strictement positive.")
+                )
 
     # Unicité garantie au niveau PostgreSQL.
     # Les index uniques sont la seule garantie d'unicité réellement fiable

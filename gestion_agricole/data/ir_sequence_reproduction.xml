@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_gest_agri_animal_reproduction" model="ir.sequence">
+        <field name="name">Événement reproductif</field>
+        <field name="code">gest_agri.animal.reproduction</field>
+        <field name="prefix">REP/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+    <record id="seq_gest_agri_animal_gestation" model="ir.sequence">
+        <field name="name">Gestation</field>
+        <field name="code">gest_agri.animal.gestation</field>
+        <field name="prefix">GES/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+    <record id="seq_gest_agri_animal_birth" model="ir.sequence">
+        <field name="name">Mise bas</field>
+        <field name="code">gest_agri.animal.birth</field>
+        <field name="prefix">NAI/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+    <record id="seq_gest_agri_animal_mortality" model="ir.sequence">
+        <field name="name">Mortalité animale</field>
+        <field name="code">gest_agri.animal.mortality</field>
+        <field name="prefix">MOR/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+</odoo>
