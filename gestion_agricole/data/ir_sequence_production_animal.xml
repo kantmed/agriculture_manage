@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_gest_agri_milk_production" model="ir.sequence">
+        <field name="name">Production laitière</field>
+        <field name="code">gest_agri.milk.production</field>
+        <field name="prefix">LAI/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+    <record id="seq_gest_agri_milking_session" model="ir.sequence">
+        <field name="name">Session de traite</field>
+        <field name="code">gest_agri.milking.session</field>
+        <field name="prefix">TRA/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+    <record id="seq_gest_agri_milk_quality" model="ir.sequence">
+        <field name="name">Qualité du lait</field>
+        <field name="code">gest_agri.milk.quality</field>
+        <field name="prefix">QLA/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+    <record id="seq_gest_agri_animal_weight" model="ir.sequence">
+        <field name="name">Pesée animale</field>
+        <field name="code">gest_agri.animal.weight</field>
+        <field name="prefix">PES/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+    <record id="seq_gest_agri_meat_production" model="ir.sequence">
+        <field name="name">Production de viande</field>
+        <field name="code">gest_agri.meat.production</field>
+        <field name="prefix">VIA/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+    <record id="seq_gest_agri_egg_production" model="ir.sequence">
+        <field name="name">Collecte d'œufs</field>
+        <field name="code">gest_agri.egg.production</field>
+        <field name="prefix">OEU/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+    <record id="seq_gest_agri_egg_quality" model="ir.sequence">
+        <field name="name">Qualité des œufs</field>
+        <field name="code">gest_agri.egg.quality</field>
+        <field name="prefix">QOE/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+</odoo>

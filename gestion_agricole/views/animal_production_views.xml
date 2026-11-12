@@ -1,0 +1,1025 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ================================================================= -->
+    <!-- Production laitière                                               -->
+    <!-- ================================================================= -->
+    <record id="view_gest_agri_milk_production_list" model="ir.ui.view">
+        <field name="name">gest_agri.milk.production.list</field>
+        <field name="model">gest_agri.milk.production</field>
+        <field name="arch" type="xml">
+            <list string="Productions laitières">
+                <field name="name"/>
+                <field name="production_date"/>
+                <field name="milking_period"/>
+                <field name="production_mode"/>
+                <field name="animal_id" optional="show"/>
+                <field name="lot_id" optional="show"/>
+                <field name="species_id" optional="hide"/>
+                <field name="quantity" sum="Total lait"/>
+                <field name="uom_id"/>
+                <field name="farm_id" optional="hide"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_milk_production_form" model="ir.ui.view">
+        <field name="name">gest_agri.milk.production.form</field>
+        <field name="model">gest_agri.milk.production</field>
+        <field name="arch" type="xml">
+            <form string="Production laitière">
+                <header>
+                    <button name="action_validate" type="object" string="Valider" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_cancel" type="object" string="Annuler" invisible="state == 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,validated,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Cible">
+                            <field name="production_mode"/>
+                            <field name="animal_id" invisible="production_mode != 'individual'"/>
+                            <field name="lot_id" invisible="production_mode != 'collective'"/>
+                            <field name="animal_count" invisible="production_mode != 'collective'"/>
+                        </group>
+                        <group string="Rattachement">
+                            <field name="farm_id"/>
+                            <field name="site_id"/>
+                            <field name="species_id"/>
+                            <field name="breed_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Production">
+                            <field name="production_date"/>
+                            <field name="milking_period"/>
+                            <field name="quantity"/>
+                            <field name="uom_id"/>
+                        </group>
+                        <group string="Suivi">
+                            <field name="responsible_id"/>
+                            <field name="quality_count"/>
+                            <field name="has_non_conformity"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Contrôles de qualité" name="quality">
+                            <field name="quality_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="control_date"/>
+                                    <field name="conformity" widget="badge"/>
+                                    <field name="laboratory"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Observations" name="notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_milk_production_search" model="ir.ui.view">
+        <field name="name">gest_agri.milk.production.search</field>
+        <field name="model">gest_agri.milk.production</field>
+        <field name="arch" type="xml">
+            <search string="Productions laitières">
+                <field name="name"/>
+                <field name="animal_id"/>
+                <field name="lot_id"/>
+                <field name="farm_id"/>
+                <field name="site_id"/>
+                <field name="species_id"/>
+                <field name="production_date"/>
+                <filter string="Brouillons" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Validées" name="validated" domain="[('state','=','validated')]"/>
+                <filter string="Annulées" name="cancelled" domain="[('state','=','cancelled')]"/>
+                <separator/>
+                <filter string="Individuelles" name="individual" domain="[('production_mode','=','individual')]"/>
+                <filter string="Collectives" name="collective" domain="[('production_mode','=','collective')]"/>
+                <separator/>
+                <filter string="Matin" name="morning" domain="[('milking_period','=','morning')]"/>
+                <filter string="Midi" name="noon" domain="[('milking_period','=','noon')]"/>
+                <filter string="Soir" name="evening" domain="[('milking_period','=','evening')]"/>
+                <separator/>
+                <filter string="Aujourd'hui" name="today" domain="[('production_date','=', context_today().strftime('%Y-%m-%d'))]"/>
+                <filter string="Ce mois" name="this_month" domain="[('production_date','&gt;=', (context_today().replace(day=1)).strftime('%Y-%m-%d'))]"/>
+                <group>
+                    <filter string="Exploitation" name="group_farm" context="{'group_by':'farm_id'}"/>
+                    <filter string="Site" name="group_site" context="{'group_by':'site_id'}"/>
+                    <filter string="Espèce" name="group_species" context="{'group_by':'species_id'}"/>
+                    <filter string="Animal" name="group_animal" context="{'group_by':'animal_id'}"/>
+                    <filter string="Lot" name="group_lot" context="{'group_by':'lot_id'}"/>
+                    <filter string="Période" name="group_period" context="{'group_by':'milking_period'}"/>
+                    <filter string="Mois" name="group_month" context="{'group_by':'production_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_milk_production" model="ir.actions.act_window">
+        <field name="name">Productions laitières</field>
+        <field name="res_model">gest_agri.milk.production</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Sessions de traite -->
+    <record id="view_gest_agri_milking_session_list" model="ir.ui.view">
+        <field name="name">gest_agri.milking.session.list</field>
+        <field name="model">gest_agri.milking.session</field>
+        <field name="arch" type="xml">
+            <list string="Sessions de traite">
+                <field name="name"/>
+                <field name="start_datetime"/>
+                <field name="milking_period"/>
+                <field name="farm_id"/>
+                <field name="total_quantity" sum="Total lait"/>
+                <field name="animal_count" sum="Animaux traits"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_milking_session_form" model="ir.ui.view">
+        <field name="name">gest_agri.milking.session.form</field>
+        <field name="model">gest_agri.milking.session</field>
+        <field name="arch" type="xml">
+            <form string="Session de traite">
+                <header>
+                    <button name="action_done" type="object" string="Terminer" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_cancel" type="object" string="Annuler" invisible="state == 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Session">
+                            <field name="farm_id"/>
+                            <field name="site_id"/>
+                            <field name="milking_period"/>
+                            <field name="responsible_id"/>
+                        </group>
+                        <group string="Chronologie">
+                            <field name="start_datetime"/>
+                            <field name="end_datetime"/>
+                            <field name="total_quantity"/>
+                            <field name="animal_count"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Lignes de traite" name="lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="animal_id"/>
+                                    <field name="lot_id"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="animal_count"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Observations" name="notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_milking_session_search" model="ir.ui.view">
+        <field name="name">gest_agri.milking.session.search</field>
+        <field name="model">gest_agri.milking.session</field>
+        <field name="arch" type="xml">
+            <search string="Sessions de traite">
+                <field name="name"/>
+                <field name="farm_id"/>
+                <field name="site_id"/>
+                <field name="start_datetime"/>
+                <filter string="Brouillons" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Terminées" name="done" domain="[('state','=','done')]"/>
+                <filter string="Annulées" name="cancelled" domain="[('state','=','cancelled')]"/>
+                <group>
+                    <filter string="Exploitation" name="group_farm" context="{'group_by':'farm_id'}"/>
+                    <filter string="Période" name="group_period" context="{'group_by':'milking_period'}"/>
+                    <filter string="Mois" name="group_month" context="{'group_by':'start_datetime:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_milking_session" model="ir.actions.act_window">
+        <field name="name">Sessions de traite</field>
+        <field name="res_model">gest_agri.milking.session</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Qualité du lait -->
+    <record id="view_gest_agri_milk_quality_list" model="ir.ui.view">
+        <field name="name">gest_agri.milk.quality.list</field>
+        <field name="model">gest_agri.milk.quality</field>
+        <field name="arch" type="xml">
+            <list string="Contrôles de qualité du lait">
+                <field name="name"/>
+                <field name="control_date"/>
+                <field name="production_id"/>
+                <field name="farm_id"/>
+                <field name="laboratory"/>
+                <field name="conformity" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_milk_quality_form" model="ir.ui.view">
+        <field name="name">gest_agri.milk.quality.form</field>
+        <field name="model">gest_agri.milk.quality</field>
+        <field name="arch" type="xml">
+            <form string="Contrôle de qualité du lait">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Contrôle">
+                            <field name="production_id"/>
+                            <field name="farm_id"/>
+                            <field name="control_date"/>
+                            <field name="responsible_id"/>
+                            <field name="laboratory"/>
+                            <field name="conformity"/>
+                            <field name="health_record_id"/>
+                        </group>
+                        <group string="Mesures">
+                            <field name="temperature"/>
+                            <field name="fat_rate"/>
+                            <field name="protein_rate"/>
+                            <field name="density"/>
+                            <field name="ph"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="microbiological_result"/>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_milk_quality_search" model="ir.ui.view">
+        <field name="name">gest_agri.milk.quality.search</field>
+        <field name="model">gest_agri.milk.quality</field>
+        <field name="arch" type="xml">
+            <search string="Contrôles de qualité du lait">
+                <field name="name"/>
+                <field name="production_id"/>
+                <field name="farm_id"/>
+                <field name="laboratory"/>
+                <filter string="Conformes" name="conforme" domain="[('conformity','=','conforme')]"/>
+                <filter string="Non conformes" name="non_conforme" domain="[('conformity','=','non_conforme')]"/>
+                <filter string="En attente" name="pending" domain="[('conformity','=','pending')]"/>
+                <filter string="À contrôler" name="to_control" domain="[('conformity','=','to_control')]"/>
+                <group>
+                    <filter string="Exploitation" name="group_farm" context="{'group_by':'farm_id'}"/>
+                    <filter string="Conformité" name="group_conformity" context="{'group_by':'conformity'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_milk_quality" model="ir.actions.act_window">
+        <field name="name">Contrôles de qualité du lait</field>
+        <field name="res_model">gest_agri.milk.quality</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ================================================================= -->
+    <!-- Croissance et viande                                              -->
+    <!-- ================================================================= -->
+    <record id="view_gest_agri_animal_weight_list" model="ir.ui.view">
+        <field name="name">gest_agri.animal.weight.list</field>
+        <field name="model">gest_agri.animal.weight</field>
+        <field name="arch" type="xml">
+            <list string="Pesées">
+                <field name="name"/>
+                <field name="weighing_datetime"/>
+                <field name="weighing_mode"/>
+                <field name="weighing_type"/>
+                <field name="animal_id"/>
+                <field name="lot_id"/>
+                <field name="weight" sum="Poids"/>
+                <field name="average_weight"/>
+                <field name="average_daily_gain"/>
+                <field name="uom_id"/>
+                <field name="farm_id" optional="hide"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_animal_weight_form" model="ir.ui.view">
+        <field name="name">gest_agri.animal.weight.form</field>
+        <field name="model">gest_agri.animal.weight</field>
+        <field name="arch" type="xml">
+            <form string="Pesée">
+                <header>
+                    <button name="action_validate" type="object" string="Valider" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_cancel" type="object" string="Annuler" invisible="state == 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,validated,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Cible">
+                            <field name="weighing_mode"/>
+                            <field name="animal_id" invisible="weighing_mode != 'individual'"/>
+                            <field name="lot_id" invisible="weighing_mode != 'collective'"/>
+                            <field name="weighing_type"/>
+                            <field name="weighing_datetime"/>
+                        </group>
+                        <group string="Rattachement">
+                            <field name="farm_id"/>
+                            <field name="site_id"/>
+                            <field name="species_id"/>
+                            <field name="responsible_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Mesures">
+                            <field name="weight" invisible="weighing_mode != 'individual'"/>
+                            <field name="average_weight" invisible="weighing_mode != 'collective'"/>
+                            <field name="animal_count" invisible="weighing_mode != 'collective'"/>
+                            <field name="uom_id"/>
+                            <field name="equipment"/>
+                        </group>
+                        <group string="Croissance" invisible="weighing_mode != 'individual'">
+                            <field name="previous_weight"/>
+                            <field name="weight_gain"/>
+                            <field name="days_interval"/>
+                            <field name="average_daily_gain"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_animal_weight_search" model="ir.ui.view">
+        <field name="name">gest_agri.animal.weight.search</field>
+        <field name="model">gest_agri.animal.weight</field>
+        <field name="arch" type="xml">
+            <search string="Pesées">
+                <field name="name"/>
+                <field name="animal_id"/>
+                <field name="lot_id"/>
+                <field name="farm_id"/>
+                <field name="species_id"/>
+                <field name="weighing_datetime"/>
+                <filter string="Brouillons" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Validées" name="validated" domain="[('state','=','validated')]"/>
+                <filter string="Annulées" name="cancelled" domain="[('state','=','cancelled')]"/>
+                <separator/>
+                <filter string="Individuelles" name="individual" domain="[('weighing_mode','=','individual')]"/>
+                <filter string="Collectives" name="collective" domain="[('weighing_mode','=','collective')]"/>
+                <group>
+                    <filter string="Exploitation" name="group_farm" context="{'group_by':'farm_id'}"/>
+                    <filter string="Espèce" name="group_species" context="{'group_by':'species_id'}"/>
+                    <filter string="Animal" name="group_animal" context="{'group_by':'animal_id'}"/>
+                    <filter string="Lot" name="group_lot" context="{'group_by':'lot_id'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by':'weighing_type'}"/>
+                    <filter string="Mois" name="group_month" context="{'group_by':'weighing_datetime:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_animal_weight" model="ir.actions.act_window">
+        <field name="name">Pesées</field>
+        <field name="res_model">gest_agri.animal.weight</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Productions de viande -->
+    <record id="view_gest_agri_meat_production_list" model="ir.ui.view">
+        <field name="name">gest_agri.meat.production.list</field>
+        <field name="model">gest_agri.meat.production</field>
+        <field name="arch" type="xml">
+            <list string="Productions de viande">
+                <field name="name"/>
+                <field name="production_date"/>
+                <field name="animal_id"/>
+                <field name="lot_id"/>
+                <field name="production_type_id"/>
+                <field name="live_weight" sum="Poids vif"/>
+                <field name="carcass_weight" sum="Carcasse"/>
+                <field name="marketable_weight" sum="Commercialisable"/>
+                <field name="carcass_yield"/>
+                <field name="uom_id"/>
+                <field name="farm_id" optional="hide"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_meat_production_form" model="ir.ui.view">
+        <field name="name">gest_agri.meat.production.form</field>
+        <field name="model">gest_agri.meat.production</field>
+        <field name="arch" type="xml">
+            <form string="Production de viande">
+                <header>
+                    <button name="action_validate" type="object" string="Valider" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_cancel" type="object" string="Annuler" invisible="state == 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,validated,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Animal">
+                            <field name="animal_id"/>
+                            <field name="lot_id"/>
+                            <field name="species_id"/>
+                            <field name="breed_id"/>
+                        </group>
+                        <group string="Rattachement">
+                            <field name="farm_id"/>
+                            <field name="site_id"/>
+                            <field name="production_date"/>
+                            <field name="production_type_id"/>
+                            <field name="responsible_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Poids">
+                            <field name="live_weight"/>
+                            <field name="carcass_weight"/>
+                            <field name="marketable_weight"/>
+                            <field name="uom_id"/>
+                        </group>
+                        <group string="Rendement">
+                            <field name="carcass_yield"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Documentation">
+                            <field name="slaughterhouse"/>
+                            <field name="document_reference"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_meat_production_search" model="ir.ui.view">
+        <field name="name">gest_agri.meat.production.search</field>
+        <field name="model">gest_agri.meat.production</field>
+        <field name="arch" type="xml">
+            <search string="Productions de viande">
+                <field name="name"/>
+                <field name="animal_id"/>
+                <field name="lot_id"/>
+                <field name="farm_id"/>
+                <field name="species_id"/>
+                <field name="production_date"/>
+                <filter string="Brouillons" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Validées" name="validated" domain="[('state','=','validated')]"/>
+                <filter string="Annulées" name="cancelled" domain="[('state','=','cancelled')]"/>
+                <group>
+                    <filter string="Exploitation" name="group_farm" context="{'group_by':'farm_id'}"/>
+                    <filter string="Espèce" name="group_species" context="{'group_by':'species_id'}"/>
+                    <filter string="Animal" name="group_animal" context="{'group_by':'animal_id'}"/>
+                    <filter string="Lot" name="group_lot" context="{'group_by':'lot_id'}"/>
+                    <filter string="Type" name="group_type" context="{'group_by':'production_type_id'}"/>
+                    <filter string="Mois" name="group_month" context="{'group_by':'production_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_meat_production" model="ir.actions.act_window">
+        <field name="name">Productions de viande</field>
+        <field name="res_model">gest_agri.meat.production</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ================================================================= -->
+    <!-- Production d'œufs                                                 -->
+    <!-- ================================================================= -->
+    <record id="view_gest_agri_egg_production_list" model="ir.ui.view">
+        <field name="name">gest_agri.egg.production.list</field>
+        <field name="model">gest_agri.egg.production</field>
+        <field name="arch" type="xml">
+            <list string="Collectes d'œufs">
+                <field name="name"/>
+                <field name="collection_date"/>
+                <field name="lot_id"/>
+                <field name="farm_id"/>
+                <field name="egg_count" sum="Œufs collectés"/>
+                <field name="line_egg_count" sum="Œufs classés"/>
+                <field name="loss_egg_count" sum="Pertes"/>
+                <field name="uom_id"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_egg_production_form" model="ir.ui.view">
+        <field name="name">gest_agri.egg.production.form</field>
+        <field name="model">gest_agri.egg.production</field>
+        <field name="arch" type="xml">
+            <form string="Collecte d'œufs">
+                <header>
+                    <button name="action_validate" type="object" string="Valider" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_cancel" type="object" string="Annuler" invisible="state == 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,validated,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Collecte">
+                            <field name="lot_id"/>
+                            <field name="collection_date"/>
+                            <field name="responsible_id"/>
+                            <field name="egg_count"/>
+                            <field name="total_quantity"/>
+                            <field name="uom_id"/>
+                        </group>
+                        <group string="Rattachement et indicateurs">
+                            <field name="farm_id"/>
+                            <field name="site_id"/>
+                            <field name="species_id"/>
+                            <field name="breed_id"/>
+                            <field name="line_egg_count"/>
+                            <field name="loss_egg_count"/>
+                            <field name="quality_count"/>
+                            <field name="has_non_conformity"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Classement" name="lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="category_id"/>
+                                    <field name="egg_count"/>
+                                    <field name="total_weight"/>
+                                    <field name="average_weight"/>
+                                    <field name="notes"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Contrôles de qualité" name="quality">
+                            <field name="quality_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="control_date"/>
+                                    <field name="conformity" widget="badge"/>
+                                    <field name="cleanliness"/>
+                                    <field name="shell_integrity"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Observations" name="notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_egg_production_search" model="ir.ui.view">
+        <field name="name">gest_agri.egg.production.search</field>
+        <field name="model">gest_agri.egg.production</field>
+        <field name="arch" type="xml">
+            <search string="Collectes d'œufs">
+                <field name="name"/>
+                <field name="lot_id"/>
+                <field name="farm_id"/>
+                <field name="species_id"/>
+                <field name="collection_date"/>
+                <filter string="Brouillons" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Validées" name="validated" domain="[('state','=','validated')]"/>
+                <filter string="Annulées" name="cancelled" domain="[('state','=','cancelled')]"/>
+                <filter string="Avec pertes" name="with_loss" domain="[('loss_egg_count','&gt;',0)]"/>
+                <group>
+                    <filter string="Exploitation" name="group_farm" context="{'group_by':'farm_id'}"/>
+                    <filter string="Lot" name="group_lot" context="{'group_by':'lot_id'}"/>
+                    <filter string="Espèce" name="group_species" context="{'group_by':'species_id'}"/>
+                    <filter string="Mois" name="group_month" context="{'group_by':'collection_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_egg_production" model="ir.actions.act_window">
+        <field name="name">Collectes d'œufs</field>
+        <field name="res_model">gest_agri.egg.production</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Classement des œufs (lignes) -->
+    <record id="view_gest_agri_egg_production_line_list" model="ir.ui.view">
+        <field name="name">gest_agri.egg.production.line.list</field>
+        <field name="model">gest_agri.egg.production.line</field>
+        <field name="arch" type="xml">
+            <list string="Classement des œufs" editable="bottom">
+                <field name="production_id"/>
+                <field name="category_id"/>
+                <field name="egg_count" sum="Œufs"/>
+                <field name="total_weight" sum="Poids"/>
+                <field name="average_weight"/>
+                <field name="farm_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_egg_production_line_search" model="ir.ui.view">
+        <field name="name">gest_agri.egg.production.line.search</field>
+        <field name="model">gest_agri.egg.production.line</field>
+        <field name="arch" type="xml">
+            <search string="Classement des œufs">
+                <field name="production_id"/>
+                <field name="category_id"/>
+                <field name="farm_id"/>
+                <group>
+                    <filter string="Catégorie" name="group_category" context="{'group_by':'category_id'}"/>
+                    <filter string="Exploitation" name="group_farm" context="{'group_by':'farm_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_egg_production_line" model="ir.actions.act_window">
+        <field name="name">Classement des œufs</field>
+        <field name="res_model">gest_agri.egg.production.line</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Qualité des œufs -->
+    <record id="view_gest_agri_egg_quality_list" model="ir.ui.view">
+        <field name="name">gest_agri.egg.quality.list</field>
+        <field name="model">gest_agri.egg.quality</field>
+        <field name="arch" type="xml">
+            <list string="Contrôles de qualité des œufs">
+                <field name="name"/>
+                <field name="control_date"/>
+                <field name="production_id"/>
+                <field name="farm_id"/>
+                <field name="cleanliness"/>
+                <field name="shell_integrity"/>
+                <field name="conformity" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_egg_quality_form" model="ir.ui.view">
+        <field name="name">gest_agri.egg.quality.form</field>
+        <field name="model">gest_agri.egg.quality</field>
+        <field name="arch" type="xml">
+            <form string="Contrôle de qualité des œufs">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Contrôle">
+                            <field name="production_id"/>
+                            <field name="farm_id"/>
+                            <field name="control_date"/>
+                            <field name="responsible_id"/>
+                            <field name="conformity"/>
+                        </group>
+                        <group string="Caractéristiques">
+                            <field name="cleanliness"/>
+                            <field name="shell_integrity"/>
+                            <field name="weight"/>
+                            <field name="freshness_days"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="result"/>
+                        <field name="notes"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_egg_quality_search" model="ir.ui.view">
+        <field name="name">gest_agri.egg.quality.search</field>
+        <field name="model">gest_agri.egg.quality</field>
+        <field name="arch" type="xml">
+            <search string="Contrôles de qualité des œufs">
+                <field name="name"/>
+                <field name="production_id"/>
+                <field name="farm_id"/>
+                <filter string="Conformes" name="conforme" domain="[('conformity','=','conforme')]"/>
+                <filter string="Non conformes" name="non_conforme" domain="[('conformity','=','non_conforme')]"/>
+                <filter string="En attente" name="pending" domain="[('conformity','=','pending')]"/>
+                <filter string="À contrôler" name="to_control" domain="[('conformity','=','to_control')]"/>
+                <group>
+                    <filter string="Exploitation" name="group_farm" context="{'group_by':'farm_id'}"/>
+                    <filter string="Conformité" name="group_conformity" context="{'group_by':'conformity'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_egg_quality" model="ir.actions.act_window">
+        <field name="name">Contrôles de qualité des œufs</field>
+        <field name="res_model">gest_agri.egg.quality</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Catégories d'œufs (référentiel configurable) -->
+    <record id="view_gest_agri_egg_category_list" model="ir.ui.view">
+        <field name="name">gest_agri.egg.category.list</field>
+        <field name="model">gest_agri.egg.category</field>
+        <field name="arch" type="xml">
+            <list string="Catégories d'œufs">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="is_loss"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_egg_category_form" model="ir.ui.view">
+        <field name="name">gest_agri.egg.category.form</field>
+        <field name="model">gest_agri.egg.category</field>
+        <field name="arch" type="xml">
+            <form string="Catégorie d'œufs">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Ex. Gros"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="sequence"/>
+                            <field name="is_loss"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_egg_category_search" model="ir.ui.view">
+        <field name="name">gest_agri.egg.category.search</field>
+        <field name="model">gest_agri.egg.category</field>
+        <field name="arch" type="xml">
+            <search string="Catégories d'œufs">
+                <field name="name"/>
+                <field name="code"/>
+                <filter string="Pertes / déclassements" name="loss" domain="[('is_loss','=',True)]"/>
+                <filter string="Commercialisables" name="marketable" domain="[('is_loss','=',False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_egg_category" model="ir.actions.act_window">
+        <field name="name">Catégories d'œufs</field>
+        <field name="res_model">gest_agri.egg.category</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ================================================================= -->
+    <!-- Statistiques                                                      -->
+    <!-- ================================================================= -->
+    <record id="action_gest_agri_milk_stats" model="ir.actions.act_window">
+        <field name="name">Statistiques laitières</field>
+        <field name="res_model">gest_agri.milk.production</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state','=','validated')]</field>
+        <field name="context">{'search_default_group_farm': 1, 'search_default_group_month': 1}</field>
+    </record>
+
+    <record id="action_gest_agri_growth_stats" model="ir.actions.act_window">
+        <field name="name">Statistiques de croissance</field>
+        <field name="res_model">gest_agri.animal.weight</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state','=','validated'),('weighing_mode','=','individual')]</field>
+        <field name="context">{'search_default_group_farm': 1, 'search_default_group_animal': 1}</field>
+    </record>
+
+    <record id="action_gest_agri_meat_stats" model="ir.actions.act_window">
+        <field name="name">Statistiques viande</field>
+        <field name="res_model">gest_agri.meat.production</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state','=','validated')]</field>
+        <field name="context">{'search_default_group_farm': 1, 'search_default_group_species': 1}</field>
+    </record>
+
+    <record id="action_gest_agri_egg_stats" model="ir.actions.act_window">
+        <field name="name">Statistiques œufs</field>
+        <field name="res_model">gest_agri.egg.production</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state','=','validated')]</field>
+        <field name="context">{'search_default_group_farm': 1, 'search_default_group_month': 1}</field>
+    </record>
+
+    <!-- ================================================================= -->
+    <!-- Boutons intelligents : fiche animal                               -->
+    <!-- ================================================================= -->
+    <record id="view_gest_agri_animal_form_production" model="ir.ui.view">
+        <field name="name">gest_agri.animal.form.production</field>
+        <field name="model">gest_agri.animal</field>
+        <field name="inherit_id" ref="gestion_agricole.view_gest_agri_animal_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box_health']" position="after">
+                <div class="oe_button_box" name="button_box_production">
+                    <button name="action_view_milk_productions" type="object" class="oe_stat_button" icon="fa-tint">
+                        <field name="milk_production_count" widget="statinfo" string="Productions lait"/>
+                    </button>
+                    <button name="action_view_weights" type="object" class="oe_stat_button" icon="fa-balance-scale">
+                        <field name="weight_count" widget="statinfo" string="Pesées"/>
+                    </button>
+                    <button name="action_view_meat_productions" type="object" class="oe_stat_button" icon="fa-cutlery">
+                        <field name="meat_production_count" widget="statinfo" string="Viande"/>
+                    </button>
+                </div>
+            </xpath>
+            <xpath expr="//sheet" position="inside">
+                <group string="Engraissement et production">
+                    <group>
+                        <field name="meat_destined"/>
+                        <field name="fattening_start_date"/>
+                        <field name="fattening_end_date"/>
+                    </group>
+                    <group>
+                        <field name="fattening_lot_id"/>
+                        <field name="fattening_responsible_id"/>
+                        <field name="last_weight"/>
+                        <field name="last_weight_date"/>
+                    </group>
+                </group>
+                <group string="Observations d'engraissement">
+                    <field name="fattening_notes" nolabel="1"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Boutons intelligents : fiche lot -->
+    <record id="view_gest_agri_animal_lot_form_production" model="ir.ui.view">
+        <field name="name">gest_agri.animal.lot.form.production</field>
+        <field name="model">gest_agri.animal.lot</field>
+        <field name="inherit_id" ref="gestion_agricole.view_gest_agri_animal_lot_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box_health_lot']" position="after">
+                <div class="oe_button_box" name="button_box_production_lot">
+                    <button name="action_view_milk_productions" type="object" class="oe_stat_button" icon="fa-tint">
+                        <field name="milk_production_count" widget="statinfo" string="Lait"/>
+                    </button>
+                    <button name="action_view_egg_productions" type="object" class="oe_stat_button" icon="fa-dot-circle-o">
+                        <field name="egg_production_count" widget="statinfo" string="Œufs"/>
+                    </button>
+                    <button name="action_view_weights" type="object" class="oe_stat_button" icon="fa-balance-scale">
+                        <field name="weight_count" widget="statinfo" string="Pesées"/>
+                    </button>
+                    <button name="action_view_meat_productions" type="object" class="oe_stat_button" icon="fa-cutlery">
+                        <field name="meat_production_count" widget="statinfo" string="Viande"/>
+                    </button>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- ================================================================= -->
+    <!-- Menus                                                             -->
+    <!-- ================================================================= -->
+    <menuitem id="menu_gestion_agricole_production_animale"
+              name="Production animale"
+              parent="menu_gestion_agricole_elevage"
+              sequence="100"/>
+
+    <menuitem id="menu_gest_agri_production_lait"
+              name="Production laitière"
+              parent="menu_gestion_agricole_production_animale"
+              sequence="10"/>
+    <menuitem id="menu_gest_agri_milk_production"
+              name="Productions laitières"
+              parent="menu_gest_agri_production_lait"
+              action="action_gest_agri_milk_production"
+              sequence="10"/>
+    <menuitem id="menu_gest_agri_milking_session"
+              name="Sessions de traite"
+              parent="menu_gest_agri_production_lait"
+              action="action_gest_agri_milking_session"
+              sequence="20"/>
+    <menuitem id="menu_gest_agri_milk_quality"
+              name="Contrôles de qualité du lait"
+              parent="menu_gest_agri_production_lait"
+              action="action_gest_agri_milk_quality"
+              sequence="30"/>
+
+    <menuitem id="menu_gest_agri_croissance_viande"
+              name="Croissance et viande"
+              parent="menu_gestion_agricole_production_animale"
+              sequence="20"/>
+    <menuitem id="menu_gest_agri_animal_weight"
+              name="Pesées"
+              parent="menu_gest_agri_croissance_viande"
+              action="action_gest_agri_animal_weight"
+              sequence="10"/>
+    <menuitem id="menu_gest_agri_growth_stats"
+              name="Suivi de croissance"
+              parent="menu_gest_agri_croissance_viande"
+              action="action_gest_agri_growth_stats"
+              sequence="20"/>
+    <menuitem id="menu_gest_agri_meat_production"
+              name="Productions de viande"
+              parent="menu_gest_agri_croissance_viande"
+              action="action_gest_agri_meat_production"
+              sequence="30"/>
+
+    <menuitem id="menu_gest_agri_production_oeufs"
+              name="Production d'œufs"
+              parent="menu_gestion_agricole_production_animale"
+              sequence="30"/>
+    <menuitem id="menu_gest_agri_egg_production"
+              name="Collectes d'œufs"
+              parent="menu_gest_agri_production_oeufs"
+              action="action_gest_agri_egg_production"
+              sequence="10"/>
+    <menuitem id="menu_gest_agri_egg_production_line"
+              name="Classement des œufs"
+              parent="menu_gest_agri_production_oeufs"
+              action="action_gest_agri_egg_production_line"
+              sequence="20"/>
+    <menuitem id="menu_gest_agri_egg_quality"
+              name="Contrôles de qualité"
+              parent="menu_gest_agri_production_oeufs"
+              action="action_gest_agri_egg_quality"
+              sequence="30"/>
+
+    <menuitem id="menu_gest_agri_production_stats"
+              name="Statistiques"
+              parent="menu_gestion_agricole_production_animale"
+              sequence="40"/>
+    <menuitem id="menu_gest_agri_milk_stats"
+              name="Statistiques laitières"
+              parent="menu_gest_agri_production_stats"
+              action="action_gest_agri_milk_stats"
+              sequence="10"/>
+    <menuitem id="menu_gest_agri_growth_stats_menu"
+              name="Statistiques de croissance"
+              parent="menu_gest_agri_production_stats"
+              action="action_gest_agri_growth_stats"
+              sequence="20"/>
+    <menuitem id="menu_gest_agri_meat_stats"
+              name="Statistiques viande"
+              parent="menu_gest_agri_production_stats"
+              action="action_gest_agri_meat_stats"
+              sequence="30"/>
+    <menuitem id="menu_gest_agri_egg_stats"
+              name="Statistiques œufs"
+              parent="menu_gest_agri_production_stats"
+              action="action_gest_agri_egg_stats"
+              sequence="40"/>
+
+    <menuitem id="menu_gest_agri_egg_category"
+              name="Catégories d'œufs"
+              parent="menu_gestion_agricole_configuration"
+              action="action_gest_agri_egg_category"
+              sequence="95"/>
+</odoo>
