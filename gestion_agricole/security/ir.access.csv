@@ -79,3 +79,6 @@ gest_agri_crop_campaign_admin_crud,Campagnes agricoles - administration,gest_agr
 gest_agri_crop_intervention_user_read,Interventions agricoles - lecture utilisateur,gest_agri.crop.intervention,group_gest_agri_user,r,"[('farm_id', 'in', user.gest_agri_farm_ids.ids)]"
 gest_agri_crop_intervention_manager_create_update,Interventions agricoles - gestion responsable,gest_agri.crop.intervention,group_gest_agri_manager,cu,"[('farm_id', 'in', user.gest_agri_managed_farm_ids.ids)]"
 gest_agri_crop_intervention_admin_crud,Interventions agricoles - administration,gest_agri.crop.intervention,group_gest_agri_admin,crud,"[('company_id', 'in', company_ids)]"
+gest_agri_crop_harvest_user_read,Récoltes - lecture utilisateur,gest_agri.crop.harvest,group_gest_agri_user,r,"[('farm_id', 'in', user.gest_agri_farm_ids.ids)]"
+gest_agri_crop_harvest_manager_create_update,Récoltes - gestion responsable,gest_agri.crop.harvest,group_gest_agri_manager,cu,"[('farm_id', 'in', user.gest_agri_managed_farm_ids.ids)]"
+gest_agri_crop_harvest_admin_crud,Récoltes - administration,gest_agri.crop.harvest,group_gest_agri_admin,crud,"[('company_id', 'in', company_ids)]"

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_gest_agri_crop_harvest_list" model="ir.ui.view">
+        <field name="name">gest_agri.crop.harvest.list</field>
+        <field name="model">gest_agri.crop.harvest</field>
+        <field name="arch" type="xml">
+            <list string="Récoltes">
+                <field name="name"/>
+                <field name="cycle_id"/>
+                <field name="plot_id"/>
+                <field name="campaign_id"/>
+                <field name="harvest_date"/>
+                <field name="quantity"/>
+                <field name="uom_id"/>
+                <field name="harvested_area"/>
+                <field name="yield_qty"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_crop_harvest_form" model="ir.ui.view">
+        <field name="name">gest_agri.crop.harvest.form</field>
+        <field name="model">gest_agri.crop.harvest</field>
+        <field name="arch" type="xml">
+            <form string="Récolte agricole">
+                <header>
+                    <button name="action_validate" string="Valider" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_cancel" string="Annuler" type="object" invisible="state not in ('draft', 'validated')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,validated,cancelled"/>
+                </header>
+                <sheet>
+                    <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
+                    <div class="oe_title">
+                        <label for="name" string="Référence"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Cycle et contexte">
+                            <field name="cycle_id" options="{'no_create': True}"/>
+                            <field name="plot_id" readonly="1"/>
+                            <field name="campaign_id" readonly="1"/>
+                            <field name="farm_id" readonly="1"/>
+                            <field name="company_id" readonly="1" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Récolte">
+                            <field name="harvest_date"/>
+                            <field name="quantity"/>
+                            <field name="uom_id"/>
+                            <field name="harvested_area"/>
+                            <field name="yield_qty" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="notes" placeholder="Observations sur la récolte..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_crop_harvest_search" model="ir.ui.view">
+        <field name="name">gest_agri.crop.harvest.search</field>
+        <field name="model">gest_agri.crop.harvest</field>
+        <field name="arch" type="xml">
+            <search string="Récoltes">
+                <field name="name"/>
+                <field name="cycle_id"/>
+                <field name="plot_id"/>
+                <field name="campaign_id"/>
+                <field name="farm_id"/>
+                <filter name="draft" string="Brouillon" domain="[('state', '=', 'draft')]"/>
+                <filter name="validated" string="Validées" domain="[('state', '=', 'validated')]"/>
+                <filter name="cancelled" string="Annulées" domain="[('state', '=', 'cancelled')]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_crop_harvest" model="ir.actions.act_window">
+        <field name="name">Récoltes</field>
+        <field name="res_model">gest_agri.crop.harvest</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Aucune récolte enregistrée.</p>
+            <p>Créez une récolte pour suivre les productions d'un cycle.</p>
+        </field>
+    </record>
+
+    <menuitem id="menu_gest_agri_crop_harvest" name="Récoltes"
+              parent="menu_gestion_agricole_production_vegetale"
+              action="action_gest_agri_crop_harvest" sequence="20"
+              groups="gestion_agricole.group_gest_agri_user"/>
+</odoo>

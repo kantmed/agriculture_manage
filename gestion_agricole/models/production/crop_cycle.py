@@ -157,6 +157,23 @@ class GestAgriCropCycle(models.Model):
                 cycle.with_context(active_test=False).intervention_ids
             )
 
+    harvest_ids = fields.One2many(
+        "gest_agri.crop.harvest",
+        "cycle_id",
+        string="Récoltes",
+    )
+    harvest_count = fields.Integer(
+        string="Nombre de récoltes",
+        compute="_compute_harvest_count",
+    )
+
+    @api.depends("harvest_ids", "harvest_ids.active")
+    def _compute_harvest_count(self):
+        for cycle in self:
+            cycle.harvest_count = len(
+                cycle.with_context(active_test=False).harvest_ids
+            )
+
     # ------------------------------------------------------------------
     # Contraintes SQL
     # ------------------------------------------------------------------
@@ -571,4 +588,14 @@ class GestAgriCropCycle(models.Model):
         )
         action["domain"] = [("crop_cycle_id", "=", self.id)]
         action["context"] = {"default_crop_cycle_id": self.id}
+        return action
+
+    def action_view_harvests(self):
+        """Ouvre les récoltes associées au cycle courant."""
+        self.ensure_one()
+        action = self.env["ir.actions.act_window"]._for_xml_id(
+            "gestion_agricole.action_gest_agri_crop_harvest"
+        )
+        action["domain"] = [("cycle_id", "=", self.id)]
+        action["context"] = {"default_cycle_id": self.id}
         return action

@@ -52,6 +52,11 @@
                             <field name="intervention_count" widget="statinfo"
                                    string="Interventions"/>
                         </button>
+                        <button name="action_view_harvests" type="object"
+                                class="oe_stat_button" icon="fa-leaf">
+                            <field name="harvest_count" widget="statinfo"
+                                   string="Récoltes"/>
+                        </button>
                     </div>
                     <widget name="web_ribbon" title="Archivé" bg_color="text-bg-danger" invisible="active"/>
                     <div class="oe_title">
@@ -102,6 +107,22 @@
                             </field>
                             <button name="action_view_interventions" type="object"
                                     class="btn btn-link" string="Ouvrir toutes les interventions du cycle"/>
+                        </page>
+                        <page string="Récoltes" name="harvests">
+                            <field name="harvest_ids" context="{'default_cycle_id': id}">
+                                <list create="false" edit="false">
+                                    <field name="name"/>
+                                    <field name="harvest_date"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="harvested_area"/>
+                                    <field name="yield_qty"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="active" column_invisible="1"/>
+                                </list>
+                            </field>
+                            <button name="action_view_harvests" type="object"
+                                    class="btn btn-link" string="Ouvrir toutes les récoltes du cycle"/>
                         </page>
                         <page string="Notes internes" name="notes">
                             <field name="notes" placeholder="Observations et informations complémentaires relatives à la culture..."/>
