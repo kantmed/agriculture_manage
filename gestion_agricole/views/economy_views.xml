@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Catégories -->
+    <record id="view_gest_agri_economic_category_list" model="ir.ui.view">
+        <field name="name">gest_agri.economic.category.list</field>
+        <field name="model">gest_agri.economic.category</field>
+        <field name="arch" type="xml">
+            <list string="Catégories économiques">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="nature"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_economic_category_form" model="ir.ui.view">
+        <field name="name">gest_agri.economic.category.form</field>
+        <field name="model">gest_agri.economic.category</field>
+        <field name="arch" type="xml">
+            <form string="Catégorie économique">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Désignation"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="nature"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_economic_category" model="ir.actions.act_window">
+        <field name="name">Catégories économiques</field>
+        <field name="res_model">gest_agri.economic.category</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Dépenses -->
+    <record id="view_gest_agri_economic_expense_list" model="ir.ui.view">
+        <field name="name">gest_agri.economic.expense.list</field>
+        <field name="model">gest_agri.economic.expense</field>
+        <field name="arch" type="xml">
+            <list string="Dépenses">
+                <field name="name"/>
+                <field name="expense_date"/>
+                <field name="farm_id"/>
+                <field name="category_id"/>
+                <field name="amount"/>
+                <field name="partner_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_economic_expense_form" model="ir.ui.view">
+        <field name="name">gest_agri.economic.expense.form</field>
+        <field name="model">gest_agri.economic.expense</field>
+        <field name="arch" type="xml">
+            <form string="Dépense agricole">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Référence"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="farm_id"/>
+                            <field name="site_id"/>
+                            <field name="plot_id"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="category_id"/>
+                            <field name="expense_date"/>
+                            <field name="amount"/>
+                            <field name="currency_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="quantity"/>
+                            <field name="uom_id"/>
+                            <field name="unit_price" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="reference"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="campaign_id"/>
+                        <field name="cycle_id"/>
+                        <field name="intervention_id"/>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                        <field name="notes"/>
+                    </group>
+                    <field name="active" invisible="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_economic_expense_search" model="ir.ui.view">
+        <field name="name">gest_agri.economic.expense.search</field>
+        <field name="model">gest_agri.economic.expense</field>
+        <field name="arch" type="xml">
+            <search string="Dépenses">
+                <field name="name"/>
+                <field name="farm_id"/>
+                <field name="category_id"/>
+                <field name="partner_id"/>
+                <filter string="Archivées" name="archived" domain="[('active','=',False)]"/>
+                <separator/>
+                <group>
+                    <filter string="Exploitation" name="group_farm" context="{'group_by':'farm_id'}"/>
+                    <filter string="Catégorie" name="group_category" context="{'group_by':'category_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_economic_expense" model="ir.actions.act_window">
+        <field name="name">Dépenses</field>
+        <field name="res_model">gest_agri.economic.expense</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Recettes -->
+    <record id="view_gest_agri_economic_revenue_list" model="ir.ui.view">
+        <field name="name">gest_agri.economic.revenue.list</field>
+        <field name="model">gest_agri.economic.revenue</field>
+        <field name="arch" type="xml">
+            <list string="Recettes">
+                <field name="name"/>
+                <field name="revenue_date"/>
+                <field name="farm_id"/>
+                <field name="category_id"/>
+                <field name="amount"/>
+                <field name="partner_id"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_economic_revenue_form" model="ir.ui.view">
+        <field name="name">gest_agri.economic.revenue.form</field>
+        <field name="model">gest_agri.economic.revenue</field>
+        <field name="arch" type="xml">
+            <form string="Recette agricole">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Référence"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="farm_id"/>
+                            <field name="site_id"/>
+                            <field name="plot_id"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="category_id"/>
+                            <field name="revenue_date"/>
+                            <field name="amount"/>
+                            <field name="currency_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="quantity"/>
+                            <field name="uom_id"/>
+                            <field name="unit_price" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="partner_id"/>
+                            <field name="reference"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="campaign_id"/>
+                        <field name="cycle_id"/>
+                        <field name="harvest_id"/>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                        <field name="notes"/>
+                    </group>
+                    <field name="active" invisible="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_economic_revenue_search" model="ir.ui.view">
+        <field name="name">gest_agri.economic.revenue.search</field>
+        <field name="model">gest_agri.economic.revenue</field>
+        <field name="arch" type="xml">
+            <search string="Recettes">
+                <field name="name"/>
+                <field name="farm_id"/>
+                <field name="category_id"/>
+                <field name="partner_id"/>
+                <filter string="Archivées" name="archived" domain="[('active','=',False)]"/>
+                <separator/>
+                <group>
+                    <filter string="Exploitation" name="group_farm" context="{'group_by':'farm_id'}"/>
+                    <filter string="Catégorie" name="group_category" context="{'group_by':'category_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_economic_revenue" model="ir.actions.act_window">
+        <field name="name">Recettes</field>
+        <field name="res_model">gest_agri.economic.revenue</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menus -->
+    <menuitem id="menu_gest_agri_economic_category"
+              name="Catégories économiques"
+              parent="menu_gestion_agricole_economie"
+              action="action_gest_agri_economic_category"
+              sequence="10"/>
+    <menuitem id="menu_gest_agri_economic_expense"
+              name="Dépenses"
+              parent="menu_gestion_agricole_economie"
+              action="action_gest_agri_economic_expense"
+              sequence="20"/>
+    <menuitem id="menu_gest_agri_economic_revenue"
+              name="Recettes"
+              parent="menu_gestion_agricole_economie"
+              action="action_gest_agri_economic_revenue"
+              sequence="30"/>
+</odoo>

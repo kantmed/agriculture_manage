@@ -49,6 +49,12 @@ class GestAgriIrrigationSector(models.Model):
         "plot_id",
         string="Parcelles desservies",
     )
+    operation_ids = fields.One2many(
+        "gest_agri.irrigation.operation", "sector_id", string="Opérations d'irrigation"
+    )
+    operation_count = fields.Integer(
+        string="Nombre d'opérations", compute="_compute_operation_count"
+    )
     description = fields.Text(string="Description")
     notes = fields.Text(
         string="Notes internes",
@@ -99,3 +105,19 @@ class GestAgriIrrigationSector(models.Model):
             # introduite précédemment était inatteignable (le secteur avait
             # déjà été invalidé) et effectuait une recherche ORM inutile
             # dans une boucle.
+
+    @api.depends("operation_ids", "operation_ids.active")
+    def _compute_operation_count(self):
+        for sector in self:
+            sector.operation_count = len(
+                sector.with_context(active_test=False).operation_ids
+            )
+
+    def action_view_operations(self):
+        self.ensure_one()
+        action = self.env["ir.actions.act_window"]._for_xml_id(
+            "gestion_agricole.action_gest_agri_irrigation_operation"
+        )
+        action["domain"] = [("sector_id", "=", self.id)]
+        action["context"] = {"default_sector_id": self.id}
+        return action

@@ -86,9 +86,9 @@ class GestAgriIrrigationNetwork(models.Model):
             ):
                 raise ValidationError(
                     self.env._(
-                        "La source d'eau « %(source)s » n'appartient pas à "
+                        "La source d'eau « %(water_source)s » n'appartient pas à "
                         "l'exploitation « %(farm)s ».",
-                        source=network.water_source_id.display_name,
+                        water_source=network.water_source_id.display_name,
                         farm=network.farm_id.display_name,
                     )
                 )

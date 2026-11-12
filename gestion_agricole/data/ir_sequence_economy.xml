@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_gest_agri_economic_expense" model="ir.sequence">
+        <field name="name">Dépense agricole</field>
+        <field name="code">gest_agri.economic.expense</field>
+        <field name="prefix">DEP/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+    <record id="seq_gest_agri_economic_revenue" model="ir.sequence">
+        <field name="name">Recette agricole</field>
+        <field name="code">gest_agri.economic.revenue</field>
+        <field name="prefix">REC/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+</odoo>

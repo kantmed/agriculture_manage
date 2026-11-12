@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_gest_agri_animal" model="ir.sequence">
+        <field name="name">Animal</field>
+        <field name="code">gest_agri.animal</field>
+        <field name="prefix">ANI/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+    <record id="seq_gest_agri_animal_lot" model="ir.sequence">
+        <field name="name">Lot d'animaux</field>
+        <field name="code">gest_agri.animal.lot</field>
+        <field name="prefix">LOT/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+</odoo>

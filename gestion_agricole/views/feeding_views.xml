@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Aliments -->
+    <record id="view_gest_agri_feed_list" model="ir.ui.view">
+        <field name="name">gest_agri.feed.list</field>
+        <field name="model">gest_agri.feed</field>
+        <field name="arch" type="xml">
+            <list string="Aliments">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="category"/>
+                <field name="species_id"/>
+                <field name="uom_id"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_feed_form" model="ir.ui.view">
+        <field name="name">gest_agri.feed.form</field>
+        <field name="model">gest_agri.feed</field>
+        <field name="arch" type="xml">
+            <form string="Aliment">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Désignation"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="category"/>
+                            <field name="species_id"/>
+                        </group>
+                        <group>
+                            <field name="uom_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_feed_search" model="ir.ui.view">
+        <field name="name">gest_agri.feed.search</field>
+        <field name="model">gest_agri.feed</field>
+        <field name="arch" type="xml">
+            <search string="Aliments">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="species_id"/>
+                <filter string="Actifs" name="active" domain="[('active','=',True)]"/>
+                <filter string="Archivés" name="archived" domain="[('active','=',False)]"/>
+                <separator/>
+                <group>
+                    <filter string="Catégorie" name="group_category" context="{'group_by':'category'}"/>
+                    <filter string="Espèce" name="group_species" context="{'group_by':'species_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_feed" model="ir.actions.act_window">
+        <field name="name">Aliments</field>
+        <field name="res_model">gest_agri.feed</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Rations -->
+    <record id="view_gest_agri_feed_ration_list" model="ir.ui.view">
+        <field name="name">gest_agri.feed.ration.list</field>
+        <field name="model">gest_agri.feed.ration</field>
+        <field name="arch" type="xml">
+            <list string="Rations">
+                <field name="reference"/>
+                <field name="name"/>
+                <field name="species_id"/>
+                <field name="valid_from"/>
+                <field name="valid_to"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_feed_ration_form" model="ir.ui.view">
+        <field name="name">gest_agri.feed.ration.form</field>
+        <field name="model">gest_agri.feed.ration</field>
+        <field name="arch" type="xml">
+            <form string="Ration alimentaire">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Désignation"/>
+                        <h1><field name="name"/></h1>
+                        <h2><field name="reference" readonly="1"/></h2>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="species_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                        <group>
+                            <field name="valid_from"/>
+                            <field name="valid_to"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                    <notebook>
+                        <page string="Composition" name="lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="feed_id"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                    <field name="frequency"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_feed_ration_search" model="ir.ui.view">
+        <field name="name">gest_agri.feed.ration.search</field>
+        <field name="model">gest_agri.feed.ration</field>
+        <field name="arch" type="xml">
+            <search string="Rations">
+                <field name="name"/>
+                <field name="reference"/>
+                <field name="species_id"/>
+                <filter string="Actives" name="active" domain="[('active','=',True)]"/>
+                <separator/>
+                <group>
+                    <filter string="Espèce" name="group_species" context="{'group_by':'species_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_feed_ration" model="ir.actions.act_window">
+        <field name="name">Rations alimentaires</field>
+        <field name="res_model">gest_agri.feed.ration</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Distributions -->
+    <record id="view_gest_agri_feed_distribution_list" model="ir.ui.view">
+        <field name="name">gest_agri.feed.distribution.list</field>
+        <field name="model">gest_agri.feed.distribution</field>
+        <field name="arch" type="xml">
+            <list string="Distributions">
+                <field name="name"/>
+                <field name="distribution_date"/>
+                <field name="farm_id"/>
+                <field name="animal_id"/>
+                <field name="lot_id"/>
+                <field name="ration_id"/>
+                <field name="total_quantity"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_feed_distribution_form" model="ir.ui.view">
+        <field name="name">gest_agri.feed.distribution.form</field>
+        <field name="model">gest_agri.feed.distribution</field>
+        <field name="arch" type="xml">
+            <form string="Distribution alimentaire">
+                <header>
+                    <button name="action_done" string="Terminer" type="object" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_cancel" string="Annuler" type="object" invisible="state == 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Référence"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="farm_id"/>
+                            <field name="site_id"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="animal_id"/>
+                            <field name="lot_id"/>
+                            <field name="ration_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="distribution_date"/>
+                            <field name="responsible_id"/>
+                        </group>
+                        <group>
+                            <field name="total_quantity" readonly="1"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Aliments distribués" name="lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="feed_id"/>
+                                    <field name="quantity"/>
+                                    <field name="uom_id"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes" name="notes">
+                            <field name="notes"/>
+                        </page>
+                    </notebook>
+                    <field name="active" invisible="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_feed_distribution_search" model="ir.ui.view">
+        <field name="name">gest_agri.feed.distribution.search</field>
+        <field name="model">gest_agri.feed.distribution</field>
+        <field name="arch" type="xml">
+            <search string="Distributions">
+                <field name="name"/>
+                <field name="farm_id"/>
+                <field name="animal_id"/>
+                <field name="lot_id"/>
+                <filter string="Brouillons" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Terminées" name="done" domain="[('state','=','done')]"/>
+                <filter string="Annulées" name="cancelled" domain="[('state','=','cancelled')]"/>
+                <separator/>
+                <group>
+                    <filter string="Exploitation" name="group_farm" context="{'group_by':'farm_id'}"/>
+                    <filter string="État" name="group_state" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_feed_distribution" model="ir.actions.act_window">
+        <field name="name">Distributions alimentaires</field>
+        <field name="res_model">gest_agri.feed.distribution</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menus -->
+    <menuitem id="menu_gest_agri_feed"
+              name="Aliments"
+              parent="menu_gestion_agricole_elevage"
+              action="action_gest_agri_feed"
+              sequence="30"/>
+    <menuitem id="menu_gest_agri_feed_ration"
+              name="Rations alimentaires"
+              parent="menu_gestion_agricole_elevage"
+              action="action_gest_agri_feed_ration"
+              sequence="40"/>
+    <menuitem id="menu_gest_agri_feed_distribution"
+              name="Distributions alimentaires"
+              parent="menu_gestion_agricole_elevage"
+              action="action_gest_agri_feed_distribution"
+              sequence="50"/>
+</odoo>

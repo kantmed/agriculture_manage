@@ -175,6 +175,60 @@ class GestAgriCropCycle(models.Model):
             )
 
     # ------------------------------------------------------------------
+    # Économie
+    # ------------------------------------------------------------------
+    expense_ids = fields.One2many(
+        "gest_agri.economic.expense", "cycle_id", string="Dépenses"
+    )
+    expense_count = fields.Integer(
+        string="Nombre de dépenses", compute="_compute_expense_count"
+    )
+    total_expense = fields.Float(
+        string="Total des dépenses", compute="_compute_total_expense", digits=(16, 2)
+    )
+    revenue_ids = fields.One2many(
+        "gest_agri.economic.revenue", "cycle_id", string="Recettes"
+    )
+    revenue_count = fields.Integer(
+        string="Nombre de recettes", compute="_compute_revenue_count"
+    )
+    total_revenue = fields.Float(
+        string="Total des recettes", compute="_compute_total_revenue", digits=(16, 2)
+    )
+    economic_balance = fields.Float(
+        string="Solde économique", compute="_compute_economic_balance", digits=(16, 2)
+    )
+
+    @api.depends("expense_ids", "expense_ids.amount")
+    def _compute_expense_count(self):
+        for cycle in self:
+            cycle.expense_count = len(cycle.with_context(active_test=False).expense_ids)
+
+    @api.depends("expense_ids", "expense_ids.amount")
+    def _compute_total_expense(self):
+        for cycle in self:
+            cycle.total_expense = sum(
+                e.amount for e in cycle.with_context(active_test=False).expense_ids
+            )
+
+    @api.depends("revenue_ids", "revenue_ids.amount")
+    def _compute_revenue_count(self):
+        for cycle in self:
+            cycle.revenue_count = len(cycle.with_context(active_test=False).revenue_ids)
+
+    @api.depends("revenue_ids", "revenue_ids.amount")
+    def _compute_total_revenue(self):
+        for cycle in self:
+            cycle.total_revenue = sum(
+                r.amount for r in cycle.with_context(active_test=False).revenue_ids
+            )
+
+    @api.depends("total_expense", "total_revenue")
+    def _compute_economic_balance(self):
+        for cycle in self:
+            cycle.economic_balance = cycle.total_revenue - cycle.total_expense
+
+    # ------------------------------------------------------------------
     # Contraintes SQL
     # ------------------------------------------------------------------
     # Empêche deux cultures non annulées de démarrer le même jour sur la

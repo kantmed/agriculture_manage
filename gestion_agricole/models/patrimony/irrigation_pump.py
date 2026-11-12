@@ -13,6 +13,13 @@ class GestAgriIrrigationPump(models.Model):
 
     name = fields.Char(string="Nom", required=True, index=True)
     code = fields.Char(string="Code", required=True, index=True)
+    equipment_id = fields.Many2one(
+        "gest_agri.equipment",
+        string="Équipement associé",
+        ondelete="set null",
+        index=True,
+        help="Pompe rattachée à un équipement du parc matériel.",
+    )
     network_id = fields.Many2one(
         "gest_agri.irrigation.network",
         string="Réseau d'irrigation",

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_gest_agri_irrigation_operation_list" model="ir.ui.view">
+        <field name="name">gest_agri.irrigation.operation.list</field>
+        <field name="model">gest_agri.irrigation.operation</field>
+        <field name="arch" type="xml">
+            <list string="Opérations d'irrigation">
+                <field name="name"/>
+                <field name="sector_id"/>
+                <field name="network_id"/>
+                <field name="pump_id"/>
+                <field name="start_datetime"/>
+                <field name="end_datetime"/>
+                <field name="duration_hours"/>
+                <field name="volume_m3"/>
+                <field name="flow_rate_m3_h"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_irrigation_operation_form" model="ir.ui.view">
+        <field name="name">gest_agri.irrigation.operation.form</field>
+        <field name="model">gest_agri.irrigation.operation</field>
+        <field name="arch" type="xml">
+            <form string="Opération d'irrigation">
+                <header>
+                    <button name="action_done" string="Terminer" type="object" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_cancel" string="Annuler" type="object" invisible="state == 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Référence"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="sector_id"/>
+                            <field name="network_id" readonly="1"/>
+                            <field name="farm_id" readonly="1"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="pump_id"/>
+                            <field name="cycle_id"/>
+                            <field name="responsible_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="start_datetime"/>
+                            <field name="end_datetime"/>
+                            <field name="duration_hours" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="volume_m3"/>
+                            <field name="flow_rate_m3_h" readonly="1"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="notes"/>
+                    </group>
+                    <field name="active" invisible="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_irrigation_operation_search" model="ir.ui.view">
+        <field name="name">gest_agri.irrigation.operation.search</field>
+        <field name="model">gest_agri.irrigation.operation</field>
+        <field name="arch" type="xml">
+            <search string="Opérations d'irrigation">
+                <field name="name"/>
+                <field name="sector_id"/>
+                <field name="network_id"/>
+                <field name="farm_id"/>
+                <filter string="Brouillons" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Terminées" name="done" domain="[('state','=','done')]"/>
+                <filter string="Annulées" name="cancelled" domain="[('state','=','cancelled')]"/>
+                <separator/>
+                <group>
+                    <filter string="Secteur" name="group_sector" context="{'group_by':'sector_id'}"/>
+                    <filter string="Réseau" name="group_network" context="{'group_by':'network_id'}"/>
+                    <filter string="État" name="group_state" context="{'group_by':'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_irrigation_operation" model="ir.actions.act_window">
+        <field name="name">Opérations d'irrigation</field>
+        <field name="res_model">gest_agri.irrigation.operation</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_gest_agri_irrigation_operation"
+              name="Opérations"
+              parent="menu_gestion_agricole_irrigation"
+              action="action_gest_agri_irrigation_operation"
+              sequence="40"/>
+</odoo>
