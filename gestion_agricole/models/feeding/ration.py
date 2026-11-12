@@ -67,6 +67,14 @@ class GestAgriFeedRationLine(models.Model):
     )
     sequence = fields.Integer(string="Séquence", default=10)
 
+    @api.constrains("feed_id", "ration_id")
+    def _check_feed_species(self):
+        for line in self:
+            if line.feed_id.species_id and line.ration_id.species_id and line.feed_id.species_id != line.ration_id.species_id:
+                raise ValidationError(
+                    self.env._("L'aliment « %s » n'est pas compatible avec l'espèce de la ration.", line.feed_id.display_name)
+                )
+
     @api.constrains("quantity")
     def _check_quantity(self):
         for line in self:

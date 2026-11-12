@@ -13,5 +13,6 @@ from . import test_personnel
 from . import test_irrigation
 from . import test_economy
 from . import test_livestock
+from . import test_feeding
 from . import test_audit_prompt11
 from . import test_reservation_unicity

@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
+    <record id="seq_gest_agri_feed_ration" model="ir.sequence">
+        <field name="name">Ration alimentaire</field>
+        <field name="code">gest_agri.feed.ration</field>
+        <field name="prefix">RAT/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
     <record id="seq_gest_agri_feed_distribution" model="ir.sequence">
         <field name="name">Distribution alimentaire</field>
         <field name="code">gest_agri.feed.distribution</field>
