@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_gest_agri_worker" model="ir.sequence">
+        <field name="name">Travailleur agricole</field>
+        <field name="code">gest_agri.worker</field>
+        <field name="prefix">TRV/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+    <record id="seq_gest_agri_team" model="ir.sequence">
+        <field name="name">Équipe agricole</field>
+        <field name="code">gest_agri.team</field>
+        <field name="prefix">EQU/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+    <record id="seq_gest_agri_work_assignment" model="ir.sequence">
+        <field name="name">Affectation de travail</field>
+        <field name="code">gest_agri.work.assignment</field>
+        <field name="prefix">AFF/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+    <record id="seq_gest_agri_work_time" model="ir.sequence">
+        <field name="name">Feuille de temps</field>
+        <field name="code">gest_agri.work.time</field>
+        <field name="prefix">TEM/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+</odoo>
