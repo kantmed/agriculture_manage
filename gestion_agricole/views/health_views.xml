@@ -1,0 +1,633 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Maladies -->
+    <record id="view_gest_agri_animal_disease_list" model="ir.ui.view">
+        <field name="name">gest_agri.animal.disease.list</field>
+        <field name="model">gest_agri.animal.disease</field>
+        <field name="arch" type="xml">
+            <list string="Maladies animales">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="severity"/>
+                <field name="contagious"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_animal_disease_form" model="ir.ui.view">
+        <field name="name">gest_agri.animal.disease.form</field>
+        <field name="model">gest_agri.animal.disease</field>
+        <field name="arch" type="xml">
+            <form string="Maladie animale">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Nom"/>
+                        <h1><field name="name"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="severity"/>
+                            <field name="contagious"/>
+                        </group>
+                        <group>
+                            <field name="species_ids" widget="many2many_tags"/>
+                            <field name="active"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                        <field name="symptoms"/>
+                        <field name="recommendations"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_animal_disease_search" model="ir.ui.view">
+        <field name="name">gest_agri.animal.disease.search</field>
+        <field name="model">gest_agri.animal.disease</field>
+        <field name="arch" type="xml">
+            <search string="Maladies animales">
+                <field name="name"/>
+                <field name="code"/>
+                <field name="species_ids"/>
+                <filter string="Contagieuses" name="contagious" domain="[('contagious','=',True)]"/>
+                <filter string="Archivées" name="archived" domain="[('active','=',False)]"/>
+                <separator/>
+                <group>
+                    <filter string="Gravité" name="group_severity" context="{'group_by':'severity'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_animal_disease" model="ir.actions.act_window">
+        <field name="name">Maladies animales</field>
+        <field name="res_model">gest_agri.animal.disease</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Dossiers sanitaires -->
+    <record id="view_gest_agri_animal_health_list" model="ir.ui.view">
+        <field name="name">gest_agri.animal.health.list</field>
+        <field name="model">gest_agri.animal.health</field>
+        <field name="arch" type="xml">
+            <list string="Dossiers sanitaires">
+                <field name="name"/>
+                <field name="animal_id"/>
+                <field name="farm_id"/>
+                <field name="observation_date"/>
+                <field name="disease_id"/>
+                <field name="severity"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_animal_health_form" model="ir.ui.view">
+        <field name="name">gest_agri.animal.health.form</field>
+        <field name="model">gest_agri.animal.health</field>
+        <field name="arch" type="xml">
+            <form string="Dossier sanitaire">
+                <header>
+                    <button name="action_validate" string="Valider" type="object" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_cancel" string="Annuler" type="object" invisible="state == 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,validated,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Référence"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="animal_id"/>
+                            <field name="farm_id" readonly="1"/>
+                            <field name="site_id"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="observation_date"/>
+                            <field name="declaration_date"/>
+                            <field name="disease_id"/>
+                            <field name="severity"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="symptoms"/>
+                        <field name="notes"/>
+                    </group>
+                    <group>
+                        <field name="veterinarian_id"/>
+                        <field name="responsible_id"/>
+                    </group>
+                    <field name="active" invisible="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_animal_health_search" model="ir.ui.view">
+        <field name="name">gest_agri.animal.health.search</field>
+        <field name="model">gest_agri.animal.health</field>
+        <field name="arch" type="xml">
+            <search string="Dossiers sanitaires">
+                <field name="name"/>
+                <field name="animal_id"/>
+                <field name="disease_id"/>
+                <field name="farm_id"/>
+                <field name="site_id"/>
+                <filter string="Brouillons" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Validés" name="validated" domain="[('state','=','validated')]"/>
+                <filter string="Annulés" name="cancelled" domain="[('state','=','cancelled')]"/>
+                <separator/>
+                <filter string="Gravité élevée" name="high_severity" domain="[('severity','in',['high','critical'])]"/>
+                <separator/>
+                <group>
+                    <filter string="Animal" name="group_animal" context="{'group_by':'animal_id'}"/>
+                    <filter string="Maladie" name="group_disease" context="{'group_by':'disease_id'}"/>
+                    <filter string="Exploitation" name="group_farm" context="{'group_by':'farm_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_animal_health" model="ir.actions.act_window">
+        <field name="name">Dossiers sanitaires</field>
+        <field name="res_model">gest_agri.animal.health</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Consultations vétérinaires -->
+    <record id="view_gest_agri_veterinary_consultation_list" model="ir.ui.view">
+        <field name="name">gest_agri.veterinary.consultation.list</field>
+        <field name="model">gest_agri.veterinary.consultation</field>
+        <field name="arch" type="xml">
+            <list string="Consultations vétérinaires">
+                <field name="name"/>
+                <field name="consultation_datetime"/>
+                <field name="animal_id"/>
+                <field name="lot_id"/>
+                <field name="veterinarian_id"/>
+                <field name="next_control_date"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_veterinary_consultation_form" model="ir.ui.view">
+        <field name="name">gest_agri.veterinary.consultation.form</field>
+        <field name="model">gest_agri.veterinary.consultation</field>
+        <field name="arch" type="xml">
+            <form string="Consultation vétérinaire">
+                <header>
+                    <button name="action_done" string="Réaliser" type="object" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_cancel" string="Annuler" type="object" invisible="state == 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Référence"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="animal_id"/>
+                            <field name="lot_id"/>
+                            <field name="farm_id" readonly="1"/>
+                            <field name="site_id"/>
+                        </group>
+                        <group>
+                            <field name="consultation_datetime"/>
+                            <field name="veterinarian_id"/>
+                            <field name="next_control_date"/>
+                            <field name="responsible_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="reason"/>
+                        <field name="symptoms"/>
+                        <field name="diagnosis"/>
+                        <field name="acts"/>
+                        <field name="recommendations"/>
+                        <field name="notes"/>
+                    </group>
+                    <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                    <field name="active" invisible="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_veterinary_consultation_search" model="ir.ui.view">
+        <field name="name">gest_agri.veterinary.consultation.search</field>
+        <field name="model">gest_agri.veterinary.consultation</field>
+        <field name="arch" type="xml">
+            <search string="Consultations vétérinaires">
+                <field name="name"/>
+                <field name="animal_id"/>
+                <field name="lot_id"/>
+                <field name="veterinarian_id"/>
+                <field name="farm_id"/>
+                <filter string="Réalisées" name="done" domain="[('state','=','done')]"/>
+                <filter string="Annulées" name="cancelled" domain="[('state','=','cancelled')]"/>
+                <separator/>
+                <filter string="Contrôle à venir" name="control_upcoming" domain="[('state','=','done'),('next_control_date','!=',False),('next_control_date','&gt;=',datetime.date.today())]"/>
+                <filter string="Contrôle dépassé" name="control_overdue" domain="[('state','=','done'),('next_control_date','!=',False),('next_control_date','&lt;',datetime.date.today())]"/>
+                <separator/>
+                <group>
+                    <filter string="Animal" name="group_animal" context="{'group_by':'animal_id'}"/>
+                    <filter string="Lot" name="group_lot" context="{'group_by':'lot_id'}"/>
+                    <filter string="Vétérinaire" name="group_vet" context="{'group_by':'veterinarian_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_veterinary_consultation" model="ir.actions.act_window">
+        <field name="name">Consultations vétérinaires</field>
+        <field name="res_model">gest_agri.veterinary.consultation</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Vaccinations -->
+    <record id="view_gest_agri_vaccination_list" model="ir.ui.view">
+        <field name="name">gest_agri.vaccination.list</field>
+        <field name="model">gest_agri.vaccination</field>
+        <field name="arch" type="xml">
+            <list string="Vaccinations">
+                <field name="name"/>
+                <field name="animal_id"/>
+                <field name="lot_id"/>
+                <field name="vaccine_name"/>
+                <field name="vaccination_date"/>
+                <field name="next_due_date"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_vaccination_form" model="ir.ui.view">
+        <field name="name">gest_agri.vaccination.form</field>
+        <field name="model">gest_agri.vaccination</field>
+        <field name="arch" type="xml">
+            <form string="Vaccination">
+                <header>
+                    <button name="action_done" string="Réaliser" type="object" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_cancel" string="Annuler" type="object" invisible="state == 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Référence"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="animal_id"/>
+                            <field name="lot_id"/>
+                        </group>
+                        <group>
+                            <field name="vaccine_name"/>
+                            <field name="vaccine_lot"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="vaccination_date"/>
+                            <field name="next_due_date"/>
+                        </group>
+                        <group>
+                            <field name="dose"/>
+                            <field name="uom_id"/>
+                            <field name="administration_route"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="veterinarian_id"/>
+                        <field name="responsible_id"/>
+                    </group>
+                    <group>
+                        <field name="notes"/>
+                    </group>
+                    <field name="active" invisible="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_vaccination_search" model="ir.ui.view">
+        <field name="name">gest_agri.vaccination.search</field>
+        <field name="model">gest_agri.vaccination</field>
+        <field name="arch" type="xml">
+            <search string="Vaccinations">
+                <field name="name"/>
+                <field name="animal_id"/>
+                <field name="lot_id"/>
+                <field name="vaccine_name"/>
+                <filter string="Réalisées" name="done" domain="[('state','=','done')]"/>
+                <filter string="Annulées" name="cancelled" domain="[('state','=','cancelled')]"/>
+                <separator/>
+                <filter string="Rappel à venir" name="due_upcoming" domain="[('state','=','done'),('next_due_date','!=',False),('next_due_date','&gt;=',datetime.date.today())]"/>
+                <filter string="Rappel dépassé" name="due_overdue" domain="[('state','=','done'),('next_due_date','!=',False),('next_due_date','&lt;',datetime.date.today())]"/>
+                <separator/>
+                <group>
+                    <filter string="Animal" name="group_animal" context="{'group_by':'animal_id'}"/>
+                    <filter string="Lot" name="group_lot" context="{'group_by':'lot_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_vaccination" model="ir.actions.act_window">
+        <field name="name">Vaccinations</field>
+        <field name="res_model">gest_agri.vaccination</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_gest_agri_vaccination_deadlines" model="ir.actions.act_window">
+        <field name="name">Rappels vaccinaux à venir</field>
+        <field name="res_model">gest_agri.vaccination</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state','=','done'),('next_due_date','!=',False)]</field>
+        <field name="context">{'search_default_due_upcoming': 1}</field>
+    </record>
+
+    <!-- Traitements -->
+    <record id="view_gest_agri_animal_treatment_list" model="ir.ui.view">
+        <field name="name">gest_agri.animal.treatment.list</field>
+        <field name="model">gest_agri.animal.treatment</field>
+        <field name="arch" type="xml">
+            <list string="Traitements vétérinaires">
+                <field name="name"/>
+                <field name="animal_id"/>
+                <field name="lot_id"/>
+                <field name="product_name"/>
+                <field name="start_date"/>
+                <field name="end_date_planned"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_animal_treatment_form" model="ir.ui.view">
+        <field name="name">gest_agri.animal.treatment.form</field>
+        <field name="model">gest_agri.animal.treatment</field>
+        <field name="arch" type="xml">
+            <form string="Traitement vétérinaire">
+                <header>
+                    <button name="action_start" string="Démarrer" type="object" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_done" string="Terminer" type="object" invisible="state != 'in_progress'" class="btn-primary"/>
+                    <button name="action_cancel" string="Annuler" type="object" invisible="state == 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress,done,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Référence"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="animal_id"/>
+                            <field name="lot_id"/>
+                        </group>
+                        <group>
+                            <field name="product_name"/>
+                            <field name="dosage"/>
+                            <field name="uom_id"/>
+                            <field name="administration_route"/>
+                            <field name="frequency"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="start_date"/>
+                            <field name="end_date_planned"/>
+                            <field name="end_date_actual"/>
+                        </group>
+                        <group>
+                            <field name="veterinarian_id"/>
+                            <field name="responsible_id"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="reason"/>
+                        <field name="notes"/>
+                    </group>
+                    <field name="active" invisible="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_animal_treatment_search" model="ir.ui.view">
+        <field name="name">gest_agri.animal.treatment.search</field>
+        <field name="model">gest_agri.animal.treatment</field>
+        <field name="arch" type="xml">
+            <search string="Traitements vétérinaires">
+                <field name="name"/>
+                <field name="animal_id"/>
+                <field name="lot_id"/>
+                <field name="product_name"/>
+                <filter string="En cours" name="in_progress" domain="[('state','=','in_progress')]"/>
+                <filter string="Terminés" name="done" domain="[('state','=','done')]"/>
+                <filter string="Annulés" name="cancelled" domain="[('state','=','cancelled')]"/>
+                <separator/>
+                <filter string="Fin prévue à venir" name="end_upcoming" domain="[('state','=','in_progress'),('end_date_planned','!=',False),('end_date_planned','&gt;=',datetime.date.today())]"/>
+                <filter string="Fin prévue dépassée" name="end_overdue" domain="[('state','=','in_progress'),('end_date_planned','!=',False),('end_date_planned','&lt;',datetime.date.today())]"/>
+                <separator/>
+                <group>
+                    <filter string="Animal" name="group_animal" context="{'group_by':'animal_id'}"/>
+                    <filter string="Lot" name="group_lot" context="{'group_by':'lot_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_animal_treatment" model="ir.actions.act_window">
+        <field name="name">Traitements vétérinaires</field>
+        <field name="res_model">gest_agri.animal.treatment</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Interventions sanitaires -->
+    <record id="view_gest_agri_sanitary_intervention_list" model="ir.ui.view">
+        <field name="name">gest_agri.sanitary.intervention.list</field>
+        <field name="model">gest_agri.sanitary.intervention</field>
+        <field name="arch" type="xml">
+            <list string="Interventions sanitaires">
+                <field name="name"/>
+                <field name="lot_id"/>
+                <field name="intervention_type"/>
+                <field name="intervention_date"/>
+                <field name="animal_count"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_sanitary_intervention_form" model="ir.ui.view">
+        <field name="name">gest_agri.sanitary.intervention.form</field>
+        <field name="model">gest_agri.sanitary.intervention</field>
+        <field name="arch" type="xml">
+            <form string="Intervention sanitaire">
+                <header>
+                    <button name="action_done" string="Terminer" type="object" invisible="state != 'draft'" class="btn-primary"/>
+                    <button name="action_cancel" string="Annuler" type="object" invisible="state == 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" string="Référence"/>
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="lot_id"/>
+                            <field name="farm_id" readonly="1"/>
+                            <field name="company_id" groups="base.group_multi_company" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="intervention_type"/>
+                            <field name="intervention_date"/>
+                            <field name="animal_count"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="veterinarian_id"/>
+                        <field name="responsible_id"/>
+                    </group>
+                    <group>
+                        <field name="products_used"/>
+                        <field name="result"/>
+                        <field name="notes"/>
+                    </group>
+                    <field name="active" invisible="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_sanitary_intervention_search" model="ir.ui.view">
+        <field name="name">gest_agri.sanitary.intervention.search</field>
+        <field name="model">gest_agri.sanitary.intervention</field>
+        <field name="arch" type="xml">
+            <search string="Interventions sanitaires">
+                <field name="name"/>
+                <field name="lot_id"/>
+                <field name="intervention_type"/>
+                <filter string="Terminées" name="done" domain="[('state','=','done')]"/>
+                <filter string="Annulées" name="cancelled" domain="[('state','=','cancelled')]"/>
+                <separator/>
+                <group>
+                    <filter string="Type" name="group_type" context="{'group_by':'intervention_type'}"/>
+                    <filter string="Lot" name="group_lot" context="{'group_by':'lot_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_sanitary_intervention" model="ir.actions.act_window">
+        <field name="name">Interventions sanitaires</field>
+        <field name="res_model">gest_agri.sanitary.intervention</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Animaux : boutons intelligents santé -->
+    <record id="view_gest_agri_animal_form_health" model="ir.ui.view">
+        <field name="name">gest_agri.animal.form.health</field>
+        <field name="model">gest_agri.animal</field>
+        <field name="inherit_id" ref="gestion_agricole.view_gest_agri_animal_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="oe_button_box" name="button_box_health">
+                    <button name="action_view_health_records" type="object" class="oe_stat_button" icon="fa-heartbeat">
+                        <field name="health_record_count" widget="statinfo" string="Dossiers"/>
+                    </button>
+                    <button name="action_view_consultations" type="object" class="oe_stat_button" icon="fa-stethoscope">
+                        <field name="consultation_count" widget="statinfo" string="Consultations"/>
+                    </button>
+                    <button name="action_view_vaccinations" type="object" class="oe_stat_button" icon="fa-medkit">
+                        <field name="vaccination_count" widget="statinfo" string="Vaccinations"/>
+                    </button>
+                    <button name="action_view_treatments" type="object" class="oe_stat_button" icon="fa-flask">
+                        <field name="treatment_count" widget="statinfo" string="Traitements"/>
+                    </button>
+                </div>
+                <group string="Échéances sanitaires">
+                    <group>
+                        <field name="next_vaccination_due_date"/>
+                        <field name="next_control_date"/>
+                    </group>
+                    <group>
+                        <field name="has_overdue_sanitary_deadline"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Lots : boutons intelligents santé -->
+    <record id="view_gest_agri_animal_lot_form_health" model="ir.ui.view">
+        <field name="name">gest_agri.animal.lot.form.health</field>
+        <field name="model">gest_agri.animal.lot</field>
+        <field name="inherit_id" ref="gestion_agricole.view_gest_agri_animal_lot_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="oe_button_box" name="button_box_health_lot">
+                    <button name="action_view_sanitary_interventions" type="object" class="oe_stat_button" icon="fa-shield">
+                        <field name="sanitary_intervention_count" widget="statinfo" string="Interventions"/>
+                    </button>
+                    <field name="consultation_count" invisible="1"/>
+                    <field name="vaccination_count" invisible="1"/>
+                    <field name="treatment_count" invisible="1"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Menus -->
+    <menuitem id="menu_gestion_agricole_sante_animale"
+              name="Santé animale"
+              parent="menu_gestion_agricole_elevage"
+              sequence="90"/>
+    <menuitem id="menu_gest_agri_animal_health"
+              name="Dossiers sanitaires"
+              parent="menu_gestion_agricole_sante_animale"
+              action="action_gest_agri_animal_health"
+              sequence="10"/>
+    <menuitem id="menu_gest_agri_veterinary_consultation"
+              name="Consultations vétérinaires"
+              parent="menu_gestion_agricole_sante_animale"
+              action="action_gest_agri_veterinary_consultation"
+              sequence="20"/>
+    <menuitem id="menu_gest_agri_vaccination"
+              name="Vaccinations"
+              parent="menu_gestion_agricole_sante_animale"
+              action="action_gest_agri_vaccination"
+              sequence="30"/>
+    <menuitem id="menu_gest_agri_animal_treatment"
+              name="Traitements"
+              parent="menu_gestion_agricole_sante_animale"
+              action="action_gest_agri_animal_treatment"
+              sequence="40"/>
+    <menuitem id="menu_gest_agri_sanitary_intervention"
+              name="Interventions sanitaires"
+              parent="menu_gestion_agricole_sante_animale"
+              action="action_gest_agri_sanitary_intervention"
+              sequence="50"/>
+    <menuitem id="menu_gest_agri_vaccination_deadlines"
+              name="Échéances sanitaires"
+              parent="menu_gestion_agricole_sante_animale"
+              action="action_gest_agri_vaccination_deadlines"
+              sequence="60"/>
+    <menuitem id="menu_gest_agri_animal_disease"
+              name="Maladies"
+              parent="menu_gestion_agricole_sante_animale"
+              action="action_gest_agri_animal_disease"
+              sequence="70"/>
+</odoo>

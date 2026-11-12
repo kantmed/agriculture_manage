@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_gest_agri_animal_health" model="ir.sequence">
+        <field name="name">Dossier sanitaire</field>
+        <field name="code">gest_agri.animal.health</field>
+        <field name="prefix">SAN/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+    <record id="seq_gest_agri_vaccination" model="ir.sequence">
+        <field name="name">Vaccination</field>
+        <field name="code">gest_agri.vaccination</field>
+        <field name="prefix">VAC/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+    <record id="seq_gest_agri_animal_treatment" model="ir.sequence">
+        <field name="name">Traitement vétérinaire</field>
+        <field name="code">gest_agri.animal.treatment</field>
+        <field name="prefix">TRT/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+    <record id="seq_gest_agri_sanitary_intervention" model="ir.sequence">
+        <field name="name">Intervention sanitaire</field>
+        <field name="code">gest_agri.sanitary.intervention</field>
+        <field name="prefix">ISA/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+    <record id="seq_gest_agri_veterinary_consultation" model="ir.sequence">
+        <field name="name">Consultation vétérinaire</field>
+        <field name="code">gest_agri.veterinary.consultation</field>
+        <field name="prefix">CONS/%(year)s/</field>
+        <field name="padding">5</field>
+        <field name="implementation">standard</field>
+    </record>
+</odoo>
