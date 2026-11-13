@@ -80,14 +80,42 @@ class GestAgriAnimalLot(models.Model):
 
     # Workflow
     def write(self, vals):
-        if "state" in vals and not self.env.context.get("gest_agri_animal_lot_state_transition"):
+        if "state" in vals:
             for lot in self:
                 if lot.state != vals["state"]:
                     raise AccessError(self.env._("L'état d'un lot ne peut être modifié qu'à travers les actions métier."))
+        if {"farm_id", "site_id"} & vals.keys():
+            # Check the lot permissions before inspecting members in sudo:
+            # sudo is only used below to include archived/otherwise hidden
+            # animals in this integrity check, never to authorize the write.
+            self.check_access("write")
+            Farm = self.env["gest_agri.farm"]
+            Site = self.env["gest_agri.site"]
+            for lot in self:
+                farm = Farm.browse(vals.get("farm_id") or lot.farm_id.id)
+                farm.check_access("write")
+                site = Site.browse(vals.get("site_id", lot.site_id.id))
+                if site:
+                    site.check_access("read")
+                    if site.farm_id != farm:
+                        raise ValidationError(self.env._("Le site n'appartient pas à l'exploitation."))
+                effective_site = site or self.env["gest_agri.site"]
+                members = lot.sudo().with_context(active_test=False).member_ids
+                for animal in members:
+                    if animal.lot_id.id != lot.id:
+                        raise ValidationError(self.env._("Un animal membre n'est pas effectivement rattaché à ce lot."))
+                    if animal.farm_id.id != farm.id:
+                        raise ValidationError(
+                            self.env._("Le lot ne peut pas changer d'exploitation tant que tous ses animaux ne sont pas dans l'exploitation cible.")
+                        )
+                    if animal.site_id and animal.site_id.farm_id.id != farm.id:
+                        raise ValidationError(self.env._("Le site d'un animal membre n'appartient pas à l'exploitation cible."))
+                    if effective_site and animal.site_id and animal.site_id.id != effective_site.id:
+                        raise ValidationError(self.env._("Le site d'un animal membre diffère du site du lot."))
         return super().write(vals)
 
     def _apply_state(self, target):
-        self.with_context(gest_agri_animal_lot_state_transition=True).write({"state": target})
+        return super(GestAgriAnimalLot, self).write({"state": target})
 
     def action_activate(self):
         self._check_allowed({"draft"})
@@ -104,7 +132,10 @@ class GestAgriAnimalLot(models.Model):
                 raise UserError(self.env._("Transition impossible : le lot « %(l)s » est à l'état « %(s)s ».", l=lot.display_name, s=labels.get(lot.state, lot.state)))
 
     def unlink(self):
+        # Authorize deletion before using sudo to inspect archived/hidden members.
+        self.check_access("unlink")
         for lot in self:
-            if lot.member_ids:
+            members = lot.sudo().with_context(active_test=False).member_ids
+            if members:
                 raise UserError(self.env._("Le lot « %s » contient des animaux : impossible de le supprimer.", lot.display_name))
         return super().unlink()

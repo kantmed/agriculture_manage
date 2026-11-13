@@ -13,10 +13,16 @@ class GestAgriAnimalHealth(models.Model):
     name = fields.Char(string="Référence", required=True, copy=False, index=True, readonly=True)
     active = fields.Boolean(string="Actif", default=True)
 
-    animal_id = fields.Many2one("gest_agri.animal", string="Animal", required=True, ondelete="cascade", index=True)
+    animal_id = fields.Many2one(
+        "gest_agri.animal", string="Animal", required=True, ondelete="cascade",
+        check_company=True, index=True,
+    )
     farm_id = fields.Many2one(related="animal_id.farm_id", string="Exploitation", store=True, readonly=True, precompute=True, index=True)
     company_id = fields.Many2one(related="farm_id.company_id", string="Société", store=True, readonly=True, precompute=True, index=True)
-    site_id = fields.Many2one("gest_agri.site", string="Site", ondelete="set null", index=True)
+    site_id = fields.Many2one(
+        "gest_agri.site", string="Site", ondelete="set null",
+        check_company=True, index=True,
+    )
 
     observation_date = fields.Date(string="Date d'observation", required=True, index=True)
     declaration_date = fields.Date(string="Date de déclaration", default=fields.Date.today)
@@ -36,7 +42,14 @@ class GestAgriAnimalHealth(models.Model):
 
     @api.model_create_multi
     def create(self, vals_list):
+        defaults = self.default_get(["animal_id", "site_id", "state"])
         for vals in vals_list:
+            state = vals.get("state", defaults.get("state", "draft"))
+            if state != "draft":
+                raise AccessError(self.env._("Un dossier sanitaire doit être créé en brouillon avant une action métier."))
+            animal_id = vals.get("animal_id", defaults.get("animal_id"))
+            site_id = vals.get("site_id", defaults.get("site_id"))
+            self._check_relation_access(animal_id, site_id)
             if not vals.get("name"):
                 ref = self.env["ir.sequence"].next_by_code("gest_agri.animal.health")
                 if not ref:
@@ -48,6 +61,17 @@ class GestAgriAnimalHealth(models.Model):
                 if disease.species_ids and animal.species_id not in disease.species_ids:
                     raise ValidationError(self.env._("La maladie n'est pas compatible avec l'espèce de l'animal."))
         return super().create(vals_list)
+
+    @api.model
+    def _check_relation_access(self, animal_id, site_id=False):
+        animal = self.env["gest_agri.animal"].browse(animal_id)
+        if animal:
+            animal.check_access("write")
+        site = self.env["gest_agri.site"].browse(site_id)
+        if site:
+            site.check_access("read")
+            if animal and site.farm_id != animal.farm_id:
+                raise ValidationError(self.env._("Le site n'appartient pas à l'exploitation de l'animal."))
 
     @api.constrains("animal_id", "site_id")
     def _check_site_farm(self):
@@ -63,14 +87,19 @@ class GestAgriAnimalHealth(models.Model):
 
     # Workflow
     def write(self, vals):
-        if "state" in vals and not self.env.context.get("gest_agri_animal_health_state_transition"):
+        if "state" in vals:
             for rec in self:
                 if rec.state != vals["state"]:
                     raise AccessError(self.env._("Le statut ne peut être modifié qu'à travers les actions métier."))
+        if {"animal_id", "site_id"} & vals.keys():
+            for rec in self:
+                animal_id = vals.get("animal_id") or rec.animal_id.id
+                site_id = vals.get("site_id", rec.site_id.id)
+                self._check_relation_access(animal_id, site_id)
         return super().write(vals)
 
     def _apply_state(self, target):
-        self.with_context(gest_agri_animal_health_state_transition=True).write({"state": target})
+        return super(GestAgriAnimalHealth, self).write({"state": target})
 
     def action_validate(self):
         self._check_allowed({"draft"})

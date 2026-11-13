@@ -39,7 +39,10 @@ class GestAgriAnimal(models.Model):
         precompute=True, index=True,
     )
     site_id = fields.Many2one("gest_agri.site", string="Site", ondelete="set null", check_company=True, index=True)
-    lot_id = fields.Many2one("gest_agri.animal.lot", string="Lot actuel", ondelete="set null", index=True)
+    lot_id = fields.Many2one(
+        "gest_agri.animal.lot", string="Lot actuel", ondelete="set null",
+        check_company=True, index=True,
+    )
     state = fields.Selection(
         selection=[("draft", "Brouillon"), ("active", "Actif"), ("sold", "Vendu"),
                    ("dead", "Mort"), ("retired", "Retiré")],
@@ -75,6 +78,8 @@ class GestAgriAnimal(models.Model):
                 lot = self.env["gest_agri.animal.lot"].browse(vals["lot_id"])
                 if lot.farm_id.id != vals["farm_id"]:
                     raise ValidationError(self.env._("Le lot n'appartient pas à l'exploitation."))
+                if vals.get("site_id") and lot.site_id and lot.site_id.id != vals["site_id"]:
+                    raise ValidationError(self.env._("Le site de l'animal diffère du site du lot."))
         return super().create(vals_list)
 
     @api.constrains("farm_id", "site_id")
@@ -89,22 +94,43 @@ class GestAgriAnimal(models.Model):
             if animal.breed_id and animal.breed_id.species_id != animal.species_id:
                 raise ValidationError(self.env._("La race ne correspond pas à l'espèce."))
 
-    @api.constrains("farm_id", "lot_id")
+    @api.constrains("farm_id", "lot_id", "site_id")
     def _check_lot_farm(self):
         for animal in self:
             if animal.lot_id and animal.lot_id.farm_id != animal.farm_id:
                 raise ValidationError(self.env._("Le lot n'appartient pas à l'exploitation."))
+            if animal.lot_id and animal.site_id and animal.lot_id.site_id and animal.site_id != animal.lot_id.site_id:
+                raise ValidationError(self.env._("Le site de l'animal diffère du site du lot."))
 
     # Workflow
     def write(self, vals):
-        if "state" in vals and not self.env.context.get("gest_agri_animal_state_transition"):
+        if "state" in vals:
             for animal in self:
                 if animal.state != vals["state"]:
                     raise AccessError(self.env._("L'état d'un animal ne peut être modifié qu'à travers les actions métier."))
+        if {"farm_id", "site_id", "lot_id"} & vals.keys():
+            Farm = self.env["gest_agri.farm"]
+            Site = self.env["gest_agri.site"]
+            Lot = self.env["gest_agri.animal.lot"]
+            for animal in self:
+                farm = Farm.browse(vals.get("farm_id") or animal.farm_id.id)
+                farm.check_access("write")
+                site = Site.browse(vals.get("site_id", animal.site_id.id))
+                lot = Lot.browse(vals.get("lot_id", animal.lot_id.id))
+                if site:
+                    site.check_access("read")
+                    if site.farm_id != farm:
+                        raise ValidationError(self.env._("Le site n'appartient pas à l'exploitation."))
+                if lot:
+                    lot.check_access("read")
+                    if lot.farm_id != farm:
+                        raise ValidationError(self.env._("Le lot n'appartient pas à l'exploitation."))
+                    if site and lot.site_id and site != lot.site_id:
+                        raise ValidationError(self.env._("Le site de l'animal diffère du site du lot."))
         return super().write(vals)
 
     def _apply_state(self, target):
-        self.with_context(gest_agri_animal_state_transition=True).write({"state": target})
+        return super(GestAgriAnimal, self).write({"state": target})
 
     def action_activate(self):
         self._check_allowed({"draft"})
