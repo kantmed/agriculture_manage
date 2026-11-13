@@ -104,7 +104,7 @@ class GestAgriAnimal(models.Model):
 
     # Workflow
     def write(self, vals):
-        if "state" in vals:
+        if "state" in vals and not self.env.context.get("gest_agri_animal_state_transition"):
             for animal in self:
                 if animal.state != vals["state"]:
                     raise AccessError(self.env._("L'état d'un animal ne peut être modifié qu'à travers les actions métier."))

@@ -10,5 +10,6 @@ from . import feeding
 from . import health
 from . import reproduction
 from . import animal_production
+from . import procurement
 from . import res_users
 from . import patrimony

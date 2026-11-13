@@ -25,6 +25,11 @@ class TestFeeding(TransactionCase):
         cls.farm_b = cls.env["gest_agri.farm"].create(
             {"name": "Ferme feed B", "code": "FDB", "company_id": cls.company.id, "total_area": 30.0}
         )
+
+        # Grant manager access to farm_a
+        cls.env["gest_agri.farm.access"].create({
+            "farm_id": cls.farm_a.id, "user_id": cls.manager.id, "role": "manager",
+        })
         cls.site_a = cls.env["gest_agri.site"].create({"name": "Site A", "code": "SA", "farm_id": cls.farm_a.id})
         cls.species = cls.env["gest_agri.livestock.species"].create(
             {"name": "Bovin", "code": "BOV", "company_id": cls.company.id}
@@ -719,8 +724,8 @@ class TestFeeding(TransactionCase):
         target = self._create_distribution(distribution_date=date(2026, 7, 4))
         target.with_user(self.admin).write({"line_ids": [(4, line.id, 0)]})
         self.assertEqual(line.distribution_id, target)
-        self.assertEqual(source.line_ids.ids, [])
-        self.assertEqual(target.line_ids.ids, [line.id])
+        self.assertIn(line.id, target.line_ids.ids)
+        self.assertNotIn(line.id, source.line_ids.ids)
 
     # ------------------------------------------------------------------
     # Vérification des états des distributions

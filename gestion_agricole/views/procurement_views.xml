@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ================================================================= -->
+    <!-- Catégories d'intrants agricoles                                   -->
+    <!-- ================================================================= -->
+    <record id="view_gest_agri_input_category_list" model="ir.ui.view">
+        <field name="name">gest_agri.input.category.list</field>
+        <field name="model">gest_agri.input.category</field>
+        <field name="arch" type="xml">
+            <list string="Catégories d'intrants">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="company_id" groups="base.group_multi_company"/>
+                <field name="active" column_invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_input_category_form" model="ir.ui.view">
+        <field name="name">gest_agri.input.category.form</field>
+        <field name="model">gest_agri.input.category</field>
+        <field name="arch" type="xml">
+            <form string="Catégorie d'intrant">
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="Ex. Engrais"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_input_category_search" model="ir.ui.view">
+        <field name="name">gest_agri.input.category.search</field>
+        <field name="model">gest_agri.input.category</field>
+        <field name="arch" type="xml">
+            <search string="Catégories d'intrants">
+                <field name="name"/>
+                <field name="code"/>
+                <filter string="Actives" name="active" domain="[('active','=',True)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_input_category" model="ir.actions.act_window">
+        <field name="name">Catégories d'intrants</field>
+        <field name="res_model">gest_agri.input.category</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ================================================================= -->
+    <!-- Demandes d'approvisionnement                                      -->
+    <!-- ================================================================= -->
+    <record id="view_gest_agri_procurement_request_list" model="ir.ui.view">
+        <field name="name">gest_agri.procurement.request.list</field>
+        <field name="model">gest_agri.procurement.request</field>
+        <field name="arch" type="xml">
+            <list string="Demandes d'approvisionnement">
+                <field name="name"/>
+                <field name="request_date"/>
+                <field name="farm_id"/>
+                <field name="site_id"/>
+                <field name="priority"/>
+                <field name="state" widget="badge"/>
+                <field name="purchase_order_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_procurement_request_form" model="ir.ui.view">
+        <field name="name">gest_agri.procurement.request.form</field>
+        <field name="model">gest_agri.procurement.request</field>
+        <field name="arch" type="xml">
+            <form string="Demande d'approvisionnement">
+                <header>
+                    <button name="action_submit" type="object" string="Soumettre" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_approve" type="object" string="Approuver" class="oe_highlight" invisible="state != 'submitted'"/>
+                    <button name="action_order" type="object" string="Commander" class="oe_highlight" invisible="state != 'approved'"/>
+                    <button name="action_done" type="object" string="Terminer" class="oe_highlight" invisible="state != 'ordered'"/>
+                    <button name="action_cancel" type="object" string="Annuler" invisible="state == 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved,ordered,done,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Demande">
+                            <field name="farm_id"/>
+                            <field name="site_id"/>
+                            <field name="requester_id"/>
+                            <field name="request_date"/>
+                            <field name="needed_date"/>
+                            <field name="priority"/>
+                        </group>
+                        <group string="Suivi">
+                            <field name="state"/>
+                            <field name="purchase_order_count"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="motive"/>
+                        <field name="notes"/>
+                    </group>
+                    <notebook>
+                        <page string="Lignes de demande" name="lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"/>
+                                    <field name="product_uom_id"/>
+                                    <field name="quantity"/>
+                                    <field name="needed_date"/>
+                                    <field name="notes"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_procurement_request_search" model="ir.ui.view">
+        <field name="name">gest_agri.procurement.request.search</field>
+        <field name="model">gest_agri.procurement.request</field>
+        <field name="arch" type="xml">
+            <search string="Demandes d'approvisionnement">
+                <field name="name"/>
+                <field name="farm_id"/>
+                <field name="site_id"/>
+                <field name="requester_id"/>
+                <field name="request_date"/>
+                <filter string="Brouillons" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Soumises" name="submitted" domain="[('state','=','submitted')]"/>
+                <filter string="Approuvées" name="approved" domain="[('state','=','approved')]"/>
+                <filter string="Commandées" name="ordered" domain="[('state','=','ordered')]"/>
+                <filter string="Terminées" name="done" domain="[('state','=','done')]"/>
+                <filter string="Annulées" name="cancelled" domain="[('state','=','cancelled')]"/>
+                <group>
+                    <filter string="Exploitation" name="group_farm" context="{'group_by':'farm_id'}"/>
+                    <filter string="Site" name="group_site" context="{'group_by':'site_id'}"/>
+                    <filter string="Priorité" name="group_priority" context="{'group_by':'priority'}"/>
+                    <filter string="Mois" name="group_month" context="{'group_by':'request_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_procurement_request" model="ir.actions.act_window">
+        <field name="name">Demandes d'approvisionnement</field>
+        <field name="res_model">gest_agri.procurement.request</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ================================================================= -->
+    <!-- Consommations d'intrants                                         -->
+    <!-- ================================================================= -->
+    <record id="view_gest_agri_input_consumption_list" model="ir.ui.view">
+        <field name="name">gest_agri.input.consumption.list</field>
+        <field name="model">gest_agri.input.consumption</field>
+        <field name="arch" type="xml">
+            <list string="Consommations d'intrants">
+                <field name="name"/>
+                <field name="consumption_date"/>
+                <field name="farm_id"/>
+                <field name="site_id"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_input_consumption_form" model="ir.ui.view">
+        <field name="name">gest_agri.input.consumption.form</field>
+        <field name="model">gest_agri.input.consumption</field>
+        <field name="arch" type="xml">
+            <form string="Consommation d'intrants">
+                <header>
+                    <button name="action_validate" type="object" string="Valider" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_cancel" type="object" string="Annuler" invisible="state == 'cancelled'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,validated,cancelled"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" readonly="1"/></h1>
+                    </div>
+                    <group>
+                        <group string="Consommation">
+                            <field name="farm_id"/>
+                            <field name="site_id"/>
+                            <field name="plot_id"/>
+                            <field name="consumption_date"/>
+                            <field name="responsible_id"/>
+                        </group>
+                        <group string="Suivi">
+                            <field name="state"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="motive"/>
+                        <field name="notes"/>
+                    </group>
+                    <notebook>
+                        <page string="Lignes de consommation" name="lines">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="product_id"/>
+                                    <field name="product_uom_id"/>
+                                    <field name="quantity"/>
+                                    <field name="notes"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_gest_agri_input_consumption_search" model="ir.ui.view">
+        <field name="name">gest_agri.input.consumption.search</field>
+        <field name="model">gest_agri.input.consumption</field>
+        <field name="arch" type="xml">
+            <search string="Consommations d'intrants">
+                <field name="name"/>
+                <field name="farm_id"/>
+                <field name="site_id"/>
+                <field name="consumption_date"/>
+                <filter string="Brouillons" name="draft" domain="[('state','=','draft')]"/>
+                <filter string="Validées" name="validated" domain="[('state','=','validated')]"/>
+                <filter string="Annulées" name="cancelled" domain="[('state','=','cancelled')]"/>
+                <group>
+                    <filter string="Exploitation" name="group_farm" context="{'group_by':'farm_id'}"/>
+                    <filter string="Site" name="group_site" context="{'group_by':'site_id'}"/>
+                    <filter string="Mois" name="group_month" context="{'group_by':'consumption_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_gest_agri_input_consumption" model="ir.actions.act_window">
+        <field name="name">Consommations d'intrants</field>
+        <field name="res_model">gest_agri.input.consumption</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ================================================================= -->
+    <!-- Menus                                                             -->
+    <!-- ================================================================= -->
+    <menuitem id="menu_gestion_agricole_approvisionnements"
+              name="Approvisionnements"
+              parent="menu_gestion_agricole_root"
+              sequence="25"/>
+
+    <menuitem id="menu_gest_agri_procurement_request"
+              name="Demandes d'approvisionnement"
+              parent="menu_gestion_agricole_approvisionnements"
+              action="action_gest_agri_procurement_request"
+              sequence="10"/>
+
+    <menuitem id="menu_gest_agri_input_consumption"
+              name="Consommations d'intrants"
+              parent="menu_gestion_agricole_approvisionnements"
+              action="action_gest_agri_input_consumption"
+              sequence="20"/>
+
+    <menuitem id="menu_gest_agri_input_category"
+              name="Catégories d'intrants"
+              parent="menu_gestion_agricole_configuration"
+              action="action_gest_agri_input_category"
+              sequence="96"/>
+</odoo>
